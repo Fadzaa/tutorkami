@@ -1,0 +1,15 @@
+import {AuthForm} from "@/components/form/AuthForm.jsx";
+
+export function LoginPage() {
+    return (
+        <div className="h-screen w-screen flex justify-center items-center">
+            <div className="
+            flex flex-col items-center w-[28%] border-2 border-[#E2E2E2] rounded-lg p-6">
+                <h1 className="mb-1 font-semibold text-xl">Welcome Back</h1>
+                <p className="mb-6 font-light text-xs text-[#7A7A7A]">Please enter your account to sign in.</p>
+                <AuthForm authType="login"/>
+                <p className="mt-5 text-xs font-light">Don't have account? <span className="font-bold cursor-pointer">Sign Up</span></p>
+            </div>
+        </div>
+    )
+}

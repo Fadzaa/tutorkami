@@ -20,8 +20,8 @@ const components = [
             "Generate list of Questions powered by AI.",
     },
     {
-        title: "Hover Card",
-        href: "/docs/primitives/hover-card",
+        title: "Generative LMS AI",
+        href: "/tools/generative-lms",
         description:
             "For sighted users to preview content available behind a link.",
     },
@@ -50,7 +50,7 @@ const components = [
     },
 ]
 
-export function Navbar () {
+export function Header () {
     return (
         <div className="flex justify-between items-center w-full py-5 px-8 border-2 border-gray-200 ">
             <h1 className="text-2xl font-bold">LOGO</h1>

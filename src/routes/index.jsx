@@ -5,9 +5,9 @@ import Fallback from "@/components/fallback/Fallback.jsx";
 import {LoginPage} from "@/pages/auth/LoginPage.jsx";
 import {RegisterPage} from "@/pages/auth/RegisterPage.jsx";
 import {LandingPage} from "@/pages/main/LandingPage.jsx";
-import {TestPage} from "@/pages/main/TestPage.jsx";
 import {ListQuestionPage} from "@/pages/main/ListQuestionPage.jsx";
 import ToolsLayout from "@/components/layouts/ToolsLayout.jsx";
+import {LMSPage} from "@/pages/main/LMSPage.jsx";
 
 export const routers = createBrowserRouter([
     {
@@ -18,10 +18,6 @@ export const routers = createBrowserRouter([
             {
                 index: true,
                 element: <LandingPage/>,
-            },
-            {
-                path: "test",
-                element: <TestPage />,
             }
         ],
     },
@@ -33,6 +29,10 @@ export const routers = createBrowserRouter([
             {
                 path: 'generative-list-question',
                 element: <ListQuestionPage/>,
+            },
+            {
+                path: 'generative-lms',
+                element: <LMSPage/>,
             }
         ],
     },

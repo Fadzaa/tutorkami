@@ -1,4 +1,4 @@
-import {Navbar} from "@/components/navbar/Navbar.jsx";
+import {Header} from "@/components/header/Header.jsx";
 import {Footer} from "@/components/footer/Footer.jsx";
 import {Outlet, ScrollRestoration} from "react-router-dom";
 
@@ -6,7 +6,7 @@ import {Outlet, ScrollRestoration} from "react-router-dom";
 export default function ToolsLayout()  {
     return (
         <>
-            <Navbar/>
+            <Header/>
             <main>
                 <Outlet/>
                 <ScrollRestoration/>

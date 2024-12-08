@@ -1,6 +1,7 @@
 import {Button} from "@/components/ui/button.jsx";
 import { cn } from "@/lib/utils"
-import { forwardRef } from 'react';
+import {forwardRef, useEffect, useState} from 'react';
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {
     NavigationMenu,
     NavigationMenuContent,
@@ -10,7 +11,18 @@ import {
     NavigationMenuTrigger,
     navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 import {Link} from "react-router-dom";
+import {tokenHandler} from "@/utils/tokenHandler.js";
+import {useMutation, useQuery} from "@tanstack/react-query";
+import {authAPI} from "@/api/auth.js";
+import {toast} from "@/hooks/use-toast.js";
 
 const components = [
     {
@@ -51,8 +63,68 @@ const components = [
 ]
 
 export function Header () {
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+    useEffect(() => {
+        setIsAuthenticated(tokenHandler.has());
+    }, []);
+
+    const {mutate} = useMutation({
+
+        mutationFn: async () => {
+            return authAPI.logout()
+        },
+
+        onSuccess: (data, variables, context) => {
+            toast({
+                title: "Logout Success",
+                description: "You have successfully logout",
+            })
+
+            tokenHandler.unset()
+            setIsAuthenticated(false)
+        },
+
+        onError: (error, variables, context) => {
+            console.log("onError")
+            console.log(error)
+
+            toast({
+                variant: "destructive",
+                title: "Logout Failed",
+                description: "Failed to logout",
+            })
+        },
+
+        onMutate: async () => {
+
+        },
+
+    })
+
+    const {data, isPending } = useQuery({
+        queryKey: ["getUser"],
+        queryFn: authAPI.getUser,
+    });
+
+    console.log(data)
+
+    const initials = getInitials(data?.name);
+    console.log(initials);
+
+    function getInitials(name) {
+        if (!name) return "";
+        return name
+            .split(" ")
+            .map((word) => word[0]?.toUpperCase())
+            .join("");
+    }
+
+
+
+
     return (
-        <div className="flex justify-between items-center w-full py-5 px-8 border-2 border-gray-200 ">
+        <div className="flex justify-between items-center w-full py-5 px-14 border-2 border-gray-200 ">
             <h1 className="text-2xl font-bold">LOGO</h1>
             <NavigationMenu className="ms-16">
                 <NavigationMenuList>
@@ -84,19 +156,41 @@ export function Header () {
                     </NavigationMenuItem>
                 </NavigationMenuList>
             </NavigationMenu>
-            <div className="flex gap-3">
-                <Button className="px-6" asChild>
-                    <Link to={"/login"}>Sign in</Link>
-                </Button>
-                <Button asChild className="px-6 bg-white border-2 border-primary text-primary">
-                    <Link to={"/register"}>Sign up</Link>
-                </Button>
-            </div>
+            {isAuthenticated
+                ? <div className="flex">
+
+                    <DropdownMenu>
+                        <DropdownMenuTrigger>
+                            <Avatar>
+                                <AvatarImage src={data?.image} />
+                                <AvatarFallback>{initials}</AvatarFallback>
+
+                            </Avatar>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent>
+                            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+
+                            <DropdownMenuItem onClick = {() => mutate()}>
+                                Log out
+                            </DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+
+                </div>
+                : <div className="flex gap-3">
+                    <Button className="px-6" asChild>
+                        <Link to={"/login"}>Sign in</Link>
+                    </Button>
+                    <Button asChild className="px-6 bg-white border-2 border-primary text-primary">
+                        <Link to={"/register"}>Sign up</Link>
+                    </Button>
+                </div>
+            }
         </div>
     )
 }
 
-const ListItem = forwardRef(({ className, title, children, ...props }, ref) => {
+const ListItem = forwardRef(({className, title, children, ...props}, ref) => {
     return (
         <li>
             <NavigationMenuLink asChild>

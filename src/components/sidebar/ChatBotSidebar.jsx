@@ -89,41 +89,7 @@ function AppSidebarr() {
                     <SidebarGroupLabel>Application</SidebarGroupLabel>
                     <SidebarGroupContent>
                         <SidebarMenu>
-                            {dataTreeView.map((item, index) => (
-                                <Collapsible defaultOpen className="group/collapsible">
-                                    <SidebarMenuItem>
-                                        <CollapsibleTrigger asChild>
-                                            <SidebarMenuButton >{item.title}</SidebarMenuButton>
-                                        </CollapsibleTrigger>
-                                        <CollapsibleContent>
-                                            <SidebarMenuSub>
-                                                {item.children.map((child, index) => (
-                                                    <SidebarMenuSubItem >
-                                                        <Collapsible defaultOpen className="group/collapsible">
-                                                            <SidebarMenuItem>
-                                                                <CollapsibleTrigger asChild>
-                                                                    <SidebarMenuButton >{child.title}</SidebarMenuButton>
-                                                                </CollapsibleTrigger>
-                                                                <CollapsibleContent>
-                                                                    <SidebarMenuSub>
-                                                                        {
-                                                                            child.children && child.children.map((subChild, index) => (
-                                                                                <SidebarMenuSubItem >
-                                                                                    <SidebarMenuSubButton >{subChild.title}</SidebarMenuSubButton>
-                                                                                </SidebarMenuSubItem>
-                                                                            ))
-                                                                        }
-                                                                    </SidebarMenuSub>
-                                                                </CollapsibleContent>
-                                                            </SidebarMenuItem>
-                                                        </Collapsible>
-                                                    </SidebarMenuSubItem>
-                                                ))}
-                                            </SidebarMenuSub>
-                                        </CollapsibleContent>
-                                    </SidebarMenuItem>
-                                </Collapsible>
-                            ))}
+                            
                         </SidebarMenu>
                     </SidebarGroupContent>
                 </SidebarGroup>

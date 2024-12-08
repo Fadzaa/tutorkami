@@ -6,7 +6,7 @@ import {authAPI} from "@/api/auth.js";
 import { Loader2 } from "lucide-react"
 import {useToast} from "@/hooks/use-toast.js";
 import {tokenHandler} from "@/utils/tokenHandler.js";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
 export function AuthForm({authType}) {
     const {
@@ -16,9 +16,8 @@ export function AuthForm({authType}) {
         getValues
     } = useForm();
     const {errors} = formState;
-
     const { toast } = useToast()
-
+    const navigate = useNavigate();
     const {mutate, isPending } = useMutation({
 
         mutationFn: async () => {
@@ -32,6 +31,7 @@ export function AuthForm({authType}) {
             })
 
             tokenHandler.set(data.token)
+            navigate('/')
         },
 
         onError: (error, variables, context) => {

@@ -6,6 +6,7 @@ import {tokenHandler} from "@/utils/tokenHandler.js";
 const apiClient = axios.create({
     baseURL: config.BASE_API_URL,
     headers: {
+        "ngrok-skip-browser-warning": "1231",
         "Content-Type": "application/json",
     },
 });
@@ -25,16 +26,16 @@ apiClient.interceptors.request.use(
 );
 
 // Handle responses globally
-apiClient.interceptors.response.use(
-    (response) => {
-        console.log("Raw Response Data:", response.data);
-
-        return response.data?.data || response.data;
-    },
-    (error) => {
-        return Promise.reject(error.response?.data || error.message);
-    }
-);
+// apiClient.interceptors.response.use(
+//     (response) => {
+//         console.log("Raw Response Data:", response.data);
+//
+//         return response.data?.data || response.data;
+//     },
+//     (error) => {
+//         return Promise.reject(error.response?.data || error.message);
+//     }
+// );
 
 const api = {
     get: (url, options = {}) => apiClient.get(url, options),

@@ -35,4 +35,16 @@ export const authAPI = {
             })
         }
     },
+
+    logout: async () => {
+        try {
+            const res = await api.post("logout");
+            console.log("Logout Response:", res);
+            return res;
+        } catch (error) {
+            return makeResponseFailed({
+                message: error,
+            })
+        }
+    },
 }

@@ -43,29 +43,6 @@ export function TanstackQueryTestComponent() {
     //     queryFn: ({ queryKey }) => fetchSingleObjectById(queryKey[1]),
     // });
 
-
-    const mutation = useMutation({
-
-        mutationFn: async () => {
-            const res = await authAPI.login({email: "eve.holt@reqres.in", password: "cityslicka"})
-
-            return res;
-        },
-
-        onSuccess: (data, variables, context) => {
-            console.log(data)
-        },
-
-        onError: (error, variables, context) => {
-            console.log("onError")
-            console.log(error)
-        },
-
-        onMutate: async () => {
-            console.log("onMutate")
-        },
-
-    })
     //
     //
     // if (fetchAll.isLoading) {

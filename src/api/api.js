@@ -28,16 +28,11 @@ apiClient.interceptors.request.use(
 apiClient.interceptors.response.use(
     (response) => {
         console.log("Raw Response Data:", response.data);
-        const { status, message, data } = response.data;
 
-        if (status !== "success") {
-            return Promise.reject(new Error(message || "An error occurred"));
-        }
-
-        return data;
+        return response.data?.data || response.data;
     },
     (error) => {
-        return Promise.reject(error.response?.data?.message || error.message);
+        return Promise.reject(error.response?.data || error.message);
     }
 );
 
@@ -49,7 +44,7 @@ const api = {
 };
 
 const makeResponseFailed = ({ status = "failed", message = "", data = null }) => {
-    return { status, message, data };
+    throw { status, message, data };
 };
 
 export { api, makeResponseFailed };

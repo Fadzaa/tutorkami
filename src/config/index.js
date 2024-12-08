@@ -1,5 +1,5 @@
 export const config = {
-    BASE_API_URL: "https://reqres.in/api/",
+    BASE_API_URL: "https://secure-sawfly-certainly.ngrok-free.app/api/",
     // Auth input config
     MIN_PASSWORD_LENGTH: 6,
     MAX_PASSWORD_LENGTH: 20,

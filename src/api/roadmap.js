@@ -1,32 +1,9 @@
 import { api, makeResponseFailed } from "./api"
 
-export const authAPI = {
-    login: async ({ email, password }) => {
+export const roadmapAPI = {
+    getRoadmap: async () => {
         try {
-            const res = await api.post("auth/login", { email, password });
-            console.log("Login Response:", res);
-            return res;
-        } catch (error) {
-            return makeResponseFailed({
-                message: error,
-            })
-        }
-    },
-    register: async ({ name, email, password }) => {
-        try {
-            const res = await api.post("register", { name, email, password });
-            console.log("Register Response:", res);
-            return res;
-        } catch (error) {
-            return makeResponseFailed({
-                message: error,
-            })
-        }
-    },
-
-    getUser: async () => {
-        try {
-            const res = await api.get("user");
+            const res = await api.get("roadmap");
             console.log("Get User Response:", res);
             return res;
         } catch (error) {
@@ -35,11 +12,10 @@ export const authAPI = {
             })
         }
     },
-
-    logout: async () => {
+    postRoadmap: async (body) => {
         try {
-            const res = await api.post("logout");
-            console.log("Logout Response:", res);
+            const res = await api.post("roadmap", body);
+            console.log("Login Response:", res);
             return res;
         } catch (error) {
             return makeResponseFailed({
@@ -47,4 +23,29 @@ export const authAPI = {
             })
         }
     },
+    getRoadmapID: async (id) => {
+        try {
+            console.log("id:" + id)
+            const res = await api.get("roadmap/" + id );
+            console.log("Get User Response:", res);
+            return res.data;
+        } catch (error) {
+            return makeResponseFailed({
+                message: error,
+            })
+        }
+    },
+    deleteRoadmap: async (id) => {
+        try {
+            console.log("id:" + id)
+            const res = await api.delete("roadmap/" + id );
+            console.log("Get User Response:", res);
+            return res.data;
+        } catch (error) {
+            return makeResponseFailed({
+                message: error,
+            })
+        }
+    },
+
 }

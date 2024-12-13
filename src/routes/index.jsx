@@ -8,6 +8,14 @@ import {LandingPage} from "@/pages/main/LandingPage.jsx";
 import {ListQuestionPage} from "@/pages/main/ListQuestionPage.jsx";
 import ToolsLayout from "@/components/layouts/ToolsLayout.jsx";
 import {LMSPage} from "@/pages/main/LMSPage.jsx";
+import {ListRoadmapPage} from "@/pages/main/Roadmap/ListRoadmapPage.jsx";
+import {CreateRoadmapPage} from "@/pages/main/Roadmap/CreateRoadmapPage.jsx";
+import {DetailRoadmapPage} from "@/pages/main/Roadmap/DetailRoadmapPage.jsx";
+import {ListMaterialPage} from "@/pages/main/Materials/ListMaterialPage.jsx";
+import {CreateMaterialPage} from "@/pages/main/Materials/CreateMaterialPage.jsx";
+import {DetailMaterialPage} from "@/pages/main/Materials/DetailMaterialPage.jsx";
+import ProtectedRoute from "@/Middlewares/ProtectedRoute.jsx";
+import NotProtectedRoute from "@/Middlewares/NotProtectedRoute.jsx";
 
 export const routers = createBrowserRouter([
     {
@@ -23,8 +31,7 @@ export const routers = createBrowserRouter([
     },
     {
         path: '/tools',
-        errorElement: <Fallback body='Something went wrong' title="Please try again later." />,
-        element: <ToolsLayout />,
+        element:<ProtectedRoute><ToolsLayout /></ProtectedRoute>,
         children: [
             {
                 path: 'generative-list-question',
@@ -33,13 +40,37 @@ export const routers = createBrowserRouter([
             {
                 path: 'generative-lms',
                 element: <LMSPage/>,
-            }
+            },
+            {
+                path: 'generative-roadmap',
+                element: <ListRoadmapPage/>,
+            },
+            {
+                path: 'generative-roadmap/create',
+                element: <CreateRoadmapPage/>,
+            },
+            {
+                path: 'generative-roadmap/detail/:id',
+                element: <DetailRoadmapPage/>,
+            },
+            {
+                path: 'generative-material',
+                element: <ListMaterialPage/>,
+            },
+            {
+                path: 'generative-material/create',
+                element: <CreateMaterialPage/>,
+            },
+            {
+                path: 'generative-material/detail/:id',
+                element: <DetailMaterialPage/>,
+            },
         ],
     },
     {
         path: '/',
         errorElement: <Fallback body='Something went wrong' title="Please try again later." />,
-        element: <AuthLayout />,
+        element: <NotProtectedRoute><AuthLayout /></NotProtectedRoute>,
         children: [
             {
                 path: 'login',

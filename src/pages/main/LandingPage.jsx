@@ -2,38 +2,216 @@ import {ToolsCard} from "@/components/card/ToolsCard.jsx";
 
 export function LandingPage() {
     const tools = [
-        {
-            title: "Geometry",
-            description: "Learn Geometry with our interactive tools",
-        },
-        {
-            title: "English",
-            description: "Learn Geometry with our interactive tools",
-        },
-        {
-            title: "Math",
-            description: "Learn Geometry with our interactive tools",
-        },
-        {
-            title: "Biology",
-            description: "Learn Geometry with our interactive tools",
-        },
 
+        {
+            title: "Roadmap Study AI",
+            href: "/tools/generative-roadmap",
+            description: "Rancang rencana belajarmu dengan panduan langkah-langkah yang jelas dari AI.",
+        },
+        {
+            title: "List Questions AI",
+            href: "/tools/generative-list-question",
+            description:
+                "Cari dan jawab pertanyaan seru buat tiap topik, biar makin paham.",
+        },
+        {
+            title: "Generative Study Materials AI",
+            href: "/tools/generative-material",
+            description: "Bikin materi belajar yang pas buat kamu, cepat dan gampang.",
+        },
+        {
+            title: "Generative LMS AI",
+            href: "/tools/generative-lms",
+            description:
+                "Pantau progres belajarmu dan dapetin rekomendasi belajar yang pas.",
+        },
+    ]
+
+    const roadmap = [
+
+        {
+            title: "Dynamic Learning Paths",
+            description: "Generates personalized roadmaps based on your topics of interest.",
+        },
+        {
+            title: "Visual Progress Tracking",
+            description: "Helps you monitor your learning journey visually with a step-by-step breakdown.",
+        },
+        {
+            title: "Topic Exploration Tree",
+            description: "Offers a treeview layout for effortless topic navigation.",
+        },
     ]
 
 
     return (
-        <div className="h-[65vh] w-full items-center justify-center flex flex-col gap-8 px-14">
-            <h1 className="text-3xl font-bold">LOGO</h1>
-            <h1 className="text-3xl font-medium">What do you want to Study Today?</h1>
-            <div className="flex gap-3">
-                {
-                    tools.map((tool) => (
-                        <ToolsCard key={tool.title} title={tool.title} description={tool.description}/>
-                    ))
-                }
+        <>
+            <div className="h-[100vh] w-full items-center justify-center flex flex-col gap-8 px-14">
+                <img src="/logo_web.svg" className={'w-60'} alt=""/>
+                <h1 className="text-2xl text-[#334155] font-medium">Ekosistem Belajar yang disesuaikan untukmu</h1>
+                <div className="flex gap-3">
+                    {
+                        tools.map((tool, index) => (
+                            <ToolsCard link={tool.href} key={tool.title} title={(index + 1 + ". ") + tool.title}
+                                       description={tool.description}/>
+                        ))
+                    }
+                </div>
             </div>
-        </div>
+
+
+            <div className="h-[100vh] w-full items-center justify-center flex flex-col gap-8 px-14">
+                <img src="/logo_web.svg" className={'w-60'} alt=""/>
+                <h1 className="text-2xl text-[#334155] font-medium">Ekosistem Belajar yang disesuaikan untukmu</h1>
+
+
+                <img className={'w-7/12'} src="/sample.png"/>
+
+
+                <div className={'flex gap-8'}>
+
+                    {
+                        roadmap.map(item => (
+                            <div key={item.title}>
+                                <p className={'font-semibold text-xl text-[#1E293B]'}>{item.title}</p>
+                                <p className={'text-[#1E293B] text-lg '}>{item.description}</p>
+                            </div>
+                        ))
+                    }
+
+
+                </div>
+
+            </div>
+
+            <div className="h-[100vh] p-14 flex flex-col gap-8">
+
+
+                <div className={'flex gap-2'}>
+                    <div className={'bg-black h-20 w-0.5'}>
+
+                    </div>
+                    <div className={'flex flex-col'}>
+                        <p className={'text-4xl font-light'}>Roadmap AI</p>
+                        <p className={'text-4xl'}>Plan your learning journey with ease, tailored just for you</p>
+                    </div>
+
+                </div>
+
+                <img className={'w-7/12'} src="/sample.png"/>
+
+
+                <div className={'flex gap-8'}>
+
+                    {
+                        roadmap.map(item => (
+                            <div key={item.title}>
+                                <p className={'font-semibold text-xl text-[#1E293B]'}>{item.title}</p>
+                                <p className={'text-[#1E293B] text-lg '}>{item.description}</p>
+                            </div>
+                        ))
+                    }
+
+
+                </div>
+            </div>
+
+            <div className="h-[100vh] p-14 flex flex-col gap-8">
+
+
+                <div className={'flex gap-2'}>
+                    <div className={'bg-black h-20 w-0.5'}>
+
+                    </div>
+                    <div className={'flex flex-col'}>
+                        <p className={'text-4xl font-light'}>Roadmap AI</p>
+                        <p className={'text-4xl'}>Plan your learning journey with ease, tailored just for you</p>
+                    </div>
+
+                </div>
+
+                <img className={'w-7/12'} src="/sample.png"/>
+
+
+                <div className={'flex gap-8'}>
+
+                    {
+                        roadmap.map(item => (
+                            <div key={item.title}>
+                                <p className={'font-semibold text-xl text-[#1E293B]'}>{item.title}</p>
+                                <p className={'text-[#1E293B] text-lg '}>{item.description}</p>
+                            </div>
+                        ))
+                    }
+
+
+                </div>
+            </div>
+
+            <div className="h-[100vh] p-14 flex flex-col gap-8">
+
+
+                <div className={'flex gap-2'}>
+                    <div className={'bg-black h-20 w-0.5'}>
+
+                    </div>
+                    <div className={'flex flex-col'}>
+                        <p className={'text-4xl font-light'}>Roadmap AI</p>
+                        <p className={'text-4xl'}>Plan your learning journey with ease, tailored just for you</p>
+                    </div>
+
+                </div>
+
+                <img className={'w-7/12'} src="/sample.png"/>
+
+
+                <div className={'flex gap-8'}>
+
+                    {
+                        roadmap.map(item => (
+                            <div key={item.title}>
+                                <p className={'font-semibold text-xl text-[#1E293B]'}>{item.title}</p>
+                                <p className={'text-[#1E293B] text-lg '}>{item.description}</p>
+                            </div>
+                        ))
+                    }
+
+
+                </div>
+            </div>
+            <div className="h-[100vh] p-14 flex flex-col gap-8">
+
+
+                <div className={'flex gap-2'}>
+                    <div className={'bg-black h-20 w-0.5'}>
+
+                    </div>
+                    <div className={'flex flex-col'}>
+                        <p className={'text-4xl font-light'}>Roadmap AI</p>
+                        <p className={'text-4xl'}>Plan your learning journey with ease, tailored just for you</p>
+                    </div>
+
+                </div>
+
+                <img className={'w-7/12'} src="/sample.png"/>
+
+
+                <div className={'flex gap-8'}>
+
+                    {
+                        roadmap.map(item => (
+                            <div key={item.title}>
+                                <p className={'font-semibold text-xl text-[#1E293B]'}>{item.title}</p>
+                                <p className={'text-[#1E293B] text-lg '}>{item.description}</p>
+                            </div>
+                        ))
+                    }
+
+
+                </div>
+            </div>
+
+        </>
     )
 }
 

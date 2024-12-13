@@ -9,6 +9,10 @@ export default {
   ],
   theme: {
   	extend: {
+
+		fontFamily: {
+			Urbanist: ["Urbanist", "sans-serif"]
+		},
   		boxShadow: {
   			common: '0 4px 4px 0 rgba(174, 174, 174, 0.25)'
   		},

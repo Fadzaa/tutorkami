@@ -13,24 +13,25 @@ export function AuthForm({authType}) {
         register,
         handleSubmit,
         formState,
-        getValues
+        getValues,
     } = useForm();
     const {errors} = formState;
     const { toast } = useToast()
     const navigate = useNavigate();
-    const {mutate, isPending } = useMutation({
+
+    const {mutate, isPending, } = useMutation({
 
         mutationFn: async () => {
             return authType === "login" ? await authAPI.login(getValues()) : await authAPI.register(getValues())
         },
 
-        onSuccess: (data, variables, context) => {
+        onSuccess: (response, variables, context) => {
             toast({
                 title: authType === "login" ? "Login Success" : "Register Success",
                 description: authType === "login" ? "You have successfully login" : "You have successfully register",
             })
-
-            tokenHandler.set(data.token)
+            console.log("token check:",response.data.token)
+            tokenHandler.set(response.data.token)
             navigate('/')
         },
 

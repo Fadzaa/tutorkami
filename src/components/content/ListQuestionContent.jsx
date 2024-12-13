@@ -20,14 +20,16 @@ export function ListQuestionContent() {
                 <h2>Solved</h2>
             </div>
 
-            <div className="h-6">
 
-            </div>
 
             <QuestionCard type={"test"} question={"test"}/>
 
 
-            <div className="h-full"></div>
+            <div className="h-full">
+
+                <p>awdaw</p>
+
+            </div>
 
             <Button>Generate Questions</Button>
 

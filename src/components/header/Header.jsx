@@ -25,40 +25,28 @@ import {authAPI} from "@/api/auth.js";
 import {toast} from "@/hooks/use-toast.js";
 
 const components = [
+
     {
-        title: "Generative List Questions AI",
+        title: "Roadmap Study AI",
+        href: "/tools/generative-roadmap",
+        description: "Rancang rencana belajarmu dengan panduan langkah-langkah yang jelas dari AI.",
+    },
+    {
+        title: "List Questions AI",
         href: "/tools/generative-list-question",
         description:
-            "Generate list of Questions powered by AI.",
+            "Cari dan jawab pertanyaan seru buat tiap topik, biar makin paham.",
+    },
+    {
+        title: "Generative Study Materials AI",
+        href: "/tools/generative-material",
+        description: "Bikin materi belajar yang pas buat kamu, cepat dan gampang.",
     },
     {
         title: "Generative LMS AI",
         href: "/tools/generative-lms",
         description:
-            "For sighted users to preview content available behind a link.",
-    },
-    {
-        title: "Progress",
-        href: "/docs/primitives/progress",
-        description:
-            "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.",
-    },
-    {
-        title: "Scroll-area",
-        href: "/docs/primitives/scroll-area",
-        description: "Visually or semantically separates content.",
-    },
-    {
-        title: "Tabs",
-        href: "/docs/primitives/tabs",
-        description:
-            "A set of layered sections of content—known as tab panels—that are displayed one at a time.",
-    },
-    {
-        title: "Tooltip",
-        href: "/docs/primitives/tooltip",
-        description:
-            "A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.",
+            "Pantau progres belajarmu dan dapetin rekomendasi belajar yang pas.",
     },
 ]
 
@@ -102,16 +90,16 @@ export function Header () {
 
     })
 
-    const {data, isPending } = useQuery({
+    const {data, isLoading } = useQuery({
         queryKey: ["getUser"],
         queryFn: authAPI.getUser,
     });
 
-    console.log(data)
 
-    const initials = getInitials(data?.name);
-    console.log(initials);
 
+    // const initials = getInitials(data.name);
+    // console.log(initials);
+    //
     function getInitials(name) {
         if (!name) return "";
         return name
@@ -119,14 +107,14 @@ export function Header () {
             .map((word) => word[0]?.toUpperCase())
             .join("");
     }
-
-
-
+    //
+    //
+    //
 
     return (
         <div className="flex justify-between items-center w-full py-5 px-14 border-2 border-gray-200 ">
-            <h1 className="text-2xl font-bold">LOGO</h1>
-            <NavigationMenu className="ms-16">
+            <img src="/logo_web.svg" className={'w-32'} alt=""/>
+            <NavigationMenu>
                 <NavigationMenuList>
                     <NavigationMenuItem>
                         <NavigationMenuLink href="/"  className={navigationMenuTriggerStyle()}>
@@ -157,26 +145,29 @@ export function Header () {
                 </NavigationMenuList>
             </NavigationMenu>
             {isAuthenticated
-                ? <div className="flex">
+                ? data !== undefined ?
+                    <div className="flex items-center gap-4 font-medium">
 
-                    <DropdownMenu>
-                        <DropdownMenuTrigger>
-                            <Avatar>
-                                <AvatarImage src={data?.image} />
-                                <AvatarFallback>{initials}</AvatarFallback>
+                        <p>{data.data.name}</p>
+                        <DropdownMenu>
+                            <DropdownMenuTrigger>
+                                <Avatar>
+                                    {/*<AvatarImage src={data?.image} />*/}
+                                    <AvatarFallback className={'font-bold'}>{getInitials(data.data.name)}</AvatarFallback>
 
-                            </Avatar>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent>
-                            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                                </Avatar>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent>
+                                {/*<DropdownMenuLabel>My Account</DropdownMenuLabel>*/}
 
-                            <DropdownMenuItem onClick = {() => mutate()}>
-                                Log out
-                            </DropdownMenuItem>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
+                                <DropdownMenuItem onClick={() => mutate()}>
+                                    Log out
+                                </DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
 
-                </div>
+                    </div> :<div></div>
+
                 : <div className="flex gap-3">
                     <Button className="px-6" asChild>
                         <Link to={"/login"}>Sign in</Link>
@@ -202,7 +193,7 @@ const ListItem = forwardRef(({className, title, children, ...props}, ref) => {
                     )}
                     {...props}
                 >
-                    <div className="text-sm font-medium leading-none">{title}</div>
+                    <div className="text-md font-bold leading-none">{title}</div>
                     <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
                         {children}
                     </p>

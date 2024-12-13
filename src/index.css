@@ -1,3 +1,6 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -81,3 +84,56 @@
   }
 }
 
+
+.scrollbar-custom::-webkit-scrollbar-track
+{
+  border-radius: 10px;
+  background-color: #F3F3F3;
+}
+
+.scrollbar-custom::-webkit-scrollbar
+{
+  width: 12px;
+  border-radius: 10px;
+  background-color: #F3F3F3;
+}
+
+.scrollbar-custom::-webkit-scrollbar-thumb
+{
+  border-radius: 10px;
+  background-color: #4FD1C5;
+}
+
+
+.cs{
+  overflow-x: hidden;
+  /*background: #F9F9F9;*/
+}
+
+.cs::-webkit-scrollbar-track
+{
+  border-radius: 10px;
+  background-color: #F3F3F3;
+}
+
+.cs::-webkit-scrollbar
+{
+  width: 10px;
+  border-radius: 10px;
+  background-color: #F3F3F3;
+}
+
+.cs::-webkit-scrollbar-thumb
+{
+  border-radius: 10px;
+  background-color: #0F172A;
+}
+
+
+.css-1u9des2-indicatorSeparator{
+  display: none;
+}
+
+.custom-dialog-backdrop::backdrop {
+  background-color: transparent;
+}

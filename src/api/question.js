@@ -1,32 +1,9 @@
 import { api, makeResponseFailed } from "./api"
 
-export const authAPI = {
-    login: async (body) => {
+export const questionAPI = {
+    getQuestion: async () => {
         try {
-            const res = await api.post("auth/login", { ...body });
-            console.log("Login Response:", res);
-            return res;
-        } catch (error) {
-            return makeResponseFailed({
-                message: error,
-            })
-        }
-    },
-    register: async ({ name, email, password }) => {
-        try {
-            const res = await api.post("auth/register", { name, email, password });
-
-            return res;
-        } catch (error) {
-            return makeResponseFailed({
-                message: error,
-            })
-        }
-    },
-
-    getUser: async () => {
-        try {
-            const res = await api.get("user");
+            const res = await api.get("question");
             console.log("Get User Response:", res);
             return res;
         } catch (error) {
@@ -35,11 +12,10 @@ export const authAPI = {
             })
         }
     },
-
-    logout: async () => {
+    postQuestion: async (body) => {
         try {
-            const res = await api.post("logout");
-            console.log("Logout Response:", res);
+            const res = await api.post("question", body);
+            console.log("Login Response:", res);
             return res;
         } catch (error) {
             return makeResponseFailed({
@@ -47,4 +23,29 @@ export const authAPI = {
             })
         }
     },
+    getQuestionID: async (id) => {
+        try {
+            console.log("id:" + id)
+            const res = await api.get("question/" + id );
+            console.log("Get User Response:", res);
+            return res.data;
+        } catch (error) {
+            return makeResponseFailed({
+                message: error,
+            })
+        }
+    },
+    deleteQuestion: async (id) => {
+        try {
+            console.log("id:" + id)
+            const res = await api.delete("question/" + id );
+            console.log("Get User Response:", res);
+            return res.data;
+        } catch (error) {
+            return makeResponseFailed({
+                message: error,
+            })
+        }
+    },
+
 }

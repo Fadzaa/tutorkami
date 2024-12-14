@@ -5,7 +5,6 @@ import Fallback from "@/components/fallback/Fallback.jsx";
 import {LoginPage} from "@/pages/auth/LoginPage.jsx";
 import {RegisterPage} from "@/pages/auth/RegisterPage.jsx";
 import {LandingPage} from "@/pages/main/LandingPage.jsx";
-import {ListQuestionPage} from "@/pages/main/ListQuestionPage.jsx";
 import ToolsLayout from "@/components/layouts/ToolsLayout.jsx";
 import {LMSPage} from "@/pages/main/LMSPage.jsx";
 import {ListRoadmapPage} from "@/pages/main/Roadmap/ListRoadmapPage.jsx";
@@ -16,6 +15,9 @@ import {CreateMaterialPage} from "@/pages/main/Materials/CreateMaterialPage.jsx"
 import {DetailMaterialPage} from "@/pages/main/Materials/DetailMaterialPage.jsx";
 import ProtectedRoute from "@/Middlewares/ProtectedRoute.jsx";
 import NotProtectedRoute from "@/Middlewares/NotProtectedRoute.jsx";
+import {DetailQuestionPage} from "@/pages/main/Question/DetailQuestionPage.jsx";
+import {CreateQuestionPage} from "@/pages/main/Question/CreateQuestionPage.jsx";
+import {ListQuestionPage} from "@/pages/main/Question/ListQuestionPage.jsx";
 
 export const routers = createBrowserRouter([
     {
@@ -33,10 +35,6 @@ export const routers = createBrowserRouter([
         path: '/tools',
         element:<ProtectedRoute><ToolsLayout /></ProtectedRoute>,
         children: [
-            {
-                path: 'generative-list-question',
-                element: <ListQuestionPage/>,
-            },
             {
                 path: 'generative-lms',
                 element: <LMSPage/>,
@@ -64,6 +62,18 @@ export const routers = createBrowserRouter([
             {
                 path: 'generative-material/detail/:id',
                 element: <DetailMaterialPage/>,
+            },
+            {
+                path: 'generative-question',
+                element: <ListQuestionPage/>,
+            },
+            {
+                path: 'generative-question/create',
+                element: <CreateQuestionPage/>,
+            },
+            {
+                path: 'generative-question/detail/:id',
+                element: <DetailQuestionPage/>,
             },
         ],
     },

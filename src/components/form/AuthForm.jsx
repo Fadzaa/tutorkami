@@ -7,6 +7,7 @@ import { Loader2 } from "lucide-react"
 import {useToast} from "@/hooks/use-toast.js";
 import {tokenHandler} from "@/utils/tokenHandler.js";
 import {Link, useNavigate} from "react-router-dom";
+import {signInWithGooglePopup} from "@/utils/firebase.utils.js";
 
 export function AuthForm({authType}) {
     const {
@@ -14,6 +15,7 @@ export function AuthForm({authType}) {
         handleSubmit,
         formState,
         getValues,
+        setValue
     } = useForm();
     const {errors} = formState;
     const { toast } = useToast()
@@ -21,8 +23,9 @@ export function AuthForm({authType}) {
 
     const {mutate, isPending, } = useMutation({
 
-        mutationFn: async () => {
-            return authType === "login" ? await authAPI.login(getValues()) : await authAPI.register(getValues())
+        mutationFn: async (body) => {
+
+            return authType === "login" ? await authAPI.login(body) : await authAPI.register(body)
         },
 
         onSuccess: (response, variables, context) => {
@@ -51,9 +54,22 @@ export function AuthForm({authType}) {
         },
 
     })
+    const logGoogleUser = async () => {
+        const response = await signInWithGooglePopup();
 
+
+        mutate({
+            'google_id': response.user.uid,
+            'name': response.user.displayName,
+            'email': response.user.email,
+            'image': response.user.photoURL,
+            'google':true
+        })
+    }
     function submitData() {
-        mutate();
+
+
+        mutate({...getValues(),'google':false})
         console.log("Data submitted");
         console.log("isLoading status: " + isPending);
 
@@ -104,7 +120,9 @@ export function AuthForm({authType}) {
                 {isPending && <Loader2 className="animate-spin mr-2 text-white" size={20} />}
                 {authType === "login" ? "Sign in" : "Sign up"}
             </Button>
-            <Button className="mt-6 w-full bg-white text-[#646464] border-2 border-[#646464]">Continue with Google</Button>
+
+
+            <Button type={'button'} onClick={logGoogleUser} className="mt-6 w-full bg-white text-[#646464] border-2 border-[#646464]">Continue with Google</Button>
         </form>
     )
 }

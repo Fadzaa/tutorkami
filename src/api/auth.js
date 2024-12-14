@@ -7,14 +7,14 @@ export const authAPI = {
             console.log("Login Response:", res);
             return res;
         } catch (error) {
-            return makeResponseFailed({
+            return makeReg9sponseFailed({
                 message: error,
             })
         }
     },
     register: async ({ name, email, password }) => {
         try {
-            const res = await api.post("register", { name, email, password });
+            const res = await api.post("auth/register", { name, email, password });
             console.log("Register Response:", res);
             return res;
         } catch (error) {

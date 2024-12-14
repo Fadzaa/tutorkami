@@ -23,6 +23,10 @@ import {tokenHandler} from "@/utils/tokenHandler.js";
 import {useMutation, useQuery} from "@tanstack/react-query";
 import {authAPI} from "@/api/auth.js";
 import {toast} from "@/hooks/use-toast.js";
+import { CiMenuBurger } from "react-icons/ci";
+import { IoCloseOutline } from "react-icons/io5";
+import { IoIosArrowForward } from "react-icons/io";
+import { CiLogout } from "react-icons/ci";
 
 const components = [
 
@@ -52,6 +56,7 @@ const components = [
 
 export function Header () {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
 
     useEffect(() => {
         setIsAuthenticated(tokenHandler.has());
@@ -96,10 +101,6 @@ export function Header () {
     });
 
 
-
-    // const initials = getInitials(data.name);
-    // console.log(initials);
-    //
     function getInitials(name) {
         if (!name) return "";
         return name
@@ -107,14 +108,21 @@ export function Header () {
             .map((word) => word[0]?.toUpperCase())
             .join("");
     }
-    //
-    //
-    //
 
     return (
-        <div className="flex justify-between items-center w-full py-5 px-14 border-2 border-gray-200 ">
+        <div className="flex justify-between items-center w-full py-5 p-6 lg:px-14 border-2 border-gray-200 ">
             <img src="/logo_web.svg" className={'w-32'} alt=""/>
-            <NavigationMenu>
+            <CiMenuBurger size={24} onClick={() => setIsOpen(!isOpen)} className="lg:hidden text-primary" />
+            {
+                isOpen ? <
+                    NavMobileMenu
+                    onClick={() => setIsOpen(!isOpen)}
+                    isAuthenticated={isAuthenticated}
+                    components={components}
+                /> : <></>
+            }
+
+            <NavigationMenu className="hidden lg:flex">
                 <NavigationMenuList>
                     <NavigationMenuItem>
                         <NavigationMenuLink href="/"  className={navigationMenuTriggerStyle()}>
@@ -146,7 +154,7 @@ export function Header () {
             </NavigationMenu>
             {isAuthenticated
                 ? data !== undefined ?
-                    <div className="flex items-center gap-4 font-medium">
+                    <div className="lg:flex items-center gap-4 font-medium hidden">
 
                         <p>{data.data.name}</p>
                         <DropdownMenu>
@@ -168,7 +176,7 @@ export function Header () {
 
                     </div> :<div></div>
 
-                : <div className="flex gap-3">
+                : <div className="lg:flex gap-3 hidden">
                     <Button className="px-6" asChild>
                         <Link to={"/login"}>Sign in</Link>
                     </Button>
@@ -203,3 +211,67 @@ const ListItem = forwardRef(({className, title, children, ...props}, ref) => {
     )
 });
 ListItem.displayName = "ListItem";
+
+
+const NavMobileMenu = ({onClick, isAuthenticated}) => {
+    const [isOpenTools, setIsOpenTools] = useState(false)
+
+
+    return (
+        <div className="flex flex-col gap-9 w-screen h-screen fixed top-0 left-0 z-20 py-5 p-6 bg-white lg:hidden">
+            <div className="flex w-full justify-between items-center ">
+                <img src="/logo_web.svg" className={'w-32'} alt=""/>
+                <IoCloseOutline size={24} onClick={onClick} className="text-primary"/>
+            </div>
+
+            <div className="flex flex-col gap-7">
+                <h3 className="font-semibold text-lg">Home</h3>
+                <div className="flex flex-col">
+                    <div className="flex w-full items-center justify-between">
+                        <h3 className="font-semibold text-lg">Tools</h3>
+                        {isOpenTools
+                            ? <IoIosArrowForward className="rotate-90" onClick={() => setIsOpenTools(!isOpenTools)}/>
+                            : <IoIosArrowForward onClick={() => setIsOpenTools(!isOpenTools)}/>
+                        }
+                    </div>
+
+                    {
+                        isOpenTools
+                            ? <div className="py-3 flex flex-col gap-7">
+                                {
+                                    components.map((component) => (
+                                        <Link to={component.href}>
+                                            <div>
+                                                <h2 className="font-semibold">{component.title}</h2>
+                                                <p className="text-xs text-[#64748B] leading-5">{component.description}</p>
+                                            </div>
+                                        </Link>
+                                    ))
+                                }
+                            </div>
+                            : <></>
+                    }
+                </div>
+                <h3 className="font-semibold text-lg">Dashboard</h3>
+            </div>
+
+            {
+                isAuthenticated
+                    ? <Button className=" w-full px-6 h-11 bg-white border-2 border-[#FF8484] text-[#FF8484]" asChild>
+                        <div>
+                            <CiLogout />
+                            <p>Log out</p>
+                        </div>
+                    </Button>
+                    : <div className="flex w-full gap-4">
+                        <Button className="w-full px-6 h-11" asChild>
+                            <Link to={"/login"}>Sign in</Link>
+                        </Button>
+                        <Button className=" w-full px-6 h-11 bg-white border-2 border-primary text-primary" asChild>
+                            <Link to={"/register"}>Sign up</Link>
+                        </Button>
+                    </div>
+            }
+        </div>
+    )
+}

@@ -12,7 +12,7 @@ export function QuestionSidebar() {
 
 
     const {isLoading, data} = useQuery({
-
+        queryKey:["getQuestion"],
         queryFn: async () => {
             return await questionAPI.getQuestion()
         },

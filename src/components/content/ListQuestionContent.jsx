@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import {useEffect, useState} from "react";
-import {useMutation, useQuery} from "@tanstack/react-query";
+import {QueryClient, useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import {api, makeResponseFailed} from "@/api/api.js";
 
 import {SheetContent, SheetDescription, SheetHeader, Sheet, SheetTitle, SheetTrigger} from "@/components/ui/sheet.jsx";
@@ -19,7 +19,6 @@ import {Input} from "@/components/ui/input.jsx";
 
 
 export function ListQuestionContent({id}) {
-
 
 
     const [questions, setQuestions] = useState([]);
@@ -47,7 +46,7 @@ export function ListQuestionContent({id}) {
     useEffect(() => {
 
 
-        setProgress((questions.length/data?.data.question_detail.question.length) * 100)
+        setProgress((questions.length / data?.data.question_detail.question.length) * 100)
 
     }, [questions])
     const handleChoices = (id, answer) => {
@@ -63,7 +62,7 @@ export function ListQuestionContent({id}) {
 
         setQuestions(questionFilter);
     };
-
+    const queryClient = useQueryClient();
     const {mutate, isPending,} = useMutation({
         mutationKey: ["postSubmit"], mutationFn: async (body) => {
             try {
@@ -81,8 +80,7 @@ export function ListQuestionContent({id}) {
 
 
             refetch()
-            //
-            // navigate("/tools/generative-question/detail/" + response.data.data.id);
+            queryClient.invalidateQueries(['getQuestion']);
         },
 
         onError: (error) => {
@@ -99,20 +97,19 @@ export function ListQuestionContent({id}) {
     })
 
 
-
     const onSubmit = (id) => {
         mutate({
-            id:id,
+            id: id,
             request: questions,
         })
 
     }
 
 
-    const choicesCondintion = (itemParent,i,answers) => {
+    const choicesCondintion = (itemParent, i, answers) => {
 
 
-        if(answers.length > 0) {
+        if (answers.length > 0) {
             let answerFilter = answers.filter(answer => answer.question_id === itemParent.id)[0];
 
 
@@ -124,33 +121,52 @@ export function ListQuestionContent({id}) {
             return (
                 <div>
                     <p className={cn(
-                        answerFilter.answer_response === itemParent.answer ?"text-green-500":"text-red-500"
-                    )}>Question {i + 1} ({itemParent.type} • Single Answer) {answerFilter.answer_response === itemParent.answer ?"V":"X"}</p>
+                        answerFilter.answer_response === itemParent.answer ? "text-green-500" : "text-red-500"
+                    )}>Question {i + 1} ({itemParent.type} • Single
+                        Answer) {answerFilter.answer_response === itemParent.answer ? "V" : "X"}</p>
                     <h2 className={'font-bold text-lg'}>{itemParent.title}</h2>
 
-                    <div className={'mt-5 grid grid-rows-2 w-1/2 grid-flow-col gap-8'}>
-                        {
-                            itemParent.choices.toString().split(',').map((item, i) => (
-                                <Button key={item}
-                                        className={cn(
-                                            'group flex  justify-start  rounded-xl w-96 ',
-                                            answerFilter.answer_response === item ?"bg-primary/90" : "bg-transparent border-2",
-                                            itemParent.answer  === item && answerFilter.answer_response !== itemParent.answer ?"bg-[#E2E8F0]":""
-                                        )}>
-                                    <p className={cn(
-                                                "overflow-hidden ",
-                                        answerFilter.answer_response === item  ?"text-white" : "text-primary"
-                                    )}> {arr[i] + item}</p>
-                                </Button>
 
-                            ))
-                        }
-                    </div>
+                    {
+
+                        itemParent.type === "Fill in the blank" ?
+                            <Input disabled value={answerFilter.answer_response}
+                                   placeholder={"Type your answer here"}/>
+                            :
+                            <div className={'mt-5 grid grid-rows-2 w-1/2 grid-flow-col gap-8'}>
+                                {
+                                    itemParent.choices.toString().split(',').map((item, i) => (
+                                        <Button key={item}
+                                                className={cn(
+                                                    'group flex  justify-start  rounded-xl w-96 ',
+                                                    answerFilter.answer_response === item ? "bg-primary/90" : "bg-transparent border-2",
+                                                    itemParent.answer === item && answerFilter.answer_response !== itemParent.answer ? "bg-[#E2E8F0]" : ""
+                                                )}>
+                                            <p className={cn(
+                                                "overflow-hidden ",
+                                                answerFilter.answer_response === item ? "text-white" : "text-primary"
+                                            )}> {arr[i] + item}</p>
+                                        </Button>
+
+                                    ))
+                                }
+                            </div>
+                    }
+
+                    {
+                        itemParent.type === "Fill in the blank" && (
+                            <>
+                                <h2 className={'mt-7 font-bold'}>Answer: </h2>
+                                <p>{itemParent.answer}</p>
+                            </>
+                        )
+                    }
+
                     <h2 className={'mt-7 font-bold'}>Explanation: </h2>
                     <p>{itemParent.explanation}</p>
                 </div>
             )
-        }else {
+        } else {
             return (
                 <div>
                     <p>Question {i + 1} ({itemParent.type} • Single Answer)</p>
@@ -158,21 +174,22 @@ export function ListQuestionContent({id}) {
 
                     <div className={'mt-5 grid grid-rows-2 w-1/2 grid-flow-col gap-8'}>
                         {
-                            itemParent.type === "Fill in the blank"?
-                                <Input placeholder={"Type your answer here"}/>
+                            itemParent.type === "Fill in the blank" ?
+                                <Input onChange={(e) => handleInput(e, itemParent.id)}
+                                       placeholder={"Type your answer here"}/>
                                 :
                                 itemParent.choices.toString().split(',').map((item, i) => (
-                                        <Button key={item} onClick={() => handleChoices(itemParent.id, item, data?.data.id)}
-                                                className={cn(
-                                                    'group flex hover:border-0 justify-start  rounded-xl w-96 border-2',
-                                                    questions.find(question => question.answer === item && question.id === itemParent.id) ? "bg-primary/90" : "bg-transparent"
-                                                )}>
-                                            <p className={cn(
-                                                questions.find(question => question.answer === item && question.id === itemParent.id) ? "text-white group-hover:text-primary" : "text-primary  group-hover:text-white"
-                                            )}> {arr[i] + item}</p>
-                                        </Button>
+                                    <Button key={item} onClick={() => handleChoices(itemParent.id, item, data?.data.id)}
+                                            className={cn(
+                                                'group flex hover:border-0 justify-start  rounded-xl w-96 border-2',
+                                                questions.find(question => question.answer === item && question.id === itemParent.id) ? "bg-primary/90" : "bg-transparent"
+                                            )}>
+                                        <p className={cn(
+                                            questions.find(question => question.answer === item && question.id === itemParent.id) ? "text-white group-hover:text-primary" : "text-primary  group-hover:text-white"
+                                        )}> {arr[i] + item}</p>
+                                    </Button>
 
-                                    ))
+                                ))
 
                         }
                     </div>
@@ -181,6 +198,28 @@ export function ListQuestionContent({id}) {
             )
         }
 
+
+    }
+
+    const handleInput = (e, id) => {
+
+
+        let questionFilter = questions.filter(question => question.id !== id);
+
+        if (e.target.value !== "") {
+
+            questionFilter.push({
+                id: id, answer: e.target.value,
+            });
+
+            setQuestions(questionFilter);
+
+        } else {
+            let newquestion = questions.filter(question => question.id !== id && question.answer === "");
+
+
+            setQuestions(newquestion)
+        }
 
     }
 
@@ -207,7 +246,7 @@ export function ListQuestionContent({id}) {
                                 knowledge_level={data?.data.question_detail.knowledge_level}
 
                             />
-                            {data?.data.question_detail.question.map((itemParent, i) => choicesCondintion(itemParent,i,data?.data.answer_details))}
+                            {data?.data.question_detail.question.map((itemParent, i) => choicesCondintion(itemParent, i, data?.data.answer_details))}
 
                         </ContentDistance>
                     )
@@ -232,7 +271,8 @@ export function ListQuestionContent({id}) {
 
                         </div>
 
-                        <Button onClick={() => onSubmit(data?.data.question_detail.id)} disabled={progress !== 100} className="w-full">
+                        <Button onClick={() => onSubmit(data?.data.question_detail.id)} disabled={progress !== 100}
+                                className="w-full">
 
                             {
                                 isPending ? <Loading/> : "Submit"

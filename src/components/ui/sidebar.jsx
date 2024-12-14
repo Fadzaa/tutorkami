@@ -141,38 +141,6 @@ const Sidebar = React.forwardRef((
 ) => {
   const { isMobile, state, openMobile, setOpenMobile } = useSidebar()
 
-  if (collapsible === "none") {
-    return (
-      (<div
-        className={cn(
-          "flex h-full w-[--sidebar-width] flex-col bg-sidebar text-sidebar-foreground",
-          className
-        )}
-        ref={ref}
-        {...props}>
-        {children}
-      </div>)
-    );
-  }
-
-  if (isMobile) {
-    return (
-      (<Sheet open={openMobile} onOpenChange={setOpenMobile} {...props}>
-        <SheetContent
-          data-sidebar="sidebar"
-          data-mobile="true"
-          className="w-[--sidebar-width] bg-sidebar p-0 text-sidebar-foreground [&>button]:hidden"
-          style={
-            {
-              "--sidebar-width": SIDEBAR_WIDTH_MOBILE
-            }
-          }
-          side={side}>
-          <div className="flex h-full w-full flex-col">{children}</div>
-        </SheetContent>
-      </Sheet>)
-    );
-  }
 
   return (
     (<div
@@ -187,7 +155,7 @@ const Sidebar = React.forwardRef((
         className={cn(
           "duration-200 relative h-svh w-[--sidebar-width] bg-transparent transition-[width] ease-linear",
           "group-data-[collapsible=offcanvas]:w-0",
-          "group-data-[side=right]:rotate-180",
+          "group-data-[side=right]:rotate-1280",
           variant === "floating" || variant === "inset"
             ? "group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)_+_theme(spacing.4))]"
             : "group-data-[collapsible=icon]:w-[--sidebar-width-icon]"
@@ -196,8 +164,8 @@ const Sidebar = React.forwardRef((
         className={cn(
           "duration-200 fixed inset-y-0 z-10 hidden h-svh w-[--sidebar-width] transition-[left,right,width] ease-linear md:flex",
           side === "left"
-            ? "left-0 group-data-[collapsible=offcanvas]:left-[calc(var(--sidebar-width)*-1)]"
-            : "right-0 group-data-[collapsible=offcanvas]:right-[calc(var(--sidebar-width)*-1)]",
+            ? "left-0 group-data-[collapsible=offcanvas]:left-[calc(var(--sidebar-width)*-2)]"
+            : "right-0 group-data-[collapsible=offcanvas]:right-[calc(var(--sidebar-width)*-2)]",
           // Adjust the padding for floating and inset variants.
           variant === "floating" || variant === "inset"
             ? "p-2 group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)_+_theme(spacing.4)_+2px)]"
@@ -207,13 +175,16 @@ const Sidebar = React.forwardRef((
         {...props}>
         <div
           data-sidebar="sidebar"
-          className="flex h-full w-full flex-col bg-sidebar group-data-[variant=floating]:rounded-lg group-data-[variant=floating]:border group-data-[variant=floating]:border-sidebar-border group-data-[variant=floating]:shadow">
+          className="flex h-full w-full flex-col bg-transparent border-r-2 group-data-[variant=floating]:rounded-lg group-data-[variant=floating]:border group-data-[variant=floating]:border-sidebar-border group-data-[variant=floating]:shadow">
           {children}
         </div>
       </div>
     </div>)
   );
 })
+
+
+
 Sidebar.displayName = "Sidebar"
 
 const SidebarTrigger = React.forwardRef(({ className, onClick, ...props }, ref) => {
@@ -231,8 +202,7 @@ const SidebarTrigger = React.forwardRef(({ className, onClick, ...props }, ref) 
         toggleSidebar()
       }}
       {...props}>
-      <PanelLeft />
-      <span className="sr-only">Toggle Sidebar</span>
+        <img src="/public/forward.svg" className={'text-primary'} alt=""/>
     </Button>)
   );
 })

@@ -25,7 +25,7 @@ export function AuthForm({authType}) {
 
         mutationFn: async (body) => {
 
-            return authType === "login" ? await authAPI.login(body) : await authAPI.register(body)
+            return authType === "login" || body.google === true ? await authAPI.login(body) : await authAPI.register(body)
         },
 
         onSuccess: (response, variables, context) => {

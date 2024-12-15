@@ -18,7 +18,7 @@ import {
     DropdownMenuLabel,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {tokenHandler} from "@/utils/tokenHandler.js";
 import {useMutation, useQuery} from "@tanstack/react-query";
 import {authAPI} from "@/api/auth.js";
@@ -64,6 +64,8 @@ export function Header () {
         setIsAuthenticated(tokenHandler.has());
     }, []);
 
+
+    const navigate = useNavigate()
     const {mutate} = useMutation({
 
         mutationFn: async () => {
@@ -76,8 +78,11 @@ export function Header () {
                 description: "You have successfully logout",
             })
 
+
+
             tokenHandler.unset()
             setIsAuthenticated(false)
+            navigate("/login")
         },
 
         onError: (error, variables, context) => {
@@ -163,12 +168,22 @@ export function Header () {
                     ? data !== undefined ?
                         <div className="lg:flex items-center gap-4 font-medium hidden">
 
-                            <p>{data.data.name}</p>
-                            <DropdownMenu>
-                                <DropdownMenuTrigger>
-                                    <Avatar>
-                                        {/*<AvatarImage src={data?.image} />*/}
-                                        <AvatarFallback className={'font-bold'}>{getInitials(data.data.name)}</AvatarFallback>
+                        <p>{data.data.name}</p>
+                        <DropdownMenu>
+                            <DropdownMenuTrigger>
+                                <Avatar>
+                                    <AvatarFallback className={'font-bold'}>
+
+                                        {
+                                            data.data.image ?
+
+                                                <img src={data.data.image} alt=""/>
+                                                :
+                                                getInitials(data.data.name)
+                                        }
+
+
+                                    </AvatarFallback>
 
                                     </Avatar>
                                 </DropdownMenuTrigger>

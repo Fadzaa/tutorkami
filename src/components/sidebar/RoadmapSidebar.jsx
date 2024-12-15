@@ -8,17 +8,20 @@ import {api, makeResponseFailed} from "@/api/api.js";
 import {format} from "date-fns";
 import PropTypes from "prop-types";
 import {roadmapAPI} from "@/api/roadmap.js";
+<<<<<<< HEAD
 import {FallbackEmptyContent} from "@/components/fallback/FallbackEmptyContent.jsx";
 import {ListSkeleton} from "@/components/skeleton/ListSkeleton.jsx";
 
+=======
+import {Sidebar, SidebarProvider, SidebarTrigger} from "@/components/ui/sidebar.jsx";
+>>>>>>> 663d6df472969c334de318282ee41c6da5c0c57a
 
 export function RoadmapSidebar() {
-
     const navigate = useNavigate()
 
 
     const {isLoading, data} = useQuery({
-
+        queryKey: ["getRoadmap"],
         queryFn: async () => {
             return await roadmapAPI.getRoadmap()
         },
@@ -26,12 +29,16 @@ export function RoadmapSidebar() {
     })
 
 
-
     const handleToCreate = () => {
         navigate("/tools/generative-roadmap/create")
     }
+    return (
+        <SidebarProvider>
+            <div className={'fixed w-full'}>
+                <Sidebar className={'w-1/4 absolute'}>
 
 
+<<<<<<< HEAD
     return (
         <div className="h-full overflow-hidden  py-6 border-e-2 border-[#AEAEAE]">
             <h1 className="px-5 font-medium text-xl">List Roadmaps</h1>
@@ -59,12 +66,49 @@ export function RoadmapSidebar() {
                 }
 
             </div>
+=======
+                    <div className={'flex items-end justify-between mr-4'}>
+
+                        <h1 className="px-5 mt-5 font-medium text-xl">List Roadmaps</h1>
 
 
-            <Button className={'mx-5'} onClick={handleToCreate}>Add New Roadmaps</Button>
+                        <SidebarTrigger />
+                    </div>
+                    <div className="cs px-5 h-[73%]  my-5">
+                        {
+                            isLoading ? <p>Loading....</p> : data.data.data.map((item, index) => (
+                                <ListQuestionCard
+                                    title={item.title}
+                                    key={item}
+                                    id={item.id}
+                                    date={format(item.date, "Y-M-dd")}
+                                    isQuestion={item.is_question}
+                                    category={item.knowledge_level}
+                                    proficiency={item.goal_level}
+                                    type={item.type}
+>>>>>>> 663d6df472969c334de318282ee41c6da5c0c57a
 
 
-        </div>
+                                />
+                            ))
+                        }
+
+                    </div>
+
+
+                    <Button className={'mx-5'} onClick={handleToCreate}>Add New Roadmaps</Button>
+
+
+                </Sidebar>
+
+
+            </div>
+
+            <main>
+
+                <SidebarTrigger className={'absolute mt-5 z-50'}/>
+            </main>
+        </SidebarProvider>
     )
 }
 

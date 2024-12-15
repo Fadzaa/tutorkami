@@ -12,6 +12,7 @@ import {api, makeResponseFailed} from "@/api/api.js";
 import {Button} from "@/components/ui/button.jsx";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
+import {FaCheck, FaRegTrashAlt} from "react-icons/fa";
 
 export function ListQuestionCard({
                                      title,
@@ -36,7 +37,6 @@ export function ListQuestionCard({
 
         navigate(`/tools/generative-${type.toString().toLowerCase()}/detail/${id}`);
     }
-
 
 
     const {mutate, isPending,} = useMutation({
@@ -76,43 +76,67 @@ export function ListQuestionCard({
     }
 
     return (<div
-            className={cn("flex w-full p-4 ps-0 gap-4 rounded-lg hover:bg-accent cursor-pointer", pathname.toString().includes(id) ? "bg-accent" : "")}
-            onClick={() => handleToDetail(id)}>
-            <div className="h-auto w-[1px] bg-black"></div>
-            <div className="w-full flex flex-col gap-3">
+        className={cn("flex w-full p-4 ps-0 gap-4 rounded-lg hover:bg-accent cursor-pointer", pathname.toString().includes(id) ? "bg-accent" : "")}
+        onClick={() => handleToDetail(id)}>
+        <div className="h-auto w-[1px] bg-black"></div>
+        <div className="w-full flex flex-col gap-3">
 
-                <div className={'flex justify-between'}>
-                    <p>{total_questions} {type} • {proficiency} • {category}</p>
-
-
-                    <DropdownMenu>
-                        <DropdownMenuTrigger> <SlOptionsVertical/></DropdownMenuTrigger>
-                        <DropdownMenuContent>
-                            <DropdownMenuLabel className={'cursor-pointer'}>
+            <div className={'flex justify-between'}>
+                <p>{total_questions} {type} • {proficiency} • {category}</p>
 
 
-                                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+                {isSolved ?
 
-                                    <Button className={'bg-transparent hover:bg-transparent'}
-                                            onClick={() => onSubmit(id)}>
-                                        <p className={'text-red-600'}>Delete</p>
+                    <div className={'flex gap-2'}>
 
-                                    </Button>
-                                </form>
+                        <span className={'bg-[#1E293B] rounded-full p-1'}>
+                            <FaCheck className={'text-white text-sm '}/>
+                        </span>
+
+                        <p>Solved</p>
+
+                    </div>
+                    : (
+
+                        <>
+                            <DropdownMenu>
+                                <DropdownMenuTrigger> <SlOptionsVertical/></DropdownMenuTrigger>
+                                <DropdownMenuContent>
+                                    <DropdownMenuLabel className={'cursor-pointer'}>
 
 
-                            </DropdownMenuLabel>
+                                        <div className={'flex items-center text-red-600'}>
 
-                        </DropdownMenuContent>
-                    </DropdownMenu>
-                </div>
-                <h1 className="text-lg font-semibold">{title}</h1>
-                <div className={cn("flex", isQuestion ? "justify-between" : "justify-end",)}>
-                    {isQuestion ? <p>{isSolved ? "Solved" : "Unsolved"}</p> : ''}
-                    <p>{date}</p>
-                </div>
+                                            <FaRegTrashAlt/>
+                                            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+
+                                                <Button className={'bg-transparent hover:bg-transparent'}
+                                                        onClick={() => onSubmit(id)}>
+                                                    <p className={'text-red-600'}>Delete</p>
+
+                                                </Button>
+                                            </form>
+
+                                        </div>
+
+
+                                    </DropdownMenuLabel>
+
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                        </>
+
+                    )}
+
             </div>
-        </div>)
+            <h1 className="text-lg font-semibold">{title}</h1>
+            <div className={cn("flex justify-between",)}>
+                <p>{type}</p>
+
+                <p>{date}</p>
+            </div>
+        </div>
+    </div>)
 }
 
 ListQuestionCard.propTypes = {

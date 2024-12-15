@@ -19,6 +19,8 @@ import {LabelTitleContent} from "@/components/ui/label-title-content.jsx";
 import {Loading} from "@/components/loading/Loading.jsx";
 import {useNavigate} from "react-router-dom";
 import {QuestionSidebar} from "@/components/sidebar/QuestionSidebar.jsx";
+import {LoadingGeneratingContent} from "@/components/popup/LoadingGeneratingContent.jsx";
+import {FallbackAIRefusal} from "@/components/fallback/FallbackAIRefusal.jsx";
 
 
 const FormSchema = z.object({
@@ -89,7 +91,7 @@ export function CreateQuestionPage() {
             <QuestionSidebar/>
 
 
-            <ContentDistance className={"relative flex-1"}>
+            <ContentDistance className={"relative flex-1 "}>
 
                 <LabelTitleContent>
 
@@ -177,6 +179,10 @@ export function CreateQuestionPage() {
                         </Button>
                     </form>
                 </Form>
+
+                {
+                    isPending ? <LoadingGeneratingContent isPending={isPending}/> : <></>
+                }
 
             </ContentDistance>
 

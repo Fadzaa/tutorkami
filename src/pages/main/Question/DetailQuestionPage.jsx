@@ -1,6 +1,7 @@
 import {useParams} from "react-router-dom";
 import {ListQuestionContent} from "@/components/content/ListQuestionContent.jsx";
 import {QuestionSidebar} from "@/components/sidebar/QuestionSidebar.jsx";
+import {ContentQuestionSkeleton} from "@/components/skeleton/ContentQuestionSkeleton.jsx";
 
 export function DetailQuestionPage() {
 
@@ -12,6 +13,7 @@ export function DetailQuestionPage() {
             {/*<QuestionSidebar />*/}
 
             <ListQuestionContent id={id}/>
+            {/*<ContentQuestionSkeleton/>*/}
         </div>
 
 

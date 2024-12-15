@@ -8,6 +8,8 @@ import {api, makeResponseFailed} from "@/api/api.js";
 import {format} from "date-fns";
 import PropTypes from "prop-types";
 import {roadmapAPI} from "@/api/roadmap.js";
+import {FallbackEmptyContent} from "@/components/fallback/FallbackEmptyContent.jsx";
+import {ListSkeleton} from "@/components/skeleton/ListSkeleton.jsx";
 
 
 export function RoadmapSidebar() {
@@ -36,7 +38,7 @@ export function RoadmapSidebar() {
             {/*{JSON.stringify(daaa)}*/}
             <div className="cs px-5 h-[87%]  my-5">
                 {
-                    isLoading ? <p>Loading....</p> : data.data.data.map((item, index) => (
+                    isLoading ? <ListSkeleton/> : data.data.data.map((item, index) => (
                         <ListQuestionCard
                             title={item.title}
                             key={item}
@@ -50,6 +52,10 @@ export function RoadmapSidebar() {
 
                         />
                     ))
+                }
+
+                {
+                    data?.data.data.length === 0 ? <div className="h-full flex items-center justify-center"><FallbackEmptyContent/></div> : <></>
                 }
 
             </div>

@@ -26,7 +26,7 @@ export function QuestionSidebar() {
 
 
     const handleToCreate = () => {
-        navigate("/tools/generative-material/create")
+        navigate("/tools/generative-question/create")
     }
     return (
         <SidebarProvider>
@@ -36,7 +36,7 @@ export function QuestionSidebar() {
 
                     <div className={'flex items-end justify-between mr-4'}>
 
-                        <h1 className="px-5 mt-5 font-medium text-xl">List Materials</h1>
+                        <h1 className="px-5 mt-5 font-medium text-xl">List Questions</h1>
 
 
                         <SidebarTrigger />
@@ -63,7 +63,7 @@ export function QuestionSidebar() {
                     </div>
 
 
-                    <Button className={'mx-5'} onClick={handleToCreate}>Add New Materials</Button>
+                    <Button className={'mx-5'} onClick={handleToCreate}>Add New Questions</Button>
 
 
                 </Sidebar>
@@ -73,7 +73,7 @@ export function QuestionSidebar() {
 
             <main>
 
-                <SidebarTrigger className={'absolute mt-5'}/>
+                <SidebarTrigger className={'absolute mt-5 z-50'}/>
             </main>
         </SidebarProvider>
     )

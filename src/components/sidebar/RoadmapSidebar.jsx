@@ -70,7 +70,7 @@ export function RoadmapSidebar() {
 
             <main>
 
-                <SidebarTrigger className={'absolute mt-5'}/>
+                <SidebarTrigger className={'absolute mt-5 z-50'}/>
             </main>
         </SidebarProvider>
     )

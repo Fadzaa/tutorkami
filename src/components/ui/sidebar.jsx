@@ -208,7 +208,7 @@ const SidebarTrigger = React.forwardRef(
                 size="icon"
                 className={cn(
                     "h-7 w-7",
-                    className === "absolute mt-5" && state === "expanded" ? "opacity-0" : "",
+                    className === "absolute mt-5 z-50" && state === "expanded" ? "opacity-0" : "",
                     className
                 )}
                 onClick={(event) => {
@@ -221,7 +221,7 @@ const SidebarTrigger = React.forwardRef(
                     src="/public/forward.svg"
                     className={cn(
                         "text-primary text-2xl h-24 w-24",
-                        className === "absolute mt-5" ? "rotate-180" : ""
+                        className === "absolute mt-5 z-50" ? "rotate-180" : ""
                     )}
                     alt="Sidebar Toggle"
                 />

@@ -27,6 +27,7 @@ import { CiMenuBurger } from "react-icons/ci";
 import { IoCloseOutline } from "react-icons/io5";
 import { IoIosArrowForward } from "react-icons/io";
 import { CiLogout } from "react-icons/ci";
+import {useTranslation} from "react-i18next";
 
 const components = [
 
@@ -37,7 +38,7 @@ const components = [
     },
     {
         title: "List Questions AI",
-        href: "/tools/generative-list-question",
+        href: "/tools/generative-question",
         description:
             "Cari dan jawab pertanyaan seru buat tiap topik, biar makin paham.",
     },
@@ -55,6 +56,7 @@ const components = [
 ]
 
 export function Header () {
+    const { t, i18n } = useTranslation();
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
 
@@ -109,6 +111,10 @@ export function Header () {
             .join("");
     }
 
+    const changeLanguage = (lng) => {
+        i18n.changeLanguage(lng).then(r => console.log(r));
+    };
+
     return (
         <div className="flex justify-between items-center w-full py-5 p-6 lg:px-14 border-2 border-gray-200 ">
             <img src="/logo_web.svg" className={'w-32'} alt=""/>
@@ -126,7 +132,7 @@ export function Header () {
                 <NavigationMenuList>
                     <NavigationMenuItem>
                         <NavigationMenuLink href="/"  className={navigationMenuTriggerStyle()}>
-                            Home
+                            {t('welcome')}
                         </NavigationMenuLink>
                     </NavigationMenuItem>
                     <NavigationMenuItem>
@@ -152,39 +158,48 @@ export function Header () {
                     </NavigationMenuItem>
                 </NavigationMenuList>
             </NavigationMenu>
-            {isAuthenticated
-                ? data !== undefined ?
-                    <div className="lg:flex items-center gap-4 font-medium hidden">
+            <div className="flex items-center gap-5">
+                {isAuthenticated
+                    ? data !== undefined ?
+                        <div className="lg:flex items-center gap-4 font-medium hidden">
 
-                        <p>{data.data.name}</p>
-                        <DropdownMenu>
-                            <DropdownMenuTrigger>
-                                <Avatar>
-                                    {/*<AvatarImage src={data?.image} />*/}
-                                    <AvatarFallback className={'font-bold'}>{getInitials(data.data.name)}</AvatarFallback>
+                            <p>{data.data.name}</p>
+                            <DropdownMenu>
+                                <DropdownMenuTrigger>
+                                    <Avatar>
+                                        {/*<AvatarImage src={data?.image} />*/}
+                                        <AvatarFallback className={'font-bold'}>{getInitials(data.data.name)}</AvatarFallback>
 
-                                </Avatar>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent>
-                                {/*<DropdownMenuLabel>My Account</DropdownMenuLabel>*/}
+                                    </Avatar>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent>
+                                    {/*<DropdownMenuLabel>My Account</DropdownMenuLabel>*/}
 
-                                <DropdownMenuItem onClick={() => mutate()}>
-                                    Log out
-                                </DropdownMenuItem>
-                            </DropdownMenuContent>
-                        </DropdownMenu>
+                                    <DropdownMenuItem onClick={() => mutate()}>
+                                        Log out
+                                    </DropdownMenuItem>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
 
-                    </div> :<div></div>
+                        </div> :<></>
 
-                : <div className="lg:flex gap-3 hidden">
-                    <Button className="px-6" asChild>
-                        <Link to={"/login"}>Sign in</Link>
-                    </Button>
-                    <Button asChild className="px-6 bg-white border-2 border-primary text-primary">
-                        <Link to={"/register"}>Sign up</Link>
-                    </Button>
+                    : <div className="lg:flex gap-3 hidden">
+                        <Button className="px-6" asChild>
+                            <Link to={"/login"}>Sign in</Link>
+                        </Button>
+                        <Button asChild className="px-6 bg-white border-2 border-primary text-primary">
+                            <Link to={"/register"}>Sign up</Link>
+                        </Button>
+                    </div>
+                }
+
+                <div className="flex gap-2">
+                    <div onClick={() => changeLanguage('id')} className="cursor-pointer">ID</div>
+                    <div>|</div>
+                    <div onClick={() => changeLanguage('en')} className="cursor-pointer">EN</div>
                 </div>
-            }
+            </div>
+
         </div>
     )
 }
@@ -225,13 +240,13 @@ const NavMobileMenu = ({onClick, isAuthenticated}) => {
             </div>
 
             <div className="flex flex-col gap-7">
-                <h3 className="font-semibold text-lg">Home</h3>
+                <Link to={'/'}><h3 className="font-semibold text-lg cursor-pointer">Home</h3></Link>
                 <div className="flex flex-col">
-                    <div className="flex w-full items-center justify-between">
-                        <h3 className="font-semibold text-lg">Tools</h3>
+                    <div onClick={() => setIsOpenTools(!isOpenTools)} className="flex w-full items-center justify-between cursor-pointer">
+                        <h3 className="font-semibold text-lg" >Tools</h3>
                         {isOpenTools
-                            ? <IoIosArrowForward className="rotate-90" onClick={() => setIsOpenTools(!isOpenTools)}/>
-                            : <IoIosArrowForward onClick={() => setIsOpenTools(!isOpenTools)}/>
+                            ? <IoIosArrowForward className="rotate-90" />
+                            : <IoIosArrowForward />
                         }
                     </div>
 
@@ -241,7 +256,7 @@ const NavMobileMenu = ({onClick, isAuthenticated}) => {
                                 {
                                     components.map((component) => (
                                         <Link to={component.href}>
-                                            <div>
+                                            <div className="cursor-pointer">
                                                 <h2 className="font-semibold">{component.title}</h2>
                                                 <p className="text-xs text-[#64748B] leading-5">{component.description}</p>
                                             </div>
@@ -252,7 +267,7 @@ const NavMobileMenu = ({onClick, isAuthenticated}) => {
                             : <></>
                     }
                 </div>
-                <h3 className="font-semibold text-lg">Dashboard</h3>
+                <Link to={'/test'}><h3 className="font-semibold text-lg cursor-pointer">Dashboard</h3></Link>
             </div>
 
             {

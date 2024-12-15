@@ -7,7 +7,7 @@ const apiClient = axios.create({
     baseURL: config.BASE_API_URL,
     headers: {
         "ngrok-skip-browser-warning": "1231",
-        "Content-Type": "application/json",
+        "Content-Type": "application/json"
     },
 });
 

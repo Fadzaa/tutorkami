@@ -9,7 +9,7 @@ export function DetailMaterialPage() {
 
     return (
         <div className="h-[90vh] overflow-hidden flex">
-            <MaterialSidebar />
+            {/*<MaterialSidebar />*/}
 
             <ListMaterialContent id={id}/>
         </div>

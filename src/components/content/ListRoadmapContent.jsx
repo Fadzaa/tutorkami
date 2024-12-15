@@ -63,7 +63,7 @@ export function ListRoadmapContent({id}) {
                                      <div className="h-auto w-[1px] bg-black"></div>
                                      <div className="flex flex-col items-start gap-3">
                                          <h1>{`${i + 1}. ${item.title}`}</h1>
-                                         <p>{item.desc}</p>
+                                         <p className="text-start lg:text-center">{item.desc}</p>
                                      </div>
                                  </div>
                              </SheetTrigger>

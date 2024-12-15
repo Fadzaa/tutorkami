@@ -11,7 +11,7 @@ export function DetailRoadmapPage() {
 
     return (
         <div className="h-[90vh] overflow-hidden flex">
-            <RoadmapSidebar />
+            {/*<RoadmapSidebar />*/}
 
             <ListRoadmapContent id={id}/>
         </div>

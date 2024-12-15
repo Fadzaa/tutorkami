@@ -86,64 +86,15 @@ import {Collapsible, CollapsibleContent, CollapsibleTrigger} from "@/components/
 export function LMSSidebar() {
     return (
         <SidebarProvider className="w-1/3">
-            <AppSidebar />
+            <div className={'h-1/4 fixed'}>
+                <Sidebar className={'absolute'}>
+                </Sidebar>
+            </div>
             <main>
-                <SidebarTrigger />
+                <SidebarTrigger/>
                 {/*{children}*/}
             </main>
         </SidebarProvider>
     )
 }
 
-function AppSidebar() {
-
-
-    return (
-        <Sidebar>
-            <SidebarContent>
-                <SidebarGroup>
-                    <SidebarGroupLabel>Application</SidebarGroupLabel>
-                    <SidebarGroupContent>
-                        <SidebarMenu>
-                            {dataTreeView.map((item, index) => (
-                                <Collapsible defaultOpen className="group/collapsible">
-                                    <SidebarMenuItem>
-                                        <CollapsibleTrigger asChild>
-                                            <SidebarMenuButton >{item.title}</SidebarMenuButton>
-                                        </CollapsibleTrigger>
-                                        <CollapsibleContent>
-                                            <SidebarMenuSub>
-                                                {item.children.map((child, index) => (
-                                                    <SidebarMenuSubItem >
-                                                        <Collapsible defaultOpen className="group/collapsible">
-                                                            <SidebarMenuItem>
-                                                                <CollapsibleTrigger asChild>
-                                                                    <SidebarMenuButton >{child.title}</SidebarMenuButton>
-                                                                </CollapsibleTrigger>
-                                                                <CollapsibleContent>
-                                                                    <SidebarMenuSub>
-                                                                        {
-                                                                            child.children && child.children.map((subChild, index) => (
-                                                                                <SidebarMenuSubItem >
-                                                                                    <SidebarMenuSubButton >{subChild.title}</SidebarMenuSubButton>
-                                                                                </SidebarMenuSubItem>
-                                                                            ))
-                                                                        }
-                                                                    </SidebarMenuSub>
-                                                                </CollapsibleContent>
-                                                            </SidebarMenuItem>
-                                                        </Collapsible>
-                                                    </SidebarMenuSubItem>
-                                                    ))}
-                                            </SidebarMenuSub>
-                                        </CollapsibleContent>
-                                    </SidebarMenuItem>
-                                </Collapsible>
-                            ))}
-                        </SidebarMenu>
-                    </SidebarGroupContent>
-                </SidebarGroup>
-            </SidebarContent>
-        </Sidebar>
-    )
-}

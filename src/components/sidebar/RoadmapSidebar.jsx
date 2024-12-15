@@ -27,16 +27,17 @@ export function RoadmapSidebar() {
         navigate("/tools/generative-roadmap/create")
     }
     return (
-        <SidebarProvider className="w-3/12 mr-5">
+        <SidebarProvider>
             <div className={'fixed w-full'}>
-                <Sidebar className={' w-1/4 h-full absolute'}>
+                <Sidebar className={'w-1/4 absolute'}>
 
 
                     <div className={'flex items-end justify-between mr-4'}>
 
                         <h1 className="px-5 mt-5 font-medium text-xl">List Roadmaps</h1>
-                        <SidebarTrigger />
 
+
+                        <SidebarTrigger />
                     </div>
                     <div className="cs px-5 h-[73%]  my-5">
                         {
@@ -63,60 +64,15 @@ export function RoadmapSidebar() {
 
 
                 </Sidebar>
+
+
             </div>
 
+            <main>
+
+                <SidebarTrigger className={'absolute mt-5'}/>
+            </main>
         </SidebarProvider>
-    )
-}
-
-export function RoadmapSidebara() {
-
-    const navigate = useNavigate()
-
-
-    const {isLoading, data} = useQuery({
-        queryKey: ["getRoadmap"],
-        queryFn: async () => {
-            return await roadmapAPI.getRoadmap()
-        },
-
-    })
-
-
-    const handleToCreate = () => {
-        navigate("/tools/generative-roadmap/create")
-    }
-
-
-    return (
-        <div className="h-full overflow-hidden  py-6 border-e-2 border-[#AEAEAE]">
-            <h1 className="px-5 font-medium text-xl">List Roadmaps</h1>
-            {/*{JSON.stringify(daaa)}*/}
-            <div className="cs px-5 h-[87%]  my-5">
-                {
-                    isLoading ? <p>Loading....</p> : data.data.data.map((item, index) => (
-                        <ListQuestionCard
-                            title={item.title}
-                            key={item}
-                            id={item.id}
-                            date={format(item.date, "Y-M-dd")}
-                            isQuestion={item.is_question}
-                            category={item.knowledge_level}
-                            proficiency={item.goal_level}
-                            type={item.type}
-
-
-                        />
-                    ))
-                }
-
-            </div>
-
-
-            <Button className={'mx-5'} onClick={handleToCreate}>Add New Roadmaps</Button>
-
-
-        </div>
     )
 }
 

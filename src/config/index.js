@@ -1,5 +1,5 @@
 export const config = {
-    BASE_API_URL: "https://e7d2-2001-448a-406f-1630-7dfd-336a-65d-d1a1.ngrok-free.app/api/v1/",
+    BASE_API_URL: "https://47f0-2001-448a-406f-1630-f4c1-e9d4-b566-9c46.ngrok-free.app/api/v1/",
     // Auth input config
     MIN_PASSWORD_LENGTH: 6,
     MAX_PASSWORD_LENGTH: 20,

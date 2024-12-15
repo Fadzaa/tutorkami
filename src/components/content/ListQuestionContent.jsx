@@ -225,7 +225,7 @@ export function ListQuestionContent({id}) {
 
     let arr = ["A. ", "B. ", "C. ", "D. "];
     return (
-        <div className="flex flex-col h-full relative flex-1">
+        <div className="flex flex-col h-full relative flex-1 -z-40">
 
             <div className={cn(
                 "flex-1 pb-5 cs overflow-y-auto",

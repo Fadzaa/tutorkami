@@ -46,43 +46,43 @@ export function LandingPage() {
 
     return (
         <>
-            {/*<div className="h-[100vh] w-full items-center justify-center flex flex-col gap-8 px-8 lg:px-14">*/}
-            {/*    <img src="/logo_web.svg" className={'w-40 lg:w-60'} alt=""/>*/}
-            {/*    <h1 className="text-base lg:text-2xl text-[#334155] font-medium">Ekosistem Belajar yang disesuaikan untukmu</h1>*/}
-            {/*    <div className="flex flex-col lg:flex-row gap-3">*/}
-            {/*        {*/}
-            {/*            tools.map((tool, index) => (*/}
-            {/*                <ToolsCard link={tool.href} key={tool.title} title={(index + 1 + ". ") + tool.title}*/}
-            {/*                           description={tool.description}/>*/}
-            {/*            ))*/}
-            {/*        }*/}
-            {/*    </div>*/}
-            {/*</div>*/}
+            <div className="mt-10 h-[100vh] w-full items-center justify-center flex flex-col gap-8 px-8 lg:px-14">
+                <img src="/logo_web.svg" className={'w-40 lg:w-60'} alt=""/>
+                <h1 className="text-base lg:text-2xl text-[#334155] font-medium">Ekosistem Belajar yang disesuaikan untukmu</h1>
+                <div className="flex flex-col lg:flex-row gap-3">
+                    {
+                        tools.map((tool, index) => (
+                            <ToolsCard link={tool.href} key={tool.title} title={(index + 1 + ". ") + tool.title}
+                                       description={tool.description}/>
+                        ))
+                    }
+                </div>
+            </div>
 
 
-            {/*<div className="h-[100vh] w-full items-center justify-center flex flex-col gap-8 px-14">*/}
-            {/*    <img src="/logo_web.svg" className={'w-40 lg:w-60'} alt=""/>*/}
-            {/*    <h1 className="text-base lg:text-2xl text-[#334155] font-medium text-center">Ekosistem Belajar yang disesuaikan untukmu</h1>*/}
+            <div className="h-[100vh] w-full items-center justify-center flex flex-col gap-8 px-14">
+                <img src="/logo_web.svg" className={'w-40 lg:w-60'} alt=""/>
+                <h1 className="text-base lg:text-2xl text-[#334155] font-medium text-center">Ekosistem Belajar yang disesuaikan untukmu</h1>
 
 
-            {/*    <img className={'w-7/12'} src="/sample.png"/>*/}
+                <img className={'w-7/12'} src="/sample.png"/>
 
 
-            {/*    <div className={'flex flex-col lg:flex-row gap-8'}>*/}
+                <div className={'flex flex-col lg:flex-row gap-8'}>
 
-            {/*        {*/}
-            {/*            roadmap.map(item => (*/}
-            {/*                <div key={item.title} className="flex flex-col items-center">*/}
-            {/*                    <p className={'font-semibold text-base lg:text-xl text-[#1E293B]'}>{item.title}</p>*/}
-            {/*                    <p className={'text-[#1E293B] text-sm text-center lg:text-lg '}>{item.description}</p>*/}
-            {/*                </div>*/}
-            {/*            ))*/}
-            {/*        }*/}
+                    {
+                        roadmap.map(item => (
+                            <div key={item.title} className="flex flex-col items-center">
+                                <p className={'font-semibold text-base lg:text-xl text-[#1E293B]'}>{item.title}</p>
+                                <p className={'text-[#1E293B] text-sm text-center lg:text-lg '}>{item.description}</p>
+                            </div>
+                        ))
+                    }
 
 
-            {/*    </div>*/}
+                </div>
 
-            {/*</div>*/}
+            </div>
 
             <div className="h-[100vh] p-8 lg:p-14 flex flex-col gap-8">
 

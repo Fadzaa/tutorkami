@@ -22,7 +22,7 @@ export function ListQuestionContent({id}) {
 
 
     const [questions, setQuestions] = useState([]);
-    const [progress, setProgress] = useState(13)
+    const [progress, setProgress] = useState(0)
 
     const [enable, setEnable] = useState(false);
 
@@ -46,7 +46,10 @@ export function ListQuestionContent({id}) {
     useEffect(() => {
 
 
-        setProgress((questions.length / data?.data.question_detail.question.length) * 100)
+            let result = Math.floor(questions.length / data?.data.question_detail.question.length * 100,)
+
+        console.log(result)
+            setProgress(result)
 
     }, [questions])
     const handleChoices = (id, answer) => {
@@ -268,7 +271,7 @@ export function ListQuestionContent({id}) {
                         className="flex flex-col items-center justify-between gap-4 bg-white border-t-2 border-accent p-4">
                         <Progress value={progress} className="w-full"/>
                         <div className={'flex flex-row w-full justify-between'}>
-                            <p>{(questions.length / data?.data.question_detail.question.length) * 100}% Compleate</p>
+                            <p>{progress ?progress:0}% Compleate</p>
                             <p>{questions.length}/{data?.data.question_detail.question.length}</p>
 
                         </div>

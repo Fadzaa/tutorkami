@@ -11,6 +11,7 @@ import {cn} from "@/lib/utils.js";
 import {ContentDistance} from "@/components/ui/content-distance.jsx";
 import {LabelTitleContent} from "@/components/ui/label-title-content.jsx";
 import {roadmapAPI} from "@/api/roadmap.js";
+import {ContentRoadmapSkeleton} from "@/components/skeleton/ContentRoadmapSkeleton.jsx";
 
 export function ListRoadmapContent({id}) {
 
@@ -41,7 +42,7 @@ export function ListRoadmapContent({id}) {
                 isLoading || isFetching ? "flex items-center" : ""
             )}>
                 {isLoading || isFetching ? (
-                    <Loading/>
+                    <ContentRoadmapSkeleton/>
                 ) : (
                     data?.data != null && (
 

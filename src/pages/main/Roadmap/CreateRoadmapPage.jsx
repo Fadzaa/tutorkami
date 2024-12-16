@@ -1,5 +1,5 @@
 import {
-    Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage,
+    Form, FormControl, FormField, FormItem, FormLabel, FormMessage,
 } from "@/components/ui/form.jsx"
 import {
     Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
@@ -9,15 +9,14 @@ import {Button} from "@/components/ui/button.jsx";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod"
 import {z} from "zod"
-import {useMutation, useQueryClient} from "@tanstack/react-query";
-import {authAPI} from "@/api/auth.js";
-import {tokenHandler} from "@/utils/tokenHandler.js";
+import {useMutation} from "@tanstack/react-query";
 import {api, makeResponseFailed} from "@/api/api.js";
 import {RoadmapSidebar} from "@/components/sidebar/RoadmapSidebar.jsx";
 import {ContentDistance} from "@/components/ui/content-distance.jsx";
 import {LabelTitleContent} from "@/components/ui/label-title-content.jsx";
 import {Loading} from "@/components/loading/Loading.jsx";
 import {useNavigate} from "react-router-dom";
+import {LoadingGeneratingContent} from "@/components/loading/LoadingGeneratingContent.jsx";
 
 
 const FormSchema = z.object({
@@ -169,14 +168,14 @@ export function CreateRoadmapPage() {
                         />
 
                         <Button type="submit">
-
-                            {
-                                isPending ?<Loading/>:"Submit"
-                            }
-
+                            Submit
                         </Button>
                     </form>
                 </Form>
+
+                {
+                    isPending ? <LoadingGeneratingContent isPending={isPending} type="roadmap"/> : <></>
+                }
 
             </ContentDistance>
 

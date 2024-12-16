@@ -10,6 +10,7 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css'; // ES6
 
 import {materialAPI} from "@/api/material.js";
+import {ContentMaterialSkeleton} from "@/components/skeleton/ContentMaterialSkeleton.jsx";
 
 export function ListMaterialContent({id}) {
 
@@ -65,7 +66,7 @@ export function ListMaterialContent({id}) {
                 isLoading || isFetching ? "flex items-center" : ""
             )}>
                 {isLoading || isFetching ? (
-                    <Loading/>
+                    <ContentMaterialSkeleton/>
                 ) : (
                     data?.data != null && (
 

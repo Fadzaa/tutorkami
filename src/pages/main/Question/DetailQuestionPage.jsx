@@ -10,10 +10,8 @@ export function DetailQuestionPage() {
 
     return (
         <div className="h-[90vh] overflow-hidden flex">
-            {/*<QuestionSidebar />*/}
-
+            <QuestionSidebar />
             <ListQuestionContent id={id}/>
-            {/*<ContentQuestionSkeleton/>*/}
         </div>
 
 

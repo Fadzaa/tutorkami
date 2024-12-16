@@ -16,6 +16,7 @@ import {LabelTitleContent} from "@/components/ui/label-title-content.jsx";
 import {Loading} from "@/components/loading/Loading.jsx";
 import {useNavigate} from "react-router-dom";
 import {MaterialSidebar} from "@/components/sidebar/MaterialSidebar.jsx";
+import {LoadingGeneratingContent} from "@/components/loading/LoadingGeneratingContent.jsx";
 
 
 // const FormSchema = z.object({
@@ -129,12 +130,13 @@ export function CreateMaterialPage() {
                         />
 
                         <Button type="submit">
-                            {
-                                isPending ?<Loading/>:"Submit"
-                            }
+                            Submit
                         </Button>
                     </form>
                 </Form>
+                {
+                    isPending ? <LoadingGeneratingContent isPending={isPending} type="study"/> : <></>
+                }
 
             </ContentDistance>
 

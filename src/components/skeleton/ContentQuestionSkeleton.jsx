@@ -9,6 +9,7 @@ import {LabelTitleContent} from "@/components/ui/label-title-content.jsx";
 import {format} from "date-fns";
 import {Skeleton} from "@/components/ui/skeleton.jsx";
 import {Input} from "@/components/ui/input.jsx";
+import {HeaderContentSkeleton} from "@/components/skeleton/HeaderContentSkeleton.jsx";
 
 export function ContentQuestionSkeleton() {
     const question = [
@@ -40,34 +41,22 @@ export function ContentQuestionSkeleton() {
 
             <div className={"flex-1 pb-5 cs overflow-y-auto"}>
                 <ContentDistance>
-                    <div className="flex w-full justify-between items-center">
-                        <div>
-                            <Skeleton className="text-transparent">
-                                title
-                            </Skeleton>
-                            <Skeleton className="text-transparent">{`type • knowledge_level • goal_level`}</Skeleton>
-                        </div>
-                        <div>
-                            <Skeleton className="text-lg mb-3 text-transparent">test</Skeleton>
-                        </div>
-                    </div>
+                    <HeaderContentSkeleton/>
                     {question.map((_, i) => (
                         <div>
-                            <Skeleton className="text-transparent">Question {i + 1} ({"itemParent.type"} • Single Answer)</Skeleton>
-                            <Skeleton className="text-transparent">{"itemParent.title"}</Skeleton>
+                            <Skeleton className="w-2/4 mb-3">
+                                <h1 className="text-transparent">Question {i + 1} ({"itemParent.type"} • Single Answer)</h1>
+                                <p className="text-transparent">{"itemParent.title"}</p>
+                            </Skeleton>
 
-                            <div className={'mt-5 flex flex-col lg:grid lg:grid-rows-2 w-full lg:w-1/2 lg:grid-flow-col gap-8'}>
+                            <div className={'my-5 flex flex-col lg:grid lg:grid-rows-2 w-full lg:w-1/2 lg:grid-flow-col gap-8'}>
                                 {
                                     choices.toString().split(',').map((item, i) => (
                                         <Skeleton>
-                                            <Button key={item}
-                                                    className={cn(
-                                                        'group flex hover:border-0 justify-start  rounded-xl w-full lg:w-96  bg-transparent',
-                                                    )}>
-                                                <p className={cn(
-                                                    "text-transparent  group-hover:text-white"
-                                                )}> {arr[i] + item}</p>
-                                            </Button>
+                                            <div key={item}
+                                                    className={'flex justify-start  rounded-xl w-full lg:w-96  bg-transparent'}>
+                                                <p className={"text-transparent"}> {arr[i] + item}</p>
+                                            </div>
                                         </Skeleton>
 
                                         ))

@@ -137,7 +137,7 @@ export function Header () {
                 <NavigationMenuList>
                     <NavigationMenuItem>
                         <NavigationMenuLink href="/"  className={navigationMenuTriggerStyle()}>
-                            {t('welcome')}
+                            Home
                         </NavigationMenuLink>
                     </NavigationMenuItem>
                     <NavigationMenuItem>

@@ -9,6 +9,8 @@ import {format} from "date-fns";
 import PropTypes from "prop-types";
 import {roadmapAPI} from "@/api/roadmap.js";
 import {Sidebar, SidebarProvider, SidebarTrigger} from "@/components/ui/sidebar.jsx";
+import {FallbackEmptyContent} from "@/components/fallback/FallbackEmptyContent.jsx";
+import {ListSkeleton} from "@/components/skeleton/ListSkeleton.jsx";
 
 export function RoadmapSidebar() {
     const navigate = useNavigate()
@@ -41,7 +43,7 @@ export function RoadmapSidebar() {
                     </div>
                     <div className="cs px-5 h-[73%]  my-5">
                         {
-                            isLoading ? <p>Loading....</p> : data.data.data.map((item, index) => (
+                            isLoading ? <ListSkeleton/> : data.data.data.map((item, index) => (
                                 <ListQuestionCard
                                     title={item.title}
                                     key={item}
@@ -55,6 +57,10 @@ export function RoadmapSidebar() {
 
                                 />
                             ))
+                        }
+
+                        {
+                            data?.data.data.length === 0 ? <FallbackEmptyContent type={"roadmap"}/> : <></>
                         }
 
                     </div>

@@ -16,7 +16,7 @@ export function ListSkeleton() {
     return (
         <>
             {
-                Array(5).fill(null).map((item, index) => (
+                Array(3).fill(null).map((item, index) => (
                     <div
                         className={"flex w-full p-4 ps-0 gap-4 rounded-lg"}
                     >

@@ -2,8 +2,10 @@ import Lottie, { useLottie } from "lottie-react";
 import bookLoadingAnimation from '/public/book_loading_lottie.json'
 import {Progress} from "@/components/ui/progress.jsx";
 import {useEffect, useState} from "react";
+import {useTranslation} from "react-i18next";
 
-export function LoadingGeneratingContent({isPending}) {
+export function LoadingGeneratingContent({isPending, type}) {
+    const { t } = useTranslation();
     const options = {
         animationData: bookLoadingAnimation,
         className: "h-40",
@@ -19,7 +21,6 @@ export function LoadingGeneratingContent({isPending}) {
     useEffect(() => {
         let interval;
 
-        // Start the progress interval
         interval = setInterval(() => {
             setProgress((prevProgress) => {
                 if (prevProgress < 90 && isPending) {
@@ -29,17 +30,36 @@ export function LoadingGeneratingContent({isPending}) {
             });
         }, updateInterval);
 
-        // Handle API resolution
         if(!isPending) {
             clearInterval(interval);
-            setProgress(100); // Complete progress bar smoothly
+            setProgress(100);
             console.log("Loading complete!");
         }
 
-        // Cleanup on component unmount
         return () => clearInterval(interval);
     }, []);
 
+
+    const aiTypeContent = {
+        "study": {
+            title: t('load_head_material'),
+            description: t('load_desc_material')
+        },
+        "question": {
+            title: t('load_head_question'),
+            description: t('load_desc_question')
+        },
+        "roadmap": {
+            title: t('load_head_roadmap'),
+            description: t('load_desc_roadmap')
+        },
+        "lms": {
+            title: t('load_head_lms'),
+            description: t('load_desc_lms')
+        }
+    };
+
+    const {title, description} = aiTypeContent[type]
 
 
     return (
@@ -47,8 +67,8 @@ export function LoadingGeneratingContent({isPending}) {
             <div className="bg-white w-3/6 flex flex-col items-center px-20 py-10 rounded-xl gap-5">
                 <>{View}</>
 
-                <h1 className="font-semibold text-lg ">Crafting Your Study Materials...</h1>
-                <p className="font-light text-[#9A9A9A] text-sm">Hang tight! We’re creating personalized study content just for you.</p>
+                <h1 className="font-semibold text-lg ">{title}</h1>
+                <p className="font-light text-[#9A9A9A] text-sm">{description}</p>
 
                 <div className="w-full flex flex-col items-center gap-3">
                     <Progress value={progress} className="h-2"/>

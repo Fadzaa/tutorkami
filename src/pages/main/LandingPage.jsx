@@ -30,7 +30,7 @@ export function LandingPage() {
         },
     ]
 
-    const landingContent = [
+    const  landingContent = [
         {
             title: t("landing_title_1"),
             desc: t("landing_desc_1"),
@@ -186,7 +186,7 @@ export function LandingPage() {
                                 item.content.map(item => (
                                     <div key={item.title}>
                                         <p className={'font-semibold text-lg lg:text-xl text-[#1E293B]'}>{item.title}</p>
-                                        <p className={'text-[#1E293B] text-base lg:text-lg '}>{item.description}</p>
+                                        <p className={'text-[#1E293B] text-base lg:text-lg '}>{item.desc}</p>
                                     </div>
                                 ))
                             }

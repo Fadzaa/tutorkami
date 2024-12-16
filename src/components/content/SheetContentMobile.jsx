@@ -14,6 +14,7 @@ import {useQuery} from "@tanstack/react-query";
 import {materialAPI} from "@/api/material.js";
 import {questionAPI} from "@/api/question.js";
 import {roadmapAPI} from "@/api/roadmap.js";
+import {lmsAPI} from "@/api/lms.js";
 
 export function SheetContentMobile({type}) {
 
@@ -44,7 +45,9 @@ export function SheetContentMobile({type}) {
         },
         "lms": {
             listName: "List LMS",
-            route: "/tools/generative-material/create",
+            route: "/tools/generative-lms/create",
+            api: lmsAPI.getLms(),
+            key: "getLms",
             fallbackType: "roadmap",
             buttonName: "Add New LMS"
         }
@@ -60,6 +63,7 @@ export function SheetContentMobile({type}) {
         queryFn: async () => {
             return await api
         },
+
 
     })
 
@@ -83,7 +87,20 @@ export function SheetContentMobile({type}) {
                 </div>
                 <div className="h-[88%]  my-5">
                     {
-                        isLoading ? <ListSkeleton/> : data.data.data.map((item, index) => (
+                        isLoading ? <ListSkeleton/> : type !== "lms" ? data.data.data.map((item, index) => (
+                            <ListQuestionCard
+                                title={item.title}
+                                key={item}
+                                id={item.id}
+                                date={format(item.date, "Y-M-dd")}
+                                isQuestion={item.is_question}
+                                category={item.knowledge_level}
+                                proficiency={item.goal_level}
+                                type={item.type}
+
+
+                            />
+                        )) : data.data.map((item, index) => (
                             <ListQuestionCard
                                 title={item.title}
                                 key={item}
@@ -100,7 +117,9 @@ export function SheetContentMobile({type}) {
                     }
 
                     {
-                        data?.data.data.length === 0 ? <FallbackEmptyContent type={fallbackType}/> : <></>
+                        type !== 'lms'
+                            ? data?.data.data.length === 0 ? <FallbackEmptyContent type={fallbackType}/> : <></>
+                            : data?.data.length === 0 ? <FallbackEmptyContent type={fallbackType}/> : <></>
                     }
 
                 </div>

@@ -8,6 +8,8 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import {useNavigate} from "react-router-dom";
 import {useQuery} from "@tanstack/react-query";
 import {lmsAPI} from "@/api/lms.js";
+import {ListSkeleton} from "@/components/skeleton/ListSkeleton.jsx";
+import {FallbackEmptyContent} from "@/components/fallback/FallbackEmptyContent.jsx";
 
 export function LMSSidebar() {
     const navigate = useNavigate()
@@ -26,7 +28,7 @@ export function LMSSidebar() {
         navigate("/tools/generative-lms/create")
     }
     return (
-        <SidebarProvider>
+        <SidebarProvider className="hidden lg:block">
             <div className={'fixed w-full'}>
                 <Sidebar className={'w-1/4 absolute'}>
 
@@ -40,11 +42,11 @@ export function LMSSidebar() {
                     </div>
                     <div className="cs px-5 h-[73%]  my-5">
                         {
-                            isLoading ? <p>Loading....</p> : data.data.map((item, index) => (
+                            isLoading ? <ListSkeleton/> : data.data.map((item, index) => (
                                 <ListQuestionCard
                                     title={item.title}
                                     key={item}
-                                    id={item.lms.id}
+                                    id={item.id}
                                     date={format(item.date, "Y-M-dd")}
                                     isSolved={item.is_solved}
                                     category={item.knowledge_level}
@@ -55,6 +57,11 @@ export function LMSSidebar() {
                             ))
                         }
                     </div>
+
+                    {
+                        data?.data.length === 0 ? <FallbackEmptyContent type={"lms"}/> : <></>
+                    }
+
 
 
                     <Button className={'mx-5'} onClick={handleToCreate}>Add New LMS</Button>
@@ -72,4 +79,3 @@ export function LMSSidebar() {
         </SidebarProvider>
     )
 }
-

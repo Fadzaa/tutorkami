@@ -11,10 +11,11 @@ import PropTypes from "prop-types";
 import {ListContentCard} from "@/components/card/ListContentCard.jsx";
 import {ProgressBar} from "@/components/ui/progress-bar.jsx";
 import {useEffect, useState} from "react";
+import {ListSkeleton} from "@/components/skeleton/ListSkeleton.jsx";
 
 export function LMSSidebarDetail({data, handle, subTopicId, isLoading, completed,total}) {
     return (
-        <SidebarProvider>
+        <SidebarProvider className="hidden lg:block">
             <div className={'fixed w-full'}>
                 <Sidebar className={'w-1/4 absolute'}>
 
@@ -28,7 +29,7 @@ export function LMSSidebarDetail({data, handle, subTopicId, isLoading, completed
                     </div>
                     <div className="cs px-5 h-[73%]  my-5">
                         {
-                            isLoading ? <p>Loading....</p> : data.topic.map((item, index) => (
+                            isLoading ? <ListSkeleton/> : data.topic.map((item, index) => (
                                 <ListContentCard
                                     title={item.topic}
                                     subTopic={item.sub_topic}

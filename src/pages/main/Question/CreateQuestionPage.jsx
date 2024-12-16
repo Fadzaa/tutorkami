@@ -25,18 +25,13 @@ import {FallbackAIRefusal} from "@/components/fallback/FallbackAIRefusal.jsx";
 
 const FormSchema = z.object({
     subject: z
-        .string({
-            required_error: "isi",
-        }), total_question: z
-        .string({
-            required_error: "isi",
-        }), question_type: z
-        .string({
-            required_error: "Please select an email to display.",
-        }), goal_level: z
-        .string({
-            required_error: "Please select an email to display.",
-        }),
+        .string(),
+    total_question: z
+        .string(),
+    question_type: z
+        .string(),
+    goal_level: z
+        .string(),
 })
 
 export function CreateQuestionPage() {

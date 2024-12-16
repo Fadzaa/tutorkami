@@ -13,7 +13,7 @@ export function LandingPage() {
         },
         {
             title: "List Questions AI",
-            href: "/tools/generative-list-question",
+            href: "/tools/generative-question",
             description:
                 "Cari dan jawab pertanyaan seru buat tiap topik, biar makin paham.",
         },

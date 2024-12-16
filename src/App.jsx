@@ -14,7 +14,7 @@ function App() {
             <main className={'font-Urbanist'}>
                 <RouterProvider router={routers}/>
             </main>
-            <ReactQueryDevtools initialIsOpen={false} />
+            {/*<ReactQueryDevtools initialIsOpen={false} />*/}
         </QueryClientProvider>
     </>
   )

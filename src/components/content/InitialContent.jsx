@@ -16,7 +16,6 @@ export function InitialContent({type}) {
             title: t('initial_head_material'),
             description: t('initial_desc_material'),
             route: "/tools/generative-material/create",
-            api: materialAPI.getMaterial(),
             key: "getMaterial",
             fallbackType: "study"
         },
@@ -57,7 +56,6 @@ export function InitialContent({type}) {
                 <p className="font-light w-2/3 lg:w-1/2 text-sm text-[#9A9A9A] text-center">{description}</p>
             </div>
 
-            <div></div>
         </div>
     )
 }

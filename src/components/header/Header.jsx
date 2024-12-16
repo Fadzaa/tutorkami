@@ -145,28 +145,35 @@ export function Header ({isLandingPage}) {
         i18n.changeLanguage(lng).then(r => console.log(r));
     };
 
-    return (
-        <div className={`${isLandingPage ? "fixed top-0" : ""} bg-white flex justify-between items-center w-full py-5 p-6 lg:px-14 border-2 border-gray-200`}>
 
-            <Link to={"/"}> <img src="/logo_web.svg" className={'w-32'} alt=""/></Link>
-            <div className="flex items-center gap-5">
+    return (
+        <div className={`${isLandingPage ? "fixed top-0" : ""} bg-white flex justify-center items-center w-full py-5 p-6 lg:px-14 border-2 border-gray-200`}>
+
+            {/* Logo */}
+            <Link to={"/"} className="absolute left-6 lg:left-14">
+                <img src="/logo_web.svg" className="w-32" alt="" />
+            </Link>
+
+            {/* Language Switcher & Mobile Menu */}
+            <div className="absolute right-6 lg:right-14 flex items-center gap-5">
                 <div className="flex gap-2 lg:hidden">
                     <div onClick={() => changeLanguage('id')} className="cursor-pointer">ID</div>
                     <div>|</div>
                     <div onClick={() => changeLanguage('en')} className="cursor-pointer">EN</div>
                 </div>
-
-                <CiMenuBurger size={24} onClick={() => setIsOpen(!isOpen)} className="lg:hidden text-primary"/>
+                <CiMenuBurger size={24} onClick={() => setIsOpen(!isOpen)} className="lg:hidden text-primary" />
             </div>
-            {
-                isOpen ? <
-                    NavMobileMenu
+
+            {/* Mobile Navigation */}
+            {isOpen && (
+                <NavMobileMenu
                     onClick={() => setIsOpen(!isOpen)}
                     isAuthenticated={isAuthenticated}
                     components={components}
-                /> : <></>
-            }
+                />
+            )}
 
+            {/* Centered Navigation Menu */}
             <NavigationMenu className="hidden lg:flex">
                 <NavigationMenuList>
                     <NavigationMenuItem>
@@ -177,7 +184,7 @@ export function Header ({isLandingPage}) {
                     <NavigationMenuItem>
                         <NavigationMenuTrigger>Tools</NavigationMenuTrigger>
                         <NavigationMenuContent>
-                            <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
+                            <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
                                 {components.map((component) => (
                                     <ListItem
                                         key={component.title}
@@ -193,7 +200,7 @@ export function Header ({isLandingPage}) {
                     <NavigationMenuItem>
                         <NavigationMenuTrigger>Storage</NavigationMenuTrigger>
                         <NavigationMenuContent>
-                            <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
+                            <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
                                 {storages.map((component) => (
                                     <ListItem
                                         key={component.title}
@@ -209,52 +216,43 @@ export function Header ({isLandingPage}) {
                 </NavigationMenuList>
             </NavigationMenu>
 
-            <div className="hidden lg:flex items-center gap-5">
-                {isAuthenticated
-                    ?
-                    isLoading && data === undefined ? <div className="flex items-center gap-5">
+            {/* Right Section: Authenticated or Unauthenticated */}
+            <div className="hidden lg:flex items-center gap-5 absolute right-6 lg:right-14">
+                {isAuthenticated ? (
+                    isLoading && data === undefined ? (
+                        <div className="flex items-center gap-5">
                             <Skeleton className="text-transparent">
-                                <p>ata.data.name</p>
+                                <p>Loading...</p>
                             </Skeleton>
-
                             <Skeleton className="text-transparent rounded-full">
-                                <Avatar/>
+                                <Avatar />
                             </Skeleton>
-                        </div> :
-
+                        </div>
+                    ) : (
                         <div className="lg:flex items-center gap-4 font-medium hidden">
-
                             <p>{data.data.name}</p>
                             <DropdownMenu>
                                 <DropdownMenuTrigger>
                                     <Avatar>
-                                        <AvatarFallback className={'font-bold'}>
-
-                                            {
-                                                data.data.image ?
-
-                                                    <img src={data.data.image} alt=""/>
-                                                    :
-                                                    getInitials(data.data.name)
-                                            }
-
-
+                                        <AvatarFallback className="font-bold">
+                                            {data.data.image ? (
+                                                <img src={data.data.image} alt="" />
+                                            ) : (
+                                                getInitials(data.data.name)
+                                            )}
                                         </AvatarFallback>
-
                                     </Avatar>
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent>
-                                    {/*<DropdownMenuLabel>My Account</DropdownMenuLabel>*/}
-
                                     <DropdownMenuItem onClick={() => mutate()}>
                                         Log out
                                     </DropdownMenuItem>
                                 </DropdownMenuContent>
                             </DropdownMenu>
-
                         </div>
-
-                    : <div className="lg:flex gap-3 hidden">
+                    )
+                ) : (
+                    <div className="lg:flex gap-3 hidden">
                         <Button className="px-6" asChild>
                             <Link to={"/login"}>Sign in</Link>
                         </Button>
@@ -262,17 +260,17 @@ export function Header ({isLandingPage}) {
                             <Link to={"/register"}>Sign up</Link>
                         </Button>
                     </div>
-                }
-
+                )}
                 <div className="lg:flex gap-2 hidden">
                     <div onClick={() => changeLanguage('id')} className="cursor-pointer">ID</div>
                     <div>|</div>
                     <div onClick={() => changeLanguage('en')} className="cursor-pointer">EN</div>
                 </div>
             </div>
-
         </div>
-    )
+    );
+
+
 }
 
 const ListItem = forwardRef(({className, title, children, ...props}, ref) => {

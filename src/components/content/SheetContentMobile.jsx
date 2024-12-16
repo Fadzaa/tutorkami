@@ -22,7 +22,7 @@ export function SheetContentMobile({type}) {
         "study": {
             listName: "List Material",
             route: "/tools/generative-material/create",
-            api: materialAPI.getMaterial(),
+            api: materialAPI.getMaterial,
             key: "getMaterial",
             fallbackType: "study",
             buttonName: "Add New Material"
@@ -30,7 +30,7 @@ export function SheetContentMobile({type}) {
         "question": {
             listName: "List Question",
             route: "/tools/generative-question/create",
-            api: questionAPI.getQuestion(),
+            api: questionAPI.getQuestion,
             key: "getQuestion",
             fallbackType: "question",
             buttonName: "Add New Question"
@@ -38,7 +38,7 @@ export function SheetContentMobile({type}) {
         "roadmap": {
             listName: "List Roadmap",
             route: "/tools/generative-roadmap/create",
-            api: roadmapAPI.getRoadmap(),
+            api: roadmapAPI.getRoadmap,
             key: "getRoadmap",
             fallbackType: "roadmap",
             buttonName: "Add New Roadmap"
@@ -46,7 +46,7 @@ export function SheetContentMobile({type}) {
         "lms": {
             listName: "List LMS",
             route: "/tools/generative-lms/create",
-            api: lmsAPI.getLms(),
+            api: lmsAPI.getLms,
             key: "getLms",
             fallbackType: "roadmap",
             buttonName: "Add New LMS"
@@ -61,11 +61,11 @@ export function SheetContentMobile({type}) {
     const {isLoading, data} = useQuery({
         queryKey: [key],
         queryFn: async () => {
-            return await api
+            return await api()
         },
 
-
     })
+
 
 
     const handleToCreate = () => {

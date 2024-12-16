@@ -24,6 +24,7 @@ import StorageLayout from "@/components/layouts/StorageLayout.jsx";
 import {StorageRoadmapPage} from "@/pages/main/Storage/StorageRoadmapPage.jsx";
 import {StorageQuestionPage} from "@/pages/main/Storage/StorageQuestionPage.jsx";
 import {StorageMaterialPage} from "@/pages/main/Storage/StorageMaterialPage.jsx";
+import {StorageLmsPage} from "@/pages/main/Storage/StorageLmsPage.jsx";
 
 export const routers = createBrowserRouter([
     {
@@ -121,6 +122,10 @@ export const routers = createBrowserRouter([
             },        {
                 path: 'question',
                 element: <StorageQuestionPage />,
+            },
+            {
+                path: 'lms',
+                element: <StorageLmsPage />,
             },
 
 

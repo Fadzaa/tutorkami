@@ -299,6 +299,7 @@ ListItem.displayName = "ListItem";
 
 const NavMobileMenu = ({onClick, isAuthenticated}) => {
     const [isOpenTools, setIsOpenTools] = useState(false)
+    const [isOpenStorage, setIsOpenStorage] = useState(false)
 
 
     return (
@@ -310,12 +311,17 @@ const NavMobileMenu = ({onClick, isAuthenticated}) => {
 
             <div className="flex flex-col gap-7">
                 <Link to={'/'}><h3 className="font-semibold text-lg cursor-pointer">Home</h3></Link>
+
                 <div className="flex flex-col">
-                    <div onClick={() => setIsOpenTools(!isOpenTools)} className="flex w-full items-center justify-between cursor-pointer">
-                        <h3 className="font-semibold text-lg" >Tools</h3>
+                    <div onClick={
+                        () => {
+                            setIsOpenTools(!isOpenTools)
+                        }
+                    } className="flex w-full items-center justify-between cursor-pointer">
+                        <h3 className="font-semibold text-lg">Tools</h3>
                         {isOpenTools
-                            ? <IoIosArrowForward className="rotate-90" />
-                            : <IoIosArrowForward />
+                            ? <IoIosArrowForward className="rotate-90"/>
+                            : <IoIosArrowForward/>
                         }
                     </div>
 
@@ -324,7 +330,7 @@ const NavMobileMenu = ({onClick, isAuthenticated}) => {
                             ? <div className="py-3 flex flex-col gap-7">
                                 {
                                     components.map((component) => (
-                                        <Link to={component.href}>
+                                        <Link to={component.href} onClick={onClick}>
                                             <div className="cursor-pointer">
                                                 <h2 className="font-semibold">{component.title}</h2>
                                                 <p className="text-xs text-[#64748B] leading-5">{component.description}</p>
@@ -335,15 +341,50 @@ const NavMobileMenu = ({onClick, isAuthenticated}) => {
                             </div>
                             : <></>
                     }
+
+
                 </div>
 
+                <div className="flex flex-col">
+                    <div onClick={
+                        () => {
+                            setIsOpenStorage(!isOpenStorage)
+                        }
+                    } className="flex w-full items-center justify-between cursor-pointer">
+                        <h3 className="font-semibold text-lg">Storage</h3>
+                        {isOpenStorage
+                            ? <IoIosArrowForward className="rotate-90"/>
+                            : <IoIosArrowForward/>
+                        }
+                    </div>
+
+                    {
+                        isOpenStorage
+                            ? <div className="py-3 flex flex-col gap-7">
+                                {
+                                    storages.map((component) => (
+                                        <Link to={component.href} onClick={onClick}>
+                                            <div className="cursor-pointer">
+                                                <h2 className="font-semibold">{component.title}</h2>
+                                                <p className="text-xs text-[#64748B] leading-5">{component.description}</p>
+                                            </div>
+                                        </Link>
+                                    ))
+                                }
+                            </div>
+                            : <></>
+                    }
+
+
+                </div>
             </div>
+
 
             {
                 isAuthenticated
                     ? <Button className=" w-full px-6 h-11 bg-white border-2 border-[#FF8484] text-[#FF8484]" asChild>
                         <div>
-                            <CiLogout />
+                            <CiLogout/>
                             <p>Log out</p>
                         </div>
                     </Button>

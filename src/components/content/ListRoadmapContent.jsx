@@ -63,13 +63,13 @@ export function ListRoadmapContent({id}) {
                                             className="flex justify-start w-full p-4 gap-4 rounded-lg bg-white border-accent border-2 hover:bg-accent cursor-pointer">
                                             <div className="h-auto w-[1px] bg-black"></div>
                                             <div className="flex flex-col items-start gap-3">
-                                                <h1>{`${i + 1}. ${item.title}`}</h1>
-                                                <p className="text-start lg:text-center">{item.desc}</p>
+                                                <h1 className="text-sm lg:text-base text-start font-semibold">{`${i + 1}. ${item.title}`}</h1>
+                                                <p className="text-xs lg:text-base text-start lg:text-center">{item.desc}</p>
                                             </div>
                                         </div>
                                     </SheetTrigger>
                                     <SheetContent className="w-[400px] sm:w-[540px]">
-                                        <SheetHeader>
+                                    <SheetHeader>
                                             <SheetTitle>{item.title}</SheetTitle>
                                             <SheetDescription>
                                                 {`${item.desc} ${item.detail_desc}`}
@@ -98,7 +98,7 @@ export function ListRoadmapContent({id}) {
                                 </Sheet>
                             ))}
 
-                        </ContentDistance>
+                 </ContentDistance>
                     )
                 )}
             </div>

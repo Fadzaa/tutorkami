@@ -143,7 +143,7 @@ export function LandingPage() {
             </div>
 
 
-            <div className="h-[100vh] w-full items-center justify-center flex flex-col gap-8 px-14">
+            <div className="h-3/4 lg:h-[100vh] w-full items-center justify-center flex flex-col gap-8 px-14">
                 <img src="/logo_web.svg" className={'w-40 lg:w-60'} alt=""/>
                 <h1 className="text-base lg:text-2xl text-[#334155] font-medium text-center">Ekosistem Belajar yang disesuaikan untukmu</h1>
 

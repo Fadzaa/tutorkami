@@ -56,6 +56,8 @@ export function InitialContent({type}) {
                 <p className="font-light w-2/3 lg:w-1/2 text-sm text-[#9A9A9A] text-center">{description}</p>
             </div>
 
+            <div className="lg:hidden"></div>
+
         </div>
     )
 }

@@ -90,7 +90,7 @@ export function CreateRoadmapPage() {
             <ContentDistance className={"relative flex-1"}>
 
                 <LabelTitleContent>
-                    List Roadmap
+                    Generate Study Roadmap
                 </LabelTitleContent>
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">

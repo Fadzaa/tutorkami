@@ -9,7 +9,7 @@ export function ListLmsPage() {
         <div className="h-[90vh] overflow-hidden flex">
             <LMSSidebar/>
 
-            <FallbackInitialContent/>
+            <FallbackInitialContent type={"lms"}/>
         </div>
 
 

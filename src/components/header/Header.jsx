@@ -352,7 +352,7 @@ const NavMobileMenu = ({onClick, isAuthenticated}) => {
                         }
                     } className="flex w-full items-center justify-between cursor-pointer">
                         <h3 className="font-semibold text-lg">Storage</h3>
-                        {isOpenTools
+                        {isOpenStorage
                             ? <IoIosArrowForward className="rotate-90"/>
                             : <IoIosArrowForward/>
                         }

@@ -1,7 +1,7 @@
 import {Button} from "@/components/ui/button.jsx";
 import { cn } from "@/lib/utils"
 import {forwardRef, useEffect, useState} from 'react';
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import {
     NavigationMenu,
     NavigationMenuContent,
@@ -15,7 +15,6 @@ import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
-    DropdownMenuLabel,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import {Link, useNavigate} from "react-router-dom";
@@ -28,6 +27,7 @@ import { IoCloseOutline } from "react-icons/io5";
 import { IoIosArrowForward } from "react-icons/io";
 import { CiLogout } from "react-icons/ci";
 import {useTranslation} from "react-i18next";
+import {Loading} from "@/components/loading/Loading.jsx";
 
 const components = [
 
@@ -78,8 +78,6 @@ export function Header () {
                 description: "You have successfully logout",
             })
 
-
-
             tokenHandler.unset()
             setIsAuthenticated(false)
             navigate("/login")
@@ -122,7 +120,8 @@ export function Header () {
 
     return (
         <div className="flex justify-between items-center w-full py-5 p-6 lg:px-14 border-2 border-gray-200 ">
-            <img src="/logo_web.svg" className={'w-32'} alt=""/>
+
+            <Link to={"/"}> <img src="/logo_web.svg" className={'w-32'} alt=""/></Link>
             <CiMenuBurger size={24} onClick={() => setIsOpen(!isOpen)} className="lg:hidden text-primary" />
             {
                 isOpen ? <
@@ -163,27 +162,30 @@ export function Header () {
                     </NavigationMenuItem>
                 </NavigationMenuList>
             </NavigationMenu>
+
             <div className="flex items-center gap-5">
                 {isAuthenticated
-                    ? data !== undefined ?
+                    ?
+                    isLoading && data === undefined ? <Loading/> :
+
                         <div className="lg:flex items-center gap-4 font-medium hidden">
 
-                        <p>{data.data.name}</p>
-                        <DropdownMenu>
-                            <DropdownMenuTrigger>
-                                <Avatar>
-                                    <AvatarFallback className={'font-bold'}>
+                            <p>{data.data.name}</p>
+                            <DropdownMenu>
+                                <DropdownMenuTrigger>
+                                    <Avatar>
+                                        <AvatarFallback className={'font-bold'}>
 
-                                        {
-                                            data.data.image ?
+                                            {
+                                                data.data.image ?
 
-                                                <img src={data.data.image} alt=""/>
-                                                :
-                                                getInitials(data.data.name)
-                                        }
+                                                    <img src={data.data.image} alt=""/>
+                                                    :
+                                                    getInitials(data.data.name)
+                                            }
 
 
-                                    </AvatarFallback>
+                                        </AvatarFallback>
 
                                     </Avatar>
                                 </DropdownMenuTrigger>
@@ -196,7 +198,7 @@ export function Header () {
                                 </DropdownMenuContent>
                             </DropdownMenu>
 
-                        </div> :<></>
+                        </div>
 
                     : <div className="lg:flex gap-3 hidden">
                         <Button className="px-6" asChild>

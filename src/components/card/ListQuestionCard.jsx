@@ -21,10 +21,9 @@ export function ListQuestionCard({
                                      proficiency,
                                      category,
                                      isSolved,
-                                     isQuestion,
                                      type,
                                      id,
-
+                                    storage
                                  }) {
 
 
@@ -76,60 +75,67 @@ export function ListQuestionCard({
     }
 
     return (<div
-        className={cn("flex w-full p-4 ps-0 gap-4 rounded-lg hover:bg-accent cursor-pointer", pathname.toString().includes(id) ? "bg-accent" : "")}
+        className={cn("flex w-full p-4 ps-0 gap-4 rounded-lg hover:bg-accent cursor-pointer", pathname.toString().includes(id) ? "bg-accent" : "",storage?'bg-accent':'')
+
+    }
         onClick={() => handleToDetail(id)}>
         <div className="h-auto w-[1px] bg-black"></div>
-        <div className="w-full flex flex-col gap-3">
-
-            <div className={'flex justify-between'}>
-                <p>{total_questions} {type} • {proficiency} • {category}</p>
+        <div className="w-full flex flex-col justify-between gap-3">
 
 
-                {isSolved ?
+            <div className={'flex flex-col gap-3'}>
 
-                    <div className={'flex gap-2'}>
+                <div className={'flex justify-between'}>
+                    <p>{total_questions} {type} • {proficiency} • {category}</p>
+
+
+                    {isSolved ?
+
+                        <div className={'flex gap-2'}>
 
                         <span className={'bg-[#1E293B] rounded-full p-1'}>
                             <FaCheck className={'text-white text-sm '}/>
                         </span>
 
-                        <p>Solved</p>
+                            <p>Solved</p>
 
-                    </div>
-                    : (
+                        </div>
+                        : (
 
-                        <>
-                            <DropdownMenu>
-                                <DropdownMenuTrigger> <SlOptionsVertical/></DropdownMenuTrigger>
-                                <DropdownMenuContent>
-                                    <DropdownMenuLabel className={'cursor-pointer'}>
-
-
-                                        <div className={'flex items-center text-red-600'}>
-
-                                            <FaRegTrashAlt/>
-                                            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-
-                                                <Button className={'bg-transparent hover:bg-transparent'}
-                                                        onClick={() => onSubmit(id)}>
-                                                    <p className={'text-red-600'}>Delete</p>
-
-                                                </Button>
-                                            </form>
-
-                                        </div>
+                            <>
+                                <DropdownMenu>
+                                    <DropdownMenuTrigger> <SlOptionsVertical/></DropdownMenuTrigger>
+                                    <DropdownMenuContent>
+                                        <DropdownMenuLabel className={'cursor-pointer'}>
 
 
-                                    </DropdownMenuLabel>
+                                            <div className={'flex items-center text-red-600'}>
 
-                                </DropdownMenuContent>
-                            </DropdownMenu>
-                        </>
+                                                <FaRegTrashAlt/>
+                                                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
 
-                    )}
+                                                    <Button className={'bg-transparent hover:bg-transparent'}
+                                                            onClick={() => onSubmit(id)}>
+                                                        <p className={'text-red-600'}>Delete</p>
 
+                                                    </Button>
+                                                </form>
+
+                                            </div>
+
+
+                                        </DropdownMenuLabel>
+
+                                    </DropdownMenuContent>
+                                </DropdownMenu>
+                            </>
+
+                        )}
+
+                </div>
+                <h1 className="text-lg font-semibold">{title}</h1>
             </div>
-            <h1 className="text-lg font-semibold">{title}</h1>
+
             <div className={cn("flex justify-between",)}>
                 <p>{type}</p>
 
@@ -148,6 +154,6 @@ ListQuestionCard.propTypes = {
     category: PropTypes.string,
     type: PropTypes.string,
     isSolved: PropTypes.bool,
-    isQuestion: PropTypes.bool,
+    storage: PropTypes.bool,
     handleEnable: PropTypes.func
 }

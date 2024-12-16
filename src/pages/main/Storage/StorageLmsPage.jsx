@@ -14,6 +14,7 @@ import {useDebounce} from "use-debounce";
 import {StorageContent} from "@/components/content/StorageContent.jsx";
 import {Loading} from "@/components/loading/Loading.jsx";
 import {storageAPI} from "@/api/storage.js";
+import {StorageSkeleton} from "@/components/skeleton/StorageSkeleton.jsx";
 
 export function StorageLmsPage() {
     const [page, setPage] = useState(1);
@@ -50,7 +51,7 @@ export function StorageLmsPage() {
         }
     };
     if (isLoading) {
-        return <Loading/>;
+        return <StorageSkeleton/>;
     }
 
 

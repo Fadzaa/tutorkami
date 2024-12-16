@@ -14,6 +14,9 @@ import {useDebounce} from "use-debounce";
 import {StorageContent} from "@/components/content/StorageContent.jsx";
 import {Loading} from "@/components/loading/Loading.jsx";
 import {storageAPI} from "@/api/storage.js";
+import {Sheet, SheetContent, SheetTrigger} from "@/components/ui/sheet.jsx";
+import {Label} from "@/components/ui/label.jsx";
+import {StorageSkeleton} from "@/components/skeleton/StorageSkeleton.jsx";
 
 export function StorageQuestionPage() {
     const [page, setPage] = useState(1);
@@ -26,7 +29,7 @@ export function StorageQuestionPage() {
     const [debounceValue] = useDebounce(search, 2000)
     const [date, setDate] = useState(undefined)
 
-    const {isLoading, data, refetch} = useQuery({
+    const {isLoading, data, refetch, isPending} = useQuery({
         queryKey: ["getStorageQuestion"], // Add page as part of the queryKey to ensure caching
         queryFn: async () => {
             return storageAPI.getStorageQuestion({
@@ -51,93 +54,159 @@ export function StorageQuestionPage() {
             setPage(newPage);
         }
     };
-    if (isLoading) {
-        return <Loading/>;
-    }
 
+    if (isLoading || isPending) {
+        return <StorageSkeleton/>;
+    }
 
     const {current_page, last_page, data: roadmapData, next_page_url, prev_page_url} = data.data.data;
 
 
-    return (<div>
-            <h1 className="px-5 mt-5 font-medium text-xl">List Roadmaps</h1>
+    return (<div className="m-3">
 
+        <div className="w-full flex items-center justify-between lg:justify-start">
+            <h1 className="px-5 mt-5 font-medium text-xl">List Question</h1>
+            <div className="block lg:hidden">
+                <Sheet>
+                    <SheetTrigger asChild>
+                        <Label>Filter</Label>
+                    </SheetTrigger>
+                    <SheetContent className={"font-Urbanist flex flex-col gap-5 "} side="bottom">
+                        <h1 className="mt-3 font-semibold">Filter </h1>
+                        <Select onValueChange={(value) => setCurrent(value)}>
+                            <SelectTrigger>
+                                <SelectValue placeholder="Current Level"/>
+                            </SelectTrigger>
 
-            <div className={'flex gap-4 mx-4 mt-5'}>
+                            <SelectContent>
+                                <SelectItem value="Beginner">Beginner</SelectItem>
+                                <SelectItem value="Intermediate">Intermediate</SelectItem>
+                                <SelectItem value="Expert">Expert</SelectItem>
+                            </SelectContent>
+                        </Select>
+                        <Select onValueChange={(value) => setGoal(value)}>
+                            <SelectTrigger>
+                                <SelectValue placeholder="Proficieny Level"/>
+                            </SelectTrigger>
 
-                <Input type={'text'} onChange={(e) => setSearch(e.target.value)} value={search}
-                       placeholder={`Search for Roadmap`}/>
-                <Select onValueChange={(value) => setStatus(value)}>
-                    <SelectTrigger>
-                        <SelectValue placeholder="Status"/>
-                    </SelectTrigger>
-
-                    <SelectContent>
-                        {/*<SelectItem value={''}>Select</SelectItem>*/}
-                        <SelectItem value={1}>Solved</SelectItem>
-                        <SelectItem value={0}>Unsolved</SelectItem>
-                    </SelectContent>
-                </Select>
-                <Select onValueChange={(value) => setGoal(value)}>
-                    <SelectTrigger>
-                        <SelectValue placeholder="Proficieny Level"/>
-                    </SelectTrigger>
-
-                    <SelectContent>
-                        <SelectItem value="Beginner">Beginner</SelectItem>
-                        <SelectItem value="Intermediate">Intermediate</SelectItem>
-                        <SelectItem value="Expert">Expert</SelectItem>
-                    </SelectContent>
-                </Select>
-
-                <Select onValueChange={(value) => setCategory(value)}>
-                    <SelectTrigger>
-                        <SelectValue placeholder="Category"/>
-                    </SelectTrigger>
-
-                    <SelectContent>
-                        <SelectItem value="Multiple Choice">Multiple Choice</SelectItem>
-                        <SelectItem value="Fill in the blank">Fill in the blank</SelectItem>
-                        <SelectItem value="True False">True False</SelectItem>
-                    </SelectContent>
-                </Select>
-
-                <div className={"w-full"}>
-                    <Popover>
-                        <PopoverTrigger asChild>
-                            <Button
-                                id="date"
-                                variant={"outline"}
-                                className={cn("w-full justify-start text-left font-normal", !date && "text-muted-foreground")}
-                            >
-                                <CalendarIcon/>
-                                {date?.from ? (date.to ? (<>
+                            <SelectContent>
+                                <SelectItem value="Beginner">Beginner</SelectItem>
+                                <SelectItem value="Intermediate">Intermediate</SelectItem>
+                                <SelectItem value="Expert">Expert</SelectItem>
+                            </SelectContent>
+                        </Select>
+                        <div className={"w-full"}>
+                            <Popover>
+                                <PopoverTrigger asChild>
+                                    <Button
+                                        id="date"
+                                        variant={"outline"}
+                                        className={cn("w-full justify-start text-left font-normal", !date && "text-muted-foreground")}
+                                    >
+                                        <CalendarIcon/>
+                                        {date?.from ? (date.to ? (<>
                                             {format(date.from, "LLL dd, y")} -{" "}
                                             {format(date.to, "LLL dd, y")}
                                         </>) : (format(date.from, "LLL dd, y"))) : (<span>Pick a date</span>)}
-                            </Button>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-full" align="start">
-                            <Calendar
-                                initialFocus
-                                mode="range"
-                                defaultMonth={date?.from}
-                                selected={date}
-                                onSelect={setDate}
-                                numberOfMonths={2}
-                            />
-                        </PopoverContent>
-                    </Popover>
-                </div>
+                                    </Button>
+                                </PopoverTrigger>
+                                <PopoverContent className="w-full" align="start">
+                                    <Calendar
+                                        initialFocus
+                                        mode="range"
+                                        defaultMonth={date?.from}
+                                        selected={date}
+                                        onSelect={setDate}
+                                        numberOfMonths={2}
+                                    />
+                                </PopoverContent>
+                            </Popover>
+                        </div>
+                    </SheetContent>
+                </Sheet>
+            </div>
+        </div>
 
+
+        <div className={'hidden lg:flex gap-4 mx-4 mt-5'}>
+
+            <Input type={'text'} onChange={(e) => setSearch(e.target.value)} value={search}
+                   placeholder={`Search for Question`}/>
+            <Select onValueChange={(value) => setStatus(value)}>
+                <SelectTrigger>
+                    <SelectValue placeholder="Status"/>
+                </SelectTrigger>
+
+                <SelectContent>
+                    {/*<SelectItem value={''}>Select</SelectItem>*/}
+                    <SelectItem value={1}>Solved</SelectItem>
+                    <SelectItem value={0}>Unsolved</SelectItem>
+                </SelectContent>
+            </Select>
+            <Select onValueChange={(value) => setGoal(value)}>
+                <SelectTrigger>
+                    <SelectValue placeholder="Proficieny Level"/>
+                </SelectTrigger>
+
+                <SelectContent>
+                    <SelectItem value="Beginner">Beginner</SelectItem>
+                    <SelectItem value="Intermediate">Intermediate</SelectItem>
+                    <SelectItem value="Expert">Expert</SelectItem>
+                </SelectContent>
+            </Select>
+
+            <Select onValueChange={(value) => setCategory(value)}>
+                <SelectTrigger>
+                    <SelectValue placeholder="Category"/>
+                </SelectTrigger>
+
+                <SelectContent>
+                    <SelectItem value="Multiple Choice">Multiple Choice</SelectItem>
+                    <SelectItem value="Fill in the blank">Fill in the blank</SelectItem>
+                    <SelectItem value="True False">True False</SelectItem>
+                </SelectContent>
+            </Select>
+
+            <div className={"w-full"}>
+                <Popover>
+                    <PopoverTrigger asChild>
+                        <Button
+                            id="date"
+                            variant={"outline"}
+                            className={cn("w-full justify-start text-left font-normal", !date && "text-muted-foreground")}
+                        >
+                            <CalendarIcon/>
+                            {date?.from ? (date.to ? (<>
+                                {format(date.from, "LLL dd, y")} -{" "}
+                                {format(date.to, "LLL dd, y")}
+                            </>) : (format(date.from, "LLL dd, y"))) : (<span>Pick a date</span>)}
+                        </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-full" align="start">
+                        <Calendar
+                            initialFocus
+                            mode="range"
+                            defaultMonth={date?.from}
+                            selected={date}
+                            onSelect={setDate}
+                            numberOfMonths={2}
+                        />
+                    </PopoverContent>
+                </Popover>
             </div>
 
+        </div>
 
-            <StorageContent current_page={current_page}
-                            last_page={last_page}
-                            roadmapData={roadmapData}
-                            next_page_url={next_page_url}
-                            prev_page_url={prev_page_url}
-                            handlePageChange={handlePageChange}/>
-        </div>);
+        <Input className={"w-full lg:hidden"} type={'text'} onChange={(e) => setSearch(e.target.value)} value={search}
+               placeholder={`Search for Question`}/>
+
+
+        <StorageContent current_page={current_page}
+                        last_page={last_page}
+                        roadmapData={roadmapData}
+                        next_page_url={next_page_url}
+                        prev_page_url={prev_page_url}
+                        handlePageChange={handlePageChange}/>
+
+    </div>);
 }

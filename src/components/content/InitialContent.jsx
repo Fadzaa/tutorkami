@@ -13,13 +13,8 @@ export function InitialContent({type}) {
         "study": {
             icon: "/public/ic_empty.svg",
             name: "Material Study AI",
-            list_name: "List Material",
             title: t('initial_head_material'),
             description: t('initial_desc_material'),
-            route: "/tools/generative-material/create",
-            api: materialAPI.getMaterial(),
-            key: "getMaterial",
-            fallbackType: "study"
         },
         "question": {
             icon: "/public/ic_empty.svg",

@@ -1,6 +1,9 @@
 import {ToolsCard} from "@/components/card/ToolsCard.jsx";
+import {useTranslation} from "react-i18next";
 
 export function LandingPage() {
+    const {t} = useTranslation()
+
     const tools = [
 
         {
@@ -27,20 +30,94 @@ export function LandingPage() {
         },
     ]
 
-    const roadmap = [
+    const landingContent = [
+        {
+            title: t("landing_title_1"),
+            desc: t("landing_desc_1"),
+        },
+        {
+            title: t("landing_title_2"),
+            desc: t("landing_desc_2"),
+        },
+        {
+            title: t("landing_title_3"),
+            desc: t("landing_desc_3"),
+        },
+    ]
 
+    const contentSection = [
         {
-            title: "Dynamic Learning Paths",
-            description: "Generates personalized roadmaps based on your topics of interest.",
+            name: "Generative Study Materials AI",
+            content: [
+                {
+                    title: t("landing_study_title_1"),
+                    desc: t("landing_study_desc_1"),
+                },
+                {
+                    title: t("landing_study_title_2"),
+                    desc: t("landing_study_desc_2"),
+                },
+                {
+                    title: t("landing_study_title_3"),
+                    desc: t("landing_study_desc_3"),
+                }
+            ]
         },
         {
-            title: "Visual Progress Tracking",
-            description: "Helps you monitor your learning journey visually with a step-by-step breakdown.",
+            name: "List Questions AI",
+            header: t("landing_question_header"),
+            content: [
+                {
+                    title: t("landing_question_title_1"),
+                    desc: t("landing_question_desc_1"),
+                },
+                {
+                    title: t("landing_question_title_2"),
+                    desc: t("landing_question_desc_2"),
+                },
+                {
+                    title: t("landing_question_title_3"),
+                    desc: t("landing_question_desc_3"),
+                }
+            ]
         },
         {
-            title: "Topic Exploration Tree",
-            description: "Offers a treeview layout for effortless topic navigation.",
+            name: "Roadmap Study AI",
+            header: t("landing_roadmap_header"),
+            content: [
+                {
+                    title: t("landing_roadmap_title_1"),
+                    desc: t("landing_roadmap_desc_1"),
+                },
+                {
+                    title: t("landing_roadmap_title_2"),
+                    desc: t("landing_roadmap_desc_2"),
+                },
+                {
+                    title: t("landing_roadmap_title_3"),
+                    desc: t("landing_roadmap_desc_3"),
+                }
+            ],
         },
+        {
+            name: "Generative LMS AI",
+            header: t("landing_lms_header"),
+            content: [
+                {
+                    title: t("landing_lms_title_1"),
+                    desc: t("landing_lms_desc_1"),
+                },
+                {
+                    title: t("landing_lms_title_2"),
+                    desc: t("landing_lms_desc_2"),
+                },
+                {
+                    title: t("landing_lms_title_3"),
+                    desc: t("landing_lms_desc_3"),
+                }
+            ],
+        }
+
     ]
 
 
@@ -71,10 +148,10 @@ export function LandingPage() {
                 <div className={'flex flex-col lg:flex-row gap-8'}>
 
                     {
-                        roadmap.map(item => (
+                        landingContent.map(item => (
                             <div key={item.title} className="flex flex-col items-center">
                                 <p className={'font-semibold text-base lg:text-xl text-[#1E293B]'}>{item.title}</p>
-                                <p className={'text-[#1E293B] text-sm text-center lg:text-lg '}>{item.description}</p>
+                                <p className={'text-[#1E293B] text-sm text-center lg:text-lg '}>{item.desc}</p>
                             </div>
                         ))
                     }
@@ -84,139 +161,41 @@ export function LandingPage() {
 
             </div>
 
-            <div className="h-[100vh] p-8 lg:p-14 flex flex-col gap-8">
+            {
+                contentSection.map((item, index) => (
+                    <div className="h-[100vh] p-8 lg:p-14 flex flex-col gap-8">
 
 
-                <div className={'flex gap-2'}>
-                    <div className={'bg-black h-20 w-0.5'}>
+                        <div className={'flex gap-2'}>
+                            <div className={'bg-black h-20 w-0.5'}>
 
-                    </div>
-                    <div className={'flex flex-col'}>
-                        <p className={'text-xl lg:text-4xl font-light'}>Roadmap AI</p>
-                        <p className={'text-xl lg:text-4xl font-medium'}>Plan your learning journey with ease, tailored
-                            just for you</p>
-                    </div>
-
-                </div>
-
-                <img className={'h-full lg:w-7/12 lg:h-auto'} src="/sample.png"/>
-
-
-                <div className={'flex flex-col lg:flex-row gap-8'}>
-
-                    {
-                        roadmap.map(item => (
-                            <div key={item.title}>
-                                <p className={'font-semibold text-lg lg:text-xl text-[#1E293B]'}>{item.title}</p>
-                                <p className={'text-[#1E293B] text-base lg:text-lg '}>{item.description}</p>
                             </div>
-                        ))
-                    }
-
-
-                </div>
-            </div>
-
-            <div className="h-[100vh] p-8 lg:p-14 flex flex-col gap-8">
-
-
-                <div className={'flex gap-2'}>
-                    <div className={'bg-black h-20 w-0.5'}>
-
-                    </div>
-                    <div className={'flex flex-col'}>
-                        <p className={'text-xl lg:text-4xl font-light'}>Roadmap AI</p>
-                        <p className={'text-xl lg:text-4xl font-medium'}>Plan your learning journey with ease, tailored
-                            just for you</p>
-                    </div>
-
-                </div>
-
-                <img className={'h-full lg:w-7/12 lg:h-auto'} src="/sample.png"/>
-
-
-                <div className={'flex flex-col lg:flex-row gap-8'}>
-
-                    {
-                        roadmap.map(item => (
-                            <div key={item.title}>
-                                <p className={'font-semibold text-lg lg:text-xl text-[#1E293B]'}>{item.title}</p>
-                                <p className={'text-[#1E293B] text-base lg:text-lg '}>{item.description}</p>
+                            <div className={'flex flex-col'}>
+                                <p className={'text-xl lg:text-4xl font-light'}>{item.name}</p>
+                                <p className={'text-xl lg:text-4xl font-medium'}>{item.header}</p>
                             </div>
-                        ))
-                    }
+
+                        </div>
+
+                        <img className={'h-full lg:w-7/12 lg:h-auto'} src="/sample.png"/>
 
 
-                </div>
-            </div>
+                        <div className={'flex flex-col lg:flex-row gap-8'}>
 
-            <div className="h-[100vh] p-8 lg:p-14 flex flex-col gap-8">
+                            {
+                                item.content.map(item => (
+                                    <div key={item.title}>
+                                        <p className={'font-semibold text-lg lg:text-xl text-[#1E293B]'}>{item.title}</p>
+                                        <p className={'text-[#1E293B] text-base lg:text-lg '}>{item.description}</p>
+                                    </div>
+                                ))
+                            }
 
 
-                <div className={'flex gap-2'}>
-                    <div className={'bg-black h-20 w-0.5'}>
-
+                        </div>
                     </div>
-                    <div className={'flex flex-col'}>
-                        <p className={'text-xl lg:text-4xl font-light'}>Roadmap AI</p>
-                        <p className={'text-xl lg:text-4xl font-medium'}>Plan your learning journey with ease, tailored
-                            just for you</p>
-                    </div>
-
-                </div>
-
-                <img className={'h-full lg:w-7/12 lg:h-auto'} src="/sample.png"/>
-
-
-                <div className={'flex flex-col lg:flex-row gap-8'}>
-
-                    {
-                        roadmap.map(item => (
-                            <div key={item.title}>
-                                <p className={'font-semibold text-lg lg:text-xl text-[#1E293B]'}>{item.title}</p>
-                                <p className={'text-[#1E293B] text-base lg:text-lg '}>{item.description}</p>
-                            </div>
-                        ))
-                    }
-
-
-                </div>
-            </div>
-
-            <div className="h-[100vh] p-8 lg:p-14 flex flex-col gap-8">
-
-
-                <div className={'flex gap-2'}>
-                    <div className={'bg-black h-20 w-0.5'}>
-
-                    </div>
-                    <div className={'flex flex-col'}>
-                        <p className={'text-xl lg:text-4xl font-light'}>Roadmap AI</p>
-                        <p className={'text-xl lg:text-4xl font-medium'}>Plan your learning journey with ease, tailored
-                            just for you</p>
-                    </div>
-
-                </div>
-
-                <img className={'h-full lg:w-7/12 lg:h-auto'} src="/sample.png"/>
-
-
-                <div className={'flex flex-col lg:flex-row gap-8'}>
-
-                    {
-                        roadmap.map(item => (
-                            <div key={item.title}>
-                                <p className={'font-semibold text-lg lg:text-xl text-[#1E293B]'}>{item.title}</p>
-                                <p className={'text-[#1E293B] text-base lg:text-lg '}>{item.description}</p>
-                            </div>
-                        ))
-                    }
-
-
-                </div>
-            </div>
-
-
+                ))
+            }
         </>
     )
 }

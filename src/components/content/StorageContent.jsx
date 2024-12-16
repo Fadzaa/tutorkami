@@ -15,7 +15,7 @@ export function StorageContent({roadmapData,prev_page_url,next_page_url,last_pag
     return (
         <>
 
-            <div className="grid gap-3 p-4 grid-cols-4">
+            <div className="lg:grid gap-3 p-4 lg:grid-cols-4">
                 {roadmapData.map((item) => (
                     <ListQuestionCard
                         title={item.title}

@@ -17,6 +17,7 @@ import {Loading} from "@/components/loading/Loading.jsx";
 import {useNavigate} from "react-router-dom";
 import {MaterialSidebar} from "@/components/sidebar/MaterialSidebar.jsx";
 import {LoadingGeneratingContent} from "@/components/loading/LoadingGeneratingContent.jsx";
+import {SheetContentMobile} from "@/components/content/SheetContentMobile.jsx";
 
 
 const FormSchema = z.object({
@@ -77,6 +78,11 @@ export function CreateMaterialPage() {
     return (<div className="h-[90vh] overflow-hidden flex">
             <MaterialSidebar/>
 
+            <div className="absolute w-full h-full lg:hidden">
+                <div className="absolute left-0 top-5">
+                    <SheetContentMobile type={"roadmap"}/>
+                </div>
+            </div>
 
             <ContentDistance className={"relative flex-1"}>
 

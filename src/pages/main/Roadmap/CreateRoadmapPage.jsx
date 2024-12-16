@@ -81,7 +81,7 @@ export function CreateRoadmapPage() {
     return (<div className="h-[90vh] overflow-hidden flex">
             <RoadmapSidebar/>
 
-            <div className="absolute w-full h-full">
+            <div className="absolute w-full h-full lg:hidden">
                 <div className="absolute left-0 top-5">
                     <SheetContentMobile type={"roadmap"}/>
                 </div>
@@ -90,7 +90,7 @@ export function CreateRoadmapPage() {
             <ContentDistance className={"relative flex-1"}>
 
                 <LabelTitleContent>
-
+                    List Roadmap
                 </LabelTitleContent>
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">

@@ -21,6 +21,7 @@ import {useNavigate} from "react-router-dom";
 import {QuestionSidebar} from "@/components/sidebar/QuestionSidebar.jsx";
 import {LoadingGeneratingContent} from "@/components/loading/LoadingGeneratingContent.jsx";
 import {FallbackAIRefusal} from "@/components/fallback/FallbackAIRefusal.jsx";
+import {SheetContentMobile} from "@/components/content/SheetContentMobile.jsx";
 
 
 const FormSchema = z.object({
@@ -84,6 +85,12 @@ export function CreateQuestionPage() {
 
     return (<div className="h-[90vh] overflow-hidden flex">
             <QuestionSidebar/>
+
+            <div className="absolute w-full h-full lg:hidden">
+                <div className="absolute left-0 top-5">
+                    <SheetContentMobile type={"roadmap"}/>
+                </div>
+            </div>
 
 
             <ContentDistance className={"relative flex-1 "}>
@@ -172,7 +179,7 @@ export function CreateQuestionPage() {
                 </Form>
 
                 {
-                    isPending ? <LoadingGeneratingContent isPending={isPending} type={"question"}/>  : <></>
+                    isPending ? <LoadingGeneratingContent isPending={isPending} type={"question"}/> : <></>
                 }
 
             </ContentDistance>

@@ -235,7 +235,7 @@ export function Header ({isLandingPage}) {
                                 <DropdownMenuTrigger>
                                     <Avatar>
                                         <AvatarFallback className="font-bold">
-                                            {data.data.image ? (
+                                            {data.data.image !== "https://api.tutorkami.rdohero.site/" && data.data.image ? (
                                                 <img src={data.data.image} alt="" />
                                             ) : (
                                                 getInitials(data.data.name)

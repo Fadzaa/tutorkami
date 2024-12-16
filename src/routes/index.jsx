@@ -6,7 +6,6 @@ import {LoginPage} from "@/pages/auth/LoginPage.jsx";
 import {RegisterPage} from "@/pages/auth/RegisterPage.jsx";
 import {LandingPage} from "@/pages/main/LandingPage.jsx";
 import ToolsLayout from "@/components/layouts/ToolsLayout.jsx";
-import {LMSPage} from "@/pages/main/LMSPage.jsx";
 import {ListRoadmapPage} from "@/pages/main/Roadmap/ListRoadmapPage.jsx";
 import {CreateRoadmapPage} from "@/pages/main/Roadmap/CreateRoadmapPage.jsx";
 import {DetailRoadmapPage} from "@/pages/main/Roadmap/DetailRoadmapPage.jsx";
@@ -18,6 +17,9 @@ import NotProtectedRoute from "@/Middlewares/NotProtectedRoute.jsx";
 import {DetailQuestionPage} from "@/pages/main/Question/DetailQuestionPage.jsx";
 import {CreateQuestionPage} from "@/pages/main/Question/CreateQuestionPage.jsx";
 import {ListQuestionPage} from "@/pages/main/Question/ListQuestionPage.jsx";
+import {ListLmsPage} from "@/pages/main/Lms/ListLmsPage.jsx";
+import {CreateLmsPage} from "@/pages/main/Lms/CreateLmsPage.jsx";
+import {DetailLmsPage} from "@/pages/main/Lms/DetailLmsPage.jsx";
 
 export const routers = createBrowserRouter([
     {
@@ -37,7 +39,15 @@ export const routers = createBrowserRouter([
         children: [
             {
                 path: 'generative-lms',
-                element: <LMSPage/>,
+                element: <ListLmsPage/>,
+            },
+            {
+                path: 'generative-lms/create',
+                element: <CreateLmsPage/>,
+            },
+            {
+                path: 'generative-lms/detail/:id',
+                element: <DetailLmsPage/>,
             },
             {
                 path: 'generative-roadmap',

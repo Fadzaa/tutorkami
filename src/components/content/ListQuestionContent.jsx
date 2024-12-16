@@ -324,7 +324,7 @@ export function ListQuestionContent({id}) {
                         className="flex flex-col items-center justify-between gap-4 bg-white border-t-2 border-accent p-4">
                         <Progress value={progress} className="w-full"/>
                         <div className={'flex flex-row w-full justify-between'}>
-                            <p>{progress ? progress:0}% Compleate</p>
+                            <p>{progress ? progress:0}% Complete</p>
                             <p>{questions.length}/{data?.data.question_detail.question.length}</p>
 
                         </div>

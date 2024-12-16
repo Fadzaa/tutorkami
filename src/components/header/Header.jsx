@@ -56,7 +56,33 @@ const components = [
     },
 ]
 
-export function Header () {
+const storages = [
+
+    {
+        title: "Roadmap Study AI",
+        href: "/storage/roadmap",
+        description: "Rancang rencana belajarmu dengan panduan langkah-langkah yang jelas dari AI.",
+    },
+    {
+        title: "List Questions AI",
+        href: "/storage/question",
+        description:
+            "Cari dan jawab pertanyaan seru buat tiap topik, biar makin paham.",
+    },
+    {
+        title: "Generative Study Materials AI",
+        href: "/storage/material",
+        description: "Bikin materi belajar yang pas buat kamu, cepat dan gampang.",
+    },
+    {
+        title: "Generative LMS AI",
+        href: "/storage/generative-lms",
+        description:
+            "Pantau progres belajarmu dan dapetin rekomendasi belajar yang pas.",
+    },
+]
+
+export function Header ({isLandingPage}) {
     const { t, i18n } = useTranslation();
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
@@ -120,7 +146,7 @@ export function Header () {
     };
 
     return (
-        <div className="fixed top-0 bg-white flex justify-between items-center w-full py-5 p-6 lg:px-14 border-2 border-gray-200 ">
+        <div className={`${isLandingPage ? "fixed top-0" : ""} bg-white flex justify-between items-center w-full py-5 p-6 lg:px-14 border-2 border-gray-200`}>
 
             <Link to={"/"}> <img src="/logo_web.svg" className={'w-32'} alt=""/></Link>
             <div className="flex items-center gap-5">
@@ -165,9 +191,20 @@ export function Header () {
                         </NavigationMenuContent>
                     </NavigationMenuItem>
                     <NavigationMenuItem>
-                        <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                            Dashboard
-                        </NavigationMenuLink>
+                        <NavigationMenuTrigger>Storage</NavigationMenuTrigger>
+                        <NavigationMenuContent>
+                            <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
+                                {storages.map((component) => (
+                                    <ListItem
+                                        key={component.title}
+                                        title={component.title}
+                                        href={component.href}
+                                    >
+                                        {component.description}
+                                    </ListItem>
+                                ))}
+                            </ul>
+                        </NavigationMenuContent>
                     </NavigationMenuItem>
                 </NavigationMenuList>
             </NavigationMenu>
@@ -301,7 +338,7 @@ const NavMobileMenu = ({onClick, isAuthenticated}) => {
                             : <></>
                     }
                 </div>
-                <Link to={'/test'}><h3 className="font-semibold text-lg cursor-pointer">Dashboard</h3></Link>
+
             </div>
 
             {

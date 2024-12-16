@@ -7,7 +7,7 @@ import {Toaster} from "@/components/ui/toaster.jsx";
 export default function AppLayout()  {
     return (
         <>
-            <Header/>
+            <Header isLandingPage={true}/>
             <main>
                 <Outlet/>
                 <ScrollRestoration/>

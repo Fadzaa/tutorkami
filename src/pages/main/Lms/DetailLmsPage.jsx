@@ -3,7 +3,6 @@ import {LMSSidebarDetail} from "@/components/sidebar/detail/LMSSidebarDetail.jsx
 import {FallbackInitialContent} from "@/components/fallback/FallbackInitialContent.jsx";
 import {ListLmsContent} from "@/components/content/ListLmsContent.jsx";
 import {useEffect, useState} from "react";
-import {LoadingGeneratingContent} from "@/components/popup/LoadingGeneratingContent.jsx";
 import {useQuery} from "@tanstack/react-query";
 import {lmsAPI} from "@/api/lms.js";
 

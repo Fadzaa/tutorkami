@@ -1,5 +1,5 @@
 import {QuestionSidebar} from "@/components/sidebar/QuestionSidebar.jsx";
-import {FallbackInitialContent} from "@/components/fallback/FallbackInitialContent.jsx";
+import {InitialContent} from "@/components/content/InitialContent.jsx";
 
 
 export function ListQuestionPage() {
@@ -9,7 +9,7 @@ export function ListQuestionPage() {
         <div className="h-[90vh] overflow-hidden flex">
             <QuestionSidebar/>
 
-            <FallbackInitialContent type={"question"}/>
+            <InitialContent type={"question"}/>
         </div>
 
 

@@ -17,6 +17,13 @@ import {LabelTitleContent} from "@/components/ui/label-title-content.jsx";
 import {Loading} from "@/components/loading/Loading.jsx";
 import {useNavigate} from "react-router-dom";
 import {LoadingGeneratingContent} from "@/components/loading/LoadingGeneratingContent.jsx";
+import {Sheet, SheetContent, SheetTrigger} from "@/components/ui/sheet.jsx";
+import {BsLayoutTextSidebarReverse} from "react-icons/bs";
+import {ListSkeleton} from "@/components/skeleton/ListSkeleton.jsx";
+import {ListQuestionCard} from "@/components/card/ListQuestionCard.jsx";
+import {format} from "date-fns";
+import {FallbackEmptyContent} from "@/components/fallback/FallbackEmptyContent.jsx";
+import {SheetContentMobile} from "@/components/content/SheetContentMobile.jsx";
 
 
 const FormSchema = z.object({
@@ -87,15 +94,17 @@ export function CreateRoadmapPage() {
     return (<div className="h-[90vh] overflow-hidden flex">
             <RoadmapSidebar/>
 
+            <div className="absolute w-full h-full">
+                <div className="absolute left-0 top-5">
+                    <SheetContentMobile type={"roadmap"}/>
+                </div>
+            </div>
 
             <ContentDistance className={"relative flex-1"}>
 
                 <LabelTitleContent>
 
-                    Generate Study Roadmap
-
                 </LabelTitleContent>
-
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
                         <FormField

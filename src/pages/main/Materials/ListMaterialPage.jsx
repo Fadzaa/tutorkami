@@ -1,6 +1,6 @@
 
 import {MaterialSidebar} from "@/components/sidebar/MaterialSidebar.jsx";
-import {FallbackInitialContent} from "@/components/fallback/FallbackInitialContent.jsx";
+import {InitialContent} from "@/components/content/InitialContent.jsx";
 
 
 export function ListMaterialPage() {
@@ -10,7 +10,7 @@ export function ListMaterialPage() {
         <div className="h-[90vh] overflow-hidden flex">
             <MaterialSidebar/>
 
-            <FallbackInitialContent type={"study"}/>
+            <InitialContent type={"study"}/>
         </div>
 
 

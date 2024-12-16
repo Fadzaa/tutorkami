@@ -10,7 +10,7 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css'; // ES6
 import {lmsAPI} from "@/api/lms.js";
 import {marked} from "marked";
-import {FallbackInitialContent} from "@/components/fallback/FallbackInitialContent.jsx";
+import {InitialContent} from "@/components/content/InitialContent.jsx";
 import {HeaderContent2} from "@/components/ui/header-content-2.jsx";
 import {FooterContent2} from "@/components/ui/footer-content-2.jsx";
 
@@ -100,7 +100,7 @@ export function ListLmsContent({id,handle, regenerate, handleCompled}) {
                             />
 
                         </ContentDistance>
-                    ) : <FallbackInitialContent/>
+                    ) : <InitialContent/>
                 )}
             </div>
 

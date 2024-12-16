@@ -1,4 +1,4 @@
-import {FallbackInitialContent} from "@/components/fallback/FallbackInitialContent.jsx";
+import {InitialContent} from "@/components/content/InitialContent.jsx";
 import {LMSSidebar} from "@/components/sidebar/LMSSidebar.jsx";
 
 
@@ -9,7 +9,7 @@ export function ListLmsPage() {
         <div className="h-[90vh] overflow-hidden flex">
             <LMSSidebar/>
 
-            <FallbackInitialContent type={"lms"}/>
+            <InitialContent type={"lms"}/>
         </div>
 
 

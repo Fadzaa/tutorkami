@@ -8,7 +8,7 @@ export function LoadingGeneratingContent({isPending, type}) {
     const { t } = useTranslation();
     const options = {
         animationData: bookLoadingAnimation,
-        className: "h-40",
+        className: "h-28  lg:h-40",
         loop: true
     };
 
@@ -64,11 +64,11 @@ export function LoadingGeneratingContent({isPending, type}) {
 
     return (
         <div className="h-full w-full fixed top-0 left-0 bg-black bg-opacity-15 z-20 flex items-center justify-center">
-            <div className="bg-white w-3/6 flex flex-col items-center px-20 py-10 rounded-xl gap-5">
+            <div className="bg-white w-3/4 lg:w-3/6 flex flex-col items-center p-6 lg:px-20 lg:py-10 rounded-xl gap-3 lg:gap-5">
                 <>{View}</>
 
-                <h1 className="font-semibold text-lg ">{title}</h1>
-                <p className="font-light text-[#9A9A9A] text-sm">{description}</p>
+                <h1 className="font-semibold text-sm  lg:text-lg ">{title}</h1>
+                <p className="font-light text-[#9A9A9A] text-xs lg:text-sm text-center">{description}</p>
 
                 <div className="w-full flex flex-col items-center gap-3">
                     <Progress value={progress} className="h-2"/>

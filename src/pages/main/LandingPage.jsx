@@ -148,7 +148,7 @@ export function LandingPage() {
                 <h1 className="text-base lg:text-2xl text-[#334155] font-medium text-center">Ekosistem Belajar yang disesuaikan untukmu</h1>
 
 
-                <img className={'w-7/12'} src="/landing-example.png"/>
+                <img className={'w-7/12 border-2 rounded-2xl border-[#64748B]'} src="/landing-example.png"/>
 
 
                 <div className={'flex flex-col lg:flex-row gap-8'}>
@@ -183,7 +183,7 @@ export function LandingPage() {
 
                         </div>
 
-                        <img className={'h-full lg:w-7/12 lg:h-[75%]'} src={item.image}/>
+                        <img className={'h-full lg:w-7/12 lg:h-[75%] border-2 rounded-2xl border-[#64748B]'} src={item.image}/>
 
 
                         <div className={'flex flex-col lg:flex-row gap-8'}>

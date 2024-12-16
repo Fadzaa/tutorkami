@@ -16,6 +16,7 @@ import {ContentDistance} from "@/components/ui/content-distance.jsx";
 import {LabelTitleContent} from "@/components/ui/label-title-content.jsx";
 import {Loading} from "@/components/loading/Loading.jsx";
 import {useNavigate} from "react-router-dom";
+import {LoadingGeneratingContent} from "@/components/loading/LoadingGeneratingContent.jsx";
 
 
 const FormSchema = z.object({
@@ -167,14 +168,14 @@ export function CreateRoadmapPage() {
                         />
 
                         <Button type="submit">
-
-                            {
-                                isPending ?<Loading/>:"Submit"
-                            }
-
+                            Submit
                         </Button>
                     </form>
                 </Form>
+
+                {
+                    isPending ? <LoadingGeneratingContent isPending={isPending} type="roadmap"/> : <></>
+                }
 
             </ContentDistance>
 

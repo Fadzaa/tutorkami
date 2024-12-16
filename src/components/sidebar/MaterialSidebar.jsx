@@ -10,6 +10,8 @@ import PropTypes from "prop-types";
 import {roadmapAPI} from "@/api/roadmap.js";
 import {Sidebar, SidebarProvider, SidebarTrigger} from "@/components/ui/sidebar.jsx";
 import {materialAPI} from "@/api/material.js";
+import {FallbackEmptyContent} from "@/components/fallback/FallbackEmptyContent.jsx";
+import {ListSkeleton} from "@/components/skeleton/ListSkeleton.jsx";
 
 export function MaterialSidebar() {
     const navigate = useNavigate()
@@ -42,7 +44,7 @@ export function MaterialSidebar() {
                     </div>
                     <div className="cs px-5 h-[73%]  my-5">
                         {
-                            isLoading ? <p>Loading....</p> : data.data.data.map((item, index) => (
+                            isLoading ? <ListSkeleton/> : data.data.data.map((item, index) => (
                                 <ListQuestionCard
                                     title={item.title}
                                     key={item}
@@ -56,6 +58,10 @@ export function MaterialSidebar() {
 
                                 />
                             ))
+                        }
+
+                        {
+                            data?.data.data.length === 0 ? <FallbackEmptyContent type={"study"}/> : <></>
                         }
 
                     </div>

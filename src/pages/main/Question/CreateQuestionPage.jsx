@@ -19,7 +19,7 @@ import {LabelTitleContent} from "@/components/ui/label-title-content.jsx";
 import {Loading} from "@/components/loading/Loading.jsx";
 import {useNavigate} from "react-router-dom";
 import {QuestionSidebar} from "@/components/sidebar/QuestionSidebar.jsx";
-import {LoadingGeneratingContent} from "@/components/popup/LoadingGeneratingContent.jsx";
+import {LoadingGeneratingContent} from "@/components/loading/LoadingGeneratingContent.jsx";
 import {FallbackAIRefusal} from "@/components/fallback/FallbackAIRefusal.jsx";
 
 
@@ -171,17 +171,13 @@ export function CreateQuestionPage() {
                         />
 
                         <Button type="submit">
-
-                            {
-                                isPending ?<Loading/>:"Submit"
-                            }
-
+                            Submit
                         </Button>
                     </form>
                 </Form>
 
                 {
-                    isPending ? <LoadingGeneratingContent isPending={isPending}/> : <></>
+                    isPending ? <LoadingGeneratingContent isPending={isPending} type={"question"}/>  : <></>
                 }
 
             </ContentDistance>

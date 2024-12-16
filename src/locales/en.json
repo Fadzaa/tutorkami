@@ -1,4 +1,28 @@
 {
-  "welcome": "Home",
-  "greeting": "Hello, {{name}}!"
+  "load_head_material": "Crafting Your Study Materials...",
+  "load_desc_material": "Hang tight! We’re creating personalized study content just for you.",
+  "load_head_question": "Generating Your Questions...",
+  "load_desc_question": "Just a moment! Your question list is on its way.",
+  "load_head_roadmap": "Building Your Roadmap...",
+  "load_desc_roadmap": "Hold on! We’re mapping out your learning path for success.",
+  "load_head_lms": "Setting Up Your LMS...",
+  "load_desc_lms": "This one’s a bit heavy—sit back and relax while we build your learning system.",
+
+  "empty_head_material": "No Study Materials? Let’s Fix That!",
+  "empty_desc_material": "Add your study resources and let’s make learning easier.",
+  "empty_head_question": "Oops, No Questions Yet!",
+  "empty_desc_question": "It’s looking empty here. Add some questions to get started!",
+  "empty_head_roadmap": "No Roadmap Yet? Let’s Map It Out!",
+  "empty_desc_roadmap": "Create a roadmap and get on track with your learning goals.",
+  "empty_head_lms": "Nothing Here Yet—Let’s Generate!",
+  "empty_desc_lms": "Use the tools to generate amazing study content in no time.",
+
+  "initial_head_material": "Start Creating Your Study Materials!",
+  "initial_desc_material": "Tell us what you want to learn, and we’ll generate materials tailored to your needs. Let’s build your learning path, step by step!",
+  "initial_head_question": "Let's Get Started with Your Questions!",
+  "initial_desc_question": "Begin by exploring a list of questions you want to generate. We’ll help you get started with some options—just choose your topic, and let’s go!",
+  "initial_head_roadmap": "Build Your Learning Roadmap!",
+  "initial_desc_roadmap": "Get started by creating a personalized roadmap. Choose your topics, set your pace, and let's chart your path to success!",
+  "initial_head_lms": "Let’s Dive Into Learning!",
+  "initial_desc_lms": "Set up your learning preferences, and we'll help you generate courses and manage your progress. Ready to start your learning journey?"
 }

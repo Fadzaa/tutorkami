@@ -17,6 +17,7 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import * as item from "date-fns/locale";
 import {Input} from "@/components/ui/input.jsx";
 import {useNavigate} from "react-router-dom";
+import {ContentQuestionSkeleton} from "@/components/skeleton/ContentQuestionSkeleton.jsx";
 
 
 export function ListQuestionContent({id}) {
@@ -276,7 +277,7 @@ export function ListQuestionContent({id}) {
                 isLoading || isFetching ? "flex items-center" : ""
             )}>
                 {isLoading || isFetching ? (
-                    <Loading/>
+                    <ContentQuestionSkeleton/>
                 ) : (
                     data?.data != null && (
 

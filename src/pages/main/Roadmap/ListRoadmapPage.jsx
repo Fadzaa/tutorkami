@@ -12,7 +12,7 @@ export function ListRoadmapPage() {
         <div className="h-[90vh] overflow-hidden flex">
             <RoadmapSidebar/>
 
-            <FallbackInitialContent/>
+            <FallbackInitialContent type={"roadmap"}/>
         </div>
 
 

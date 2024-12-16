@@ -11,6 +11,8 @@ import {roadmapAPI} from "@/api/roadmap.js";
 import {Sidebar, SidebarProvider, SidebarTrigger} from "@/components/ui/sidebar.jsx";
 import {materialAPI} from "@/api/material.js";
 import {questionAPI} from "@/api/question.js";
+import {FallbackEmptyContent} from "@/components/fallback/FallbackEmptyContent.jsx";
+import {ListSkeleton} from "@/components/skeleton/ListSkeleton.jsx";
 
 export function QuestionSidebar() {
     const navigate = useNavigate()
@@ -43,7 +45,7 @@ export function QuestionSidebar() {
                     </div>
                     <div className="cs px-5 h-[73%]  my-5">
                         {
-                            isLoading ? <p>Loading....</p> : data.data.data.map((item, index) => (
+                            isLoading ? <ListSkeleton/> : data.data.data.map((item, index) => (
                                 <ListQuestionCard
                                     title={item.title}
                                     key={item}
@@ -58,6 +60,10 @@ export function QuestionSidebar() {
 
                                 />
                             ))
+                        }
+
+                        {
+                            data?.data.data.length === 0 ? <FallbackEmptyContent type={"question"}/> : <></>
                         }
 
                     </div>

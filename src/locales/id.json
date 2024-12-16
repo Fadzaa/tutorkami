@@ -1,4 +1,28 @@
 {
-  "welcome": "Beranda",
-  "greeting": "Halo Test"
+  "load_head_material": "Menyiapkan Materi Belajar Kamu...",
+  "load_desc_material": "Sabar ya! Sedang dibuatkan konten belajar khusus buat kamu.",
+  "load_head_question": "Membuat Daftar Pertanyaan Kamu...",
+  "load_desc_question": "Sebentar ya! Daftar pertanyaan kamu sedang diproses.",
+  "load_head_roadmap": "Menyusun Roadmap Belajar Kamu...",
+  "load_desc_roadmap": "Tunggu sebentar! Sedang dibuatkan jalur belajar terbaik untuk kamu.",
+  "load_head_lms": "Menyiapkan LMS Kamu...",
+  "load_desc_lms": "Proses ini agak lama nih—santai dulu sambil sistem belajar kamu disiapkan.",
+
+  "empty_head_material": "Materi Belajar Kosong? Ayo Tambah!",
+  "empty_desc_material": "Tambahkan sumber belajar Anda biar belajar jadi lebih mudah",
+  "empty_head_question": "Wah, Belum Ada Pertanyaan!",
+  "empty_desc_question": "Masih kosong nih. Tambahkan beberapa pertanyaan untuk memulai!",
+  "empty_head_roadmap": "Belum Ada Roadmap? Yuk, Buat Sekarang!",
+  "empty_desc_roadmap": "Buat roadmap untuk melacak dan mencapai tujuan belajar Anda.",
+  "empty_head_lms": "Belum Ada Konten—Mari Buat Sekarang!",
+  "empty_desc_lms": "Gunakan tools ini untuk menghasilkan konten belajar dengan cepat dan mudah.",
+
+  "initial_head_material": "Mulai Membuat Materi Belajarmu!",
+  "initial_desc_material": "Beritahu kami apa yang ingin kamu pelajari, dan kami akan membuat materi yang sesuai dengan kebutuhanmu. Mari kita bangun jalur pembelajaranmu, langkah demi langkah!",
+  "initial_head_question": "Ayo Mulai dengan Pertanyaanmu!",
+  "initial_desc_question": "Mulailah dengan memilih daftar pertanyaan yang ingin kamu buat. Kami siap membantu memulai dengan beberapa pilihan—tinggal pilih topik, dan kita mulai!",
+  "initial_head_roadmap": "Buat Roadmap Pembelajaranmu!",
+  "initial_desc_roadmap": "Mulailah dengan membuat roadmap pribadi. Pilih topik yang ingin kamu pelajari, tentukan kecepatanmu, dan mari kita susun jalur menuju kesuksesan!",
+  "initial_head_lms": "Mari Mulai Belajar!",
+  "initial_desc_lms": "Tentukan preferensi belajarmu, dan kami akan bantu membuatkan kursus serta mengelola progresmu. Siap memulai perjalanan belajarmu?"
 }

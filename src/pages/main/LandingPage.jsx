@@ -48,9 +48,12 @@ export function LandingPage() {
     const contentSection = [
         {
             name: "Generative Study Materials AI",
+            image: '/material-example.png',
+            header: t("landing_study_header"),
             content: [
                 {
                     title: t("landing_study_title_1"),
+                    image: '/material-example.png',
                     desc: t("landing_study_desc_1"),
                 },
                 {
@@ -65,6 +68,7 @@ export function LandingPage() {
         },
         {
             name: "List Questions AI",
+            image: '/question-example.png',
             header: t("landing_question_header"),
             content: [
                 {
@@ -83,6 +87,7 @@ export function LandingPage() {
         },
         {
             name: "Roadmap Study AI",
+            image: '/roadmap-example.png',
             header: t("landing_roadmap_header"),
             content: [
                 {
@@ -101,6 +106,7 @@ export function LandingPage() {
         },
         {
             name: "Generative LMS AI",
+            image: '/lms-example.png',
             header: t("landing_lms_header"),
             content: [
                 {
@@ -142,7 +148,7 @@ export function LandingPage() {
                 <h1 className="text-base lg:text-2xl text-[#334155] font-medium text-center">Ekosistem Belajar yang disesuaikan untukmu</h1>
 
 
-                <img className={'w-7/12'} src="/sample.png"/>
+                <img className={'w-7/12'} src="/landing-example.png"/>
 
 
                 <div className={'flex flex-col lg:flex-row gap-8'}>
@@ -163,7 +169,7 @@ export function LandingPage() {
 
             {
                 contentSection.map((item, index) => (
-                    <div className="h-[100vh] p-8 lg:p-14 flex flex-col gap-8">
+                    <div className="h-[100vh] p-8 lg:p-14 flex flex-col gap-10 my-4">
 
 
                         <div className={'flex gap-2'}>
@@ -177,7 +183,7 @@ export function LandingPage() {
 
                         </div>
 
-                        <img className={'h-full lg:w-7/12 lg:h-auto'} src="/sample.png"/>
+                        <img className={'h-full lg:w-7/12 lg:h-[75%]'} src={item.image}/>
 
 
                         <div className={'flex flex-col lg:flex-row gap-8'}>

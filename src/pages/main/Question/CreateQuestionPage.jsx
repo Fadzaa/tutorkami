@@ -97,7 +97,7 @@ export function CreateQuestionPage() {
 
                 <LabelTitleContent>
 
-                    Generate Study Roadmap
+                    Generate List Questions
 
                 </LabelTitleContent>
 

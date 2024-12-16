@@ -88,7 +88,7 @@ export function CreateMaterialPage() {
 
                 <LabelTitleContent>
 
-                    Generate Study Roadmap
+                    Generate Study Material
 
                 </LabelTitleContent>
 

@@ -1,98 +1,73 @@
 import {ListQuestionCard} from "@/components/card/ListQuestionCard.jsx";
 import {Button} from "@/components/ui/button.jsx";
-
-const dataTreeView = [
-    {
-        title: "Tree Title 1",
-        children: [
-            {
-                title: "Tree Subtree 1",
-                children: [
-                    {
-                        title: "Installation",
-                    },
-                    {
-                        title: "Project Structure",
-                    },
-                ],
-            },
-            {
-                title: "Tree Subtree 2",
-                children: [
-                    {
-                        title: "Project Structure is",
-                    },
-                    {
-                        title: "Bro tefak is this",
-                    },
-                ],
-            },
-        ],
-    },
-    {
-        title: "Tree Title 2",
-        children: [
-            {
-                title: "Tree Subtree 3",
-            },
-            {
-                title: "Tree Subtree 4",
-            },
-        ],
-    },
-    {
-        title: "Tree Title 3",
-        children: [
-            {
-                title: "Tree Subtree 5",
-            },
-            {
-                title: "Tree Subtree 6",
-            },
-        ],
-    },
-]
-
-// export function LMSSidebar() {
-//     return (
-//         <div className="h-full w-1/3 py-6 px-8 pe-0 border-e-2 border-[#AEAEAE]">
-//             <h1 className="font-medium text-xl">Course Content</h1>
-//
-//             <div className="h-[85%] overflow-y-auto my-5">
-//             </div>
-//
-//             <Button>Add New Questions</Button>
-//
-//         </div>
-//     )
-// }
-
 import {
     Sidebar,
-    SidebarContent,
-    SidebarGroup,
-    SidebarGroupContent,
-    SidebarGroupLabel,
-    SidebarMenu,
-    SidebarMenuButton,
-    SidebarMenuItem, SidebarMenuSub, SidebarMenuSubButton, SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
-
+import {format} from "date-fns";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
-import { Calendar, Home, Inbox, Search, Settings } from "lucide-react"
-import {Collapsible, CollapsibleContent, CollapsibleTrigger} from "@/components/ui/collapsible.jsx";
-
+import {useNavigate} from "react-router-dom";
+import {useQuery} from "@tanstack/react-query";
+import {lmsAPI} from "@/api/lms.js";
 
 export function LMSSidebar() {
+    const navigate = useNavigate()
+
+
+    const {isLoading, data} = useQuery({
+        queryKey: ["getLms"],
+        queryFn: async () => {
+            return await lmsAPI.getLms()
+        },
+
+    })
+
+
+    const handleToCreate = () => {
+        navigate("/tools/generative-lms/create")
+    }
     return (
-        <SidebarProvider className="w-1/3">
-            <div className={'h-1/4 fixed'}>
-                <Sidebar className={'absolute'}>
+        <SidebarProvider>
+            <div className={'fixed w-full'}>
+                <Sidebar className={'w-1/4 absolute'}>
+
+
+                    <div className={'flex items-end justify-between mr-4'}>
+
+                        <h1 className="px-5 mt-5 font-medium text-xl">List LMS</h1>
+
+
+                        <SidebarTrigger />
+                    </div>
+                    <div className="cs px-5 h-[73%]  my-5">
+                        {
+                            isLoading ? <p>Loading....</p> : data.data.map((item, index) => (
+                                <ListQuestionCard
+                                    title={item.title}
+                                    key={item}
+                                    id={item.lms.id}
+                                    date={format(item.date, "Y-M-dd")}
+                                    isSolved={item.is_solved}
+                                    category={item.knowledge_level}
+                                    proficiency={item.goal_level}
+                                    type={item.type}
+                                    isQuestion={item.is_question}
+                                />
+                            ))
+                        }
+                    </div>
+
+
+                    <Button className={'mx-5'} onClick={handleToCreate}>Add New LMS</Button>
+
+
                 </Sidebar>
+
+
             </div>
+
             <main>
-                <SidebarTrigger/>
-                {/*{children}*/}
+
+                <SidebarTrigger className={'absolute mt-5 z-50'}/>
             </main>
         </SidebarProvider>
     )

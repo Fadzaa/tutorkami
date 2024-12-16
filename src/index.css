@@ -137,3 +137,8 @@
 .custom-dialog-backdrop::backdrop {
   background-color: transparent;
 }
+
+.custom-list-item::marker {
+  font-size: 0.8em;
+  color: #A9A9A9;
+}

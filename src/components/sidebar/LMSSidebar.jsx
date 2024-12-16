@@ -56,11 +56,13 @@ export function LMSSidebar() {
                                 />
                             ))
                         }
+
+                        {
+                            data?.data.length === 0 ? <FallbackEmptyContent type={"lms"}/> : <></>
+                        }
                     </div>
 
-                    {
-                        data?.data.length === 0 ? <FallbackEmptyContent type={"lms"}/> : <></>
-                    }
+
 
 
 

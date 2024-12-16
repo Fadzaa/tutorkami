@@ -9,6 +9,9 @@ import {tokenHandler} from "@/utils/tokenHandler.js";
 import {Link, useNavigate} from "react-router-dom";
 import {signInWithGooglePopup} from "@/utils/firebase.utils.js";
 import {FcGoogle} from "react-icons/fc";
+import {FaEyeSlash} from "react-icons/fa";
+import {useState} from "react";
+import {IoEyeSharp} from "react-icons/io5";
 
 export function AuthForm({authType}) {
     const {
@@ -22,6 +25,8 @@ export function AuthForm({authType}) {
     const { toast } = useToast()
     const navigate = useNavigate();
 
+
+    const [visible, setVisible] = useState(false)
     const {mutate, isPending, } = useMutation({
 
         mutationFn: async (body) => {
@@ -76,6 +81,10 @@ export function AuthForm({authType}) {
 
     }
 
+    const handlePassword = () => {
+        setVisible(!visible)
+    }
+
     return (
         <form className="w-full h-full" noValidate onSubmit={handleSubmit(submitData)}>
 
@@ -111,8 +120,13 @@ export function AuthForm({authType}) {
             <Input
                 id="password"
                 placeholder="Password"
-                type="password"
+                type={visible ? "text" : "password"}
                 className="mt-3"
+                rightAddon={
+
+                visible === true ?<IoEyeSharp onClick={handlePassword} />:<FaEyeSlash  onClick={handlePassword}/>
+
+                }
                 {...register("password", {required: "Password is required"})}
             />
             <p className="text-red-500 text-sm mt-2">{errors.password?.message}</p>

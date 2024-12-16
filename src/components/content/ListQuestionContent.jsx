@@ -16,13 +16,14 @@ import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import * as item from "date-fns/locale";
 import {Input} from "@/components/ui/input.jsx";
+import {useNavigate} from "react-router-dom";
 
 
 export function ListQuestionContent({id}) {
 
 
     const [questions, setQuestions] = useState([]);
-    const [progress, setProgress] = useState(13)
+    const [progress, setProgress] = useState(0)
 
     const [enable, setEnable] = useState(false);
 
@@ -46,7 +47,10 @@ export function ListQuestionContent({id}) {
     useEffect(() => {
 
 
-        setProgress((questions.length / data?.data.question_detail.question.length) * 100)
+            let result = Math.floor(questions.length / data?.data.question_detail.question.length * 100,)
+
+        console.log(result)
+            setProgress(result)
 
     }, [questions])
     const handleChoices = (id, answer) => {
@@ -62,6 +66,9 @@ export function ListQuestionContent({id}) {
 
         setQuestions(questionFilter);
     };
+
+
+    const navigate = useNavigate();
     const queryClient = useQueryClient();
     const {mutate, isPending,} = useMutation({
         mutationKey: ["postSubmit"], mutationFn: async (body) => {
@@ -97,6 +104,41 @@ export function ListQuestionContent({id}) {
     })
 
 
+    const {mutate:retake, isPending:isPendingRetake,} = useMutation({
+        mutationKey: ["postSubmit"], mutationFn: async (body) => {
+            try {
+                const res = await api.delete(`retake/${body.id}`);
+
+                return res;
+            } catch (error) {
+                return makeResponseFailed({
+                    message: error,
+                })
+            }
+        },
+
+        onSuccess: (response) => {
+
+
+            refetch()
+            queryClient.invalidateQueries(['getQuestion']);
+        },
+
+        onError: (error) => {
+            console.log("onError")
+            console.log(error)
+
+
+        },
+
+        onMutate: async () => {
+
+        },
+
+    })
+
+
+
     const onSubmit = (id) => {
         mutate({
             id: id,
@@ -127,6 +169,7 @@ export function ListQuestionContent({id}) {
                     <h2 className={'font-bold text-lg'}>{itemParent.title}</h2>
 
 
+
                     {
 
                         itemParent.type === "Fill in the blank" ?
@@ -136,6 +179,7 @@ export function ListQuestionContent({id}) {
                             <div className={'mt-5 flex flex-col lg:grid lg:grid-rows-2 w-full lg:w-1/2 lg:grid-flow-col gap-8'}>
                                 {
                                     itemParent.choices.toString().split(',').map((item, i) => (
+
                                         <Button key={item}
                                                 className={cn(
                                                     'group flex  justify-start  rounded-xl w-full lg:w-96',
@@ -261,14 +305,25 @@ export function ListQuestionContent({id}) {
                 data?.data.question_detail.solved ? (
 
 
-                    <FooterContent url={"/tes"}/>
+                    <div
+                        className="h-[100px] overflow-hidden flex items-center justify-between gap-4 bg-white border-t-2 border-accent p-4">
+                        <Button onClick={
+                            () => retake(
+                                {
+                                    id: id
+                                }
+                            )
+
+                        } className="w-full">Retake Test</Button>
+                        <Button onClick={() => navigate("/tools/generative-list-question")} className="w-full">Regenerate</Button>
+                    </div>
 
                 ) : (
                     <div
                         className="flex flex-col items-center justify-between gap-4 bg-white border-t-2 border-accent p-4">
                         <Progress value={progress} className="w-full"/>
                         <div className={'flex flex-row w-full justify-between'}>
-                            <p>{(questions.length / data?.data.question_detail.question.length) * 100}% Compleate</p>
+                            <p>{progress ? progress:0}% Compleate</p>
                             <p>{questions.length}/{data?.data.question_detail.question.length}</p>
 
                         </div>

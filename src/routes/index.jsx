@@ -18,6 +18,10 @@ import NotProtectedRoute from "@/Middlewares/NotProtectedRoute.jsx";
 import {DetailQuestionPage} from "@/pages/main/Question/DetailQuestionPage.jsx";
 import {CreateQuestionPage} from "@/pages/main/Question/CreateQuestionPage.jsx";
 import {ListQuestionPage} from "@/pages/main/Question/ListQuestionPage.jsx";
+import StorageLayout from "@/components/layouts/StorageLayout.jsx";
+import {StorageRoadmapPage} from "@/pages/main/Storage/StorageRoadmapPage.jsx";
+import {StorageQuestionPage} from "@/pages/main/Storage/StorageQuestionPage.jsx";
+import {StorageMaterialPage} from "@/pages/main/Storage/StorageMaterialPage.jsx";
 
 export const routers = createBrowserRouter([
     {
@@ -90,6 +94,26 @@ export const routers = createBrowserRouter([
                 path: 'register',
                 element: <RegisterPage />,
             },
+        ],
+    },
+    {
+        path: '/storage',
+        errorElement: <Fallback body='Something went wrong' title="Please try again later." />,
+        element: <ProtectedRoute><StorageLayout /></ProtectedRoute>,
+        children: [
+            {
+                path: 'roadmap',
+                element: <StorageRoadmapPage />,
+            },
+            {
+                path: 'material',
+                element: <StorageMaterialPage />,
+            },        {
+                path: 'question',
+                element: <StorageQuestionPage />,
+            },
+
+
         ],
     },
     {

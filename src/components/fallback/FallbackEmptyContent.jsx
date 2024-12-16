@@ -4,22 +4,22 @@ export function FallbackEmptyContent({type}) {
     const { t } = useTranslation();
     const typeContent = {
         "study": {
-            icon: "/public/ic_empty.svg",
+            icon: "/ic_empty.svg",
             title: t('empty_head_material'),
             description: t('empty_desc_material')
         },
         "question": {
-            icon: "/public/ic_empty.svg",
+            icon: "/ic_empty.svg",
             title: t('empty_head_question'),
             description: t('empty_desc_question')
         },
         "roadmap": {
-            icon: "/public/ic_empty.svg",
+            icon: "/ic_empty.svg",
             title: t('empty_head_roadmap'),
             description: t('empty_desc_roadmap')
         },
         "lms": {
-            icon: "/public/ic_empty.svg",
+            icon: "/ic_empty.svg",
             title: t('empty_head_lms'),
             description: t('empty_desc_lms')
         }

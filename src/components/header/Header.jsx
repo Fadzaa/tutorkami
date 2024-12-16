@@ -76,7 +76,7 @@ const storages = [
     },
     {
         title: "Generative LMS AI",
-        href: "/storage/generative-lms",
+        href: "/storage/lms",
         description:
             "Pantau progres belajarmu dan dapetin rekomendasi belajar yang pas.",
     },

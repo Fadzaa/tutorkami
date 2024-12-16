@@ -31,7 +31,7 @@ export function QuestionSidebar() {
         navigate("/tools/generative-question/create")
     }
     return (
-        <SidebarProvider>
+        <SidebarProvider className="hidden lg:block">
             <div className={'fixed w-full'}>
                 <Sidebar className={'w-1/4 absolute'}>
 

@@ -86,7 +86,7 @@ export function ListQuestionCard({
             <div className={'flex flex-col gap-3'}>
 
                 <div className={'flex justify-between'}>
-                    <p>{total_questions} {type} • {proficiency} • {category}</p>
+                    <p className="text-xs lg:text-base">{total_questions} {type} • {proficiency} • {category}</p>
 
 
                     {isSolved ?
@@ -104,7 +104,7 @@ export function ListQuestionCard({
 
                             <>
                                 <DropdownMenu>
-                                    <DropdownMenuTrigger> <SlOptionsVertical/></DropdownMenuTrigger>
+                                    <DropdownMenuTrigger> <SlOptionsVertical className="w-3 lg:w-5"/></DropdownMenuTrigger>
                                     <DropdownMenuContent>
                                         <DropdownMenuLabel className={'cursor-pointer'}>
 
@@ -131,13 +131,13 @@ export function ListQuestionCard({
                             </>
 
                         )}
-
                 </div>
-                <h1 className="text-lg font-semibold">{title}</h1>
+
+                <h1 className="text-base lg:text-lg font-semibold">{title}</h1>
             </div>
 
             <div className={cn("flex justify-between",)}>
-                <p>{type}</p>
+                <p className="text-sm lg:text-base">{type}</p>
 
                 <p>{date}</p>
             </div>

@@ -8,6 +8,7 @@ import {useToast} from "@/hooks/use-toast.js";
 import {tokenHandler} from "@/utils/tokenHandler.js";
 import {Link, useNavigate} from "react-router-dom";
 import {signInWithGooglePopup} from "@/utils/firebase.utils.js";
+import {FcGoogle} from "react-icons/fc";
 
 export function AuthForm({authType}) {
     const {
@@ -122,7 +123,15 @@ export function AuthForm({authType}) {
             </Button>
 
 
-            <Button type={'button'} onClick={logGoogleUser} className="mt-6 w-full bg-white text-[#646464] border-2 border-[#646464]">Continue with Google</Button>
+
+
+                <Button type={'button'} onClick={logGoogleUser} className="hover:bg-primary hover:border-0 hover:text-white mt-6 w-full bg-white text-[#646464] border-2 border-[#646464]">
+                    <FcGoogle  className={'w-full'}/>
+                    Continue with Google
+
+                </Button>
+
+
         </form>
     )
 }

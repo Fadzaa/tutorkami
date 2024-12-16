@@ -183,9 +183,9 @@ export function ListQuestionContent({id}) {
 
                                         <Button key={item}
                                                 className={cn(
-                                                    'group flex  justify-start  rounded-xl w-full lg:w-96',
-                                                    answerFilter.answer_response === item ? "bg-primary/90" : "bg-transparent border-2",
-                                                    itemParent.answer === item && answerFilter.answer_response !== itemParent.answer ? "bg-[#E2E8F0]" : ""
+                                                    'group flex   justify-start  rounded-xl w-full lg:w-96',
+                                                    answerFilter.answer_response === item ? "bg-primary/90" : "bg-transparent hover:bg-transparent border-2",
+                                                    itemParent.answer === item && answerFilter.answer_response !== itemParent.answer ? "bg-[#E2E8F0] hover:bg-[#E2E8F0]" : ""
                                                 )}>
                                             <p className={cn(
                                                 "overflow-hidden ",

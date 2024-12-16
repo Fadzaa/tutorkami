@@ -10,7 +10,7 @@ export function ListMaterialPage() {
         <div className="h-[90vh] overflow-hidden flex">
             <MaterialSidebar/>
 
-            <InitialContent type={"study"}/>
+            {/*<InitialContent type={"study"}/>*/}
         </div>
 
 

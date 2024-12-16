@@ -14,33 +14,20 @@ import {api, makeResponseFailed} from "@/api/api.js";
 import {RoadmapSidebar} from "@/components/sidebar/RoadmapSidebar.jsx";
 import {ContentDistance} from "@/components/ui/content-distance.jsx";
 import {LabelTitleContent} from "@/components/ui/label-title-content.jsx";
-import {Loading} from "@/components/loading/Loading.jsx";
 import {useNavigate} from "react-router-dom";
 import {LoadingGeneratingContent} from "@/components/loading/LoadingGeneratingContent.jsx";
-import {Sheet, SheetContent, SheetTrigger} from "@/components/ui/sheet.jsx";
-import {BsLayoutTextSidebarReverse} from "react-icons/bs";
-import {ListSkeleton} from "@/components/skeleton/ListSkeleton.jsx";
-import {ListQuestionCard} from "@/components/card/ListQuestionCard.jsx";
-import {format} from "date-fns";
-import {FallbackEmptyContent} from "@/components/fallback/FallbackEmptyContent.jsx";
 import {SheetContentMobile} from "@/components/content/SheetContentMobile.jsx";
 
 
 const FormSchema = z.object({
     subject: z
-        .string({
-            required_error: "isi",
-        }), spesific_focus: z
-        .string({
-            required_error: "isi",
-        }), knowledge_level: z
-        .string({
-            required_error: "Please select an email to display.",
-        }), goal_level: z
-        .string({
-            required_error: "Please select an email to display.",
-        })
-
+        .string(),
+    spesific_focus: z
+        .string(),
+    knowledge_level: z
+        .string(),
+    goal_level: z
+        .string()
 })
 
 export function CreateRoadmapPage() {

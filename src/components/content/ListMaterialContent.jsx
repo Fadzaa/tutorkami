@@ -28,17 +28,20 @@ export function ListMaterialContent({id}) {
 
     const modules = {
         toolbar: [
-            [{header: [1, 2, 3, false]}],
-            ['bold', 'italic', 'underline', 'strike'],
-            [{script: 'sub'}, {script: 'super'}],
-            [{list: 'ordered'}, {list: 'bullet'}],
-            [{align: []}],
-            ['link', 'image'], //
-            [{color: []}, {background: []}],
-            ['clean'],
+            [{ header: [1, 2, 3, 4, 5, 6, false] }], // Headers
+            ['bold', 'italic', 'underline', 'strike'], // Text styling
+            [{ list: 'ordered' }, { list: 'bullet' }], // Lists
+            [{ align: [] }], // Align options
+            ['link', 'image', 'video'], // Media
+            [{ color: [] }, { background: [] }], // Colors
+            [{ script: 'sub' }, { script: 'super' }], // Subscript & superscript
+            ['clean'], // Clean formatting button
+            ['blockquote', 'code-block'], // Blockquote and code block
         ],
+        clipboard: {
+            matchVisual: false, // Disable visual pasting (to make pasting cleaner)
+        },
     };
-
     const [value, setValue] = useState('');
 
     useEffect(() => {

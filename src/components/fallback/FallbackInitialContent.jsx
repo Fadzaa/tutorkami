@@ -6,22 +6,22 @@ export function FallbackInitialContent({type}) {
 
     const typeContent = {
         "study": {
-            icon: "/public/ic_empty.svg",
+            icon: "/ic_empty.svg",
             title: t('initial_head_material'),
             description: t('initial_desc_material')
         },
         "question": {
-            icon: "/public/ic_empty.svg",
+            icon: "/ic_empty.svg",
             title: t('initial_head_question'),
             description: t('initial_desc_question')
         },
         "roadmap": {
-            icon: "/public/ic_empty.svg",
+            icon: "/ic_empty.svg",
             title: t('initial_head_roadmap'),
             description: t('initial_desc_roadmap')
         },
         "lms": {
-            icon: "/public/ic_empty.svg",
+            icon: "/ic_empty.svg",
             title: t('initial_head_lms'),
             description: t('initial_desc_lms')
         }

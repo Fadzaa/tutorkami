@@ -218,7 +218,7 @@ const SidebarTrigger = React.forwardRef(
                 {...props}
             >
                 <img
-                    src="/public/forward.svg"
+                    src="/forward.svg"
                     className={cn(
                         "text-primary text-2xl h-24 w-24",
                         className === "absolute mt-5 z-50" ? "rotate-180" : ""

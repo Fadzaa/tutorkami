@@ -17,7 +17,6 @@ export function InitialContent({type}) {
             title: t('initial_head_material'),
             description: t('initial_desc_material'),
             route: "/tools/generative-material/create",
-            api: materialAPI.getMaterial(),
             key: "getMaterial",
             fallbackType: "study"
         },

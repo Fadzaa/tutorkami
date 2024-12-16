@@ -19,28 +19,22 @@ import {MaterialSidebar} from "@/components/sidebar/MaterialSidebar.jsx";
 import {LoadingGeneratingContent} from "@/components/loading/LoadingGeneratingContent.jsx";
 
 
-// const FormSchema = z.object({
-//     subject: z
-//         .string({
-//             required_error: "isi",
-//         }), spesific_focus: z
-//         .string({
-//             required_error: "isi",
-//         }), knowledge_level: z
-//         .string({
-//             required_error: "Please select an email to display.",
-//         }), goal_level: z
-//         .string({
-//             required_error: "Please select an email to display.",
-//         })
-//
-// })
+const FormSchema = z.object({
+    subject: z
+        .string(),
+    goal_level: z
+        .string()
+})
+
+
+
 
 export function CreateMaterialPage() {
 
 
-    const form = useForm()
-
+    const form = useForm({
+        resolver: zodResolver(FormSchema), mode: "all",
+    })
 
     const navigate = useNavigate()
 

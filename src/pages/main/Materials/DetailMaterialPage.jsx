@@ -1,6 +1,6 @@
 import {useParams} from "react-router-dom";
 import {MaterialSidebar} from "@/components/sidebar/MaterialSidebar.jsx";
-// import {ListMaterialContent} from "@/components/content/ListMaterialContent.jsx";
+import {ListMaterialContent} from "@/components/content/ListMaterialContent.jsx";
 
 export function DetailMaterialPage() {
 
@@ -11,7 +11,7 @@ export function DetailMaterialPage() {
         <div className="h-[90vh] overflow-hidden flex">
             <MaterialSidebar />
 
-            {/*<ListMaterialContent id={id}/>*/}
+            <ListMaterialContent id={id}/>
         </div>
 
 

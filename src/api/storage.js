@@ -40,5 +40,18 @@ export const storageAPI = {
             })
         }
     },
+    getStorageLms: async (body) => {
+        try {
+            const res = await api.get("storage/lms",{
+                params:{...body}
+            });
+            console.log("Get User Response:", res);
+            return res;
+        } catch (error) {
+            return makeResponseFailed({
+                message: error,
+            })
+        }
+    },
 
 }

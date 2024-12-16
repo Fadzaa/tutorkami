@@ -100,7 +100,7 @@ export function ListLmsContent({id,handle, regenerate, handleCompled}) {
                             />
 
                         </ContentDistance>
-                    ) : <FallbackInitialContent/>
+                    ) : <FallbackInitialContent type={"lms"}/>
                 )}
             </div>
 

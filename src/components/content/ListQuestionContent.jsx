@@ -48,10 +48,10 @@ export function ListQuestionContent({id}) {
     useEffect(() => {
 
 
-            let result = Math.floor(questions.length / data?.data.question_detail.question.length * 100,)
+        let result = Math.floor(questions.length / data?.data.question_detail.question.length * 100,)
 
         console.log(result)
-            setProgress(result)
+        setProgress(result)
 
     }, [questions])
     const handleChoices = (id, answer) => {
@@ -108,7 +108,7 @@ export function ListQuestionContent({id}) {
     const {mutate:retake, isPending:isPendingRetake,} = useMutation({
         mutationKey: ["postSubmit"], mutationFn: async (body) => {
             try {
-                const res = await api.delete(`retake/${body.id}`);
+                const res = await api.delete(retake/body.id);
 
                 return res;
             } catch (error) {
@@ -151,30 +151,21 @@ export function ListQuestionContent({id}) {
 
     const choicesCondintion = (itemParent, i, answers) => {
 
+        let answerFilter = answers.filter(answer => parseInt(answer.question_id) === itemParent.id);
 
-        if (answers.length > 0) {
-            let answerFilter = answers.filter(answer => answer.question_id === itemParent.id)[0];
-
-
-            console.log(answerFilter.answer_response === itemParent.answer)
-            console.log(itemParent.answer) //ress
-            console.log(answerFilter.answer_response) // controller
-
-            // let choices =
+        if (answerFilter.length > 0) {
+            let answerPaten = answerFilter[0]
             return (
                 <div>
                     <p className={cn(
-                        answerFilter.answer_response === itemParent.answer ? "text-green-500" : "text-red-500"
+                        answerPaten.answer_response === itemParent.answer ? "text-green-500" : "text-red-500"
                     )}>Question {i + 1} ({itemParent.type} • Single
-                        Answer) {answerFilter.answer_response === itemParent.answer ? "V" : "X"}</p>
+                        Answer) {answerPaten.answer_response === itemParent.answer ? "V" : "X"}</p>
                     <h2 className={'font-bold text-lg'}>{itemParent.title}</h2>
-
-
-
                     {
 
                         itemParent.type === "Fill in the blank" ?
-                            <Input disabled value={answerFilter.answer_response}
+                            <Input disabled value={answerPaten.answer_response}
                                    placeholder={"Type your answer here"}/>
                             :
                             <div className={'mt-5 flex flex-col lg:grid lg:grid-rows-2 w-full lg:w-1/2 lg:grid-flow-col gap-8'}>
@@ -184,12 +175,12 @@ export function ListQuestionContent({id}) {
                                         <Button key={item}
                                                 className={cn(
                                                     'group flex   justify-start  rounded-xl w-full lg:w-96',
-                                                    answerFilter.answer_response === item ? "bg-primary/90" : "bg-transparent hover:bg-transparent border-2",
-                                                    itemParent.answer === item && answerFilter.answer_response !== itemParent.answer ? "bg-[#E2E8F0] hover:bg-[#E2E8F0]" : ""
+                                                    answerPaten.answer_response === item ? "bg-primary/90" : "bg-transparent hover:bg-transparent border-2",
+                                                    itemParent.answer === item && answerPaten.answer_response !== itemParent.answer ? "bg-[#E2E8F0] hover:bg-[#E2E8F0]" : ""
                                                 )}>
                                             <p className={cn(
                                                 "overflow-hidden ",
-                                                answerFilter.answer_response === item ? "text-white" : "text-primary"
+                                                answerPaten.answer_response === item ? "text-white" : "text-primary"
                                             )}> {arr[i] + item}</p>
                                         </Button>
 

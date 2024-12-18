@@ -1,4 +1,3 @@
-import bookLoadingAnimation from "../../../public/book_loading_lottie.json";
 import {useLottie} from "lottie-react";
 import {useEffect, useState} from "react";
 import {Progress} from "@/components/ui/progress.jsx";

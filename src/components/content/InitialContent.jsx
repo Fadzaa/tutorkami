@@ -11,7 +11,7 @@ export function InitialContent({type}) {
 
     const typeContent = {
         "study": {
-            icon: "/public/ic_empty.svg",
+            icon: "/ic_empty.svg",
             name: "Material Study AI",
             title: t('initial_head_material'),
             description: t('initial_desc_material'),
@@ -20,19 +20,19 @@ export function InitialContent({type}) {
             fallbackType: "study"
         },
         "question": {
-            icon: "/public/ic_empty.svg",
+            icon: "/ic_empty.svg",
             name: "List Questions AI",
             title: t('initial_head_question'),
             description: t('initial_desc_question'),
         },
         "roadmap": {
-            icon: "/public/ic_empty.svg",
+            icon: "/ic_empty.svg",
             name: "Roadmap Study AI",
             title: t('initial_head_roadmap'),
             description: t('initial_desc_roadmap'),
         },
         "lms": {
-            icon: "/public/ic_empty.svg",
+            icon: "/ic_empty.svg",
             name: "Generative LMS AI",
             title: t('initial_head_lms'),
             description: t('initial_desc_lms'),

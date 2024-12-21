@@ -10,29 +10,14 @@ import {
 import PropTypes from "prop-types";
 
 
-export function StorageContent({roadmapData,prev_page_url,next_page_url,last_page,current_page,handlePageChange,type}) {
+export function StorageContent({roadmapData,prev_page_url,next_page_url,last_page,current_page,handlePageChange}) {
 
     return (
         <>
 
             <div className="lg:grid gap-3 p-4 lg:grid-cols-4">
                 {
-                    type === "lms" ?
-                        roadmapData.map((item) => (
-                                <ListQuestionCard
-                                    title={item.title}
-                                    key={item.id}
-                                    id={item.lms.id}
-                                    date={format(new Date(item.date), "yyyy-MM-dd")}
-                                    isQuestion={item.is_question}
-                                    category={item.knowledge_level}
-                                    proficiency={item.goal_level}
-                                    type={item.type}
-                                    isSolved={item.solved}
-                                    storage={true}
-                                />
-                            ))
-                        : roadmapData.map((item) => (
+                    roadmapData.map((item) => (
                                 <ListQuestionCard
                                     title={item.title}
                                     key={item.id}

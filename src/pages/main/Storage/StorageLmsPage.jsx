@@ -125,7 +125,6 @@ export function StorageLmsPage() {
                             roadmapData={roadmapData}
                             next_page_url={next_page_url}
                             prev_page_url={prev_page_url}
-                            handlePageChange={handlePageChange}
-                            type={"lms"}/>
+                            handlePageChange={handlePageChange}/>
         </div>);
 }

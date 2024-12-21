@@ -46,7 +46,7 @@ export function LMSSidebar() {
                                 <ListQuestionCard
                                     title={item.title}
                                     key={item}
-                                    id={item.lms.id}
+                                    id={item.id}
                                     date={format(item.date, "Y-M-dd")}
                                     isSolved={item.is_solved}
                                     category={item.knowledge_level}

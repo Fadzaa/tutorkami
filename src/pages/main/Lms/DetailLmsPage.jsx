@@ -5,12 +5,14 @@ import {ListLmsContent} from "@/components/content/ListLmsContent.jsx";
 import {useEffect, useState} from "react";
 import {useQuery} from "@tanstack/react-query";
 import {lmsAPI} from "@/api/lms.js";
+import {ChatBotSidebar} from "@/components/sidebar/ChatBotSidebar.jsx";
 
 export function DetailLmsPage() {
     const {id} = useParams();
     const [subTopicId, setSubTopicId] = useState(0);
     const [completed, setCompleted] = useState(0);
     const [regenerate, setRegenerate] = useState(false);
+    const [dataPick, setDataPick] = useState(false);
     const [total, setTotal] = useState(0);
     const {isLoading, data, refetch} = useQuery({
         queryKey: ["getLmsId"],
@@ -51,8 +53,10 @@ export function DetailLmsPage() {
     return (
         <div className="h-[90vh] overflow-hidden flex">
             <LMSSidebarDetail id={id} handle={handleChange} subTopicId={subTopicId} completed={completed} data={data} isLoading={isLoading} total={total}/>
-
-            <ListLmsContent id={subTopicId} handle={handleRegenerate} handleCompled={handleComplete} regenerate={regenerate}/>
+            <ListLmsContent setDataPick={setDataPick} id={subTopicId} handle={handleRegenerate} handleCompled={handleComplete} regenerate={regenerate}/>
+            {
+                dataPick && <ChatBotSidebar id={subTopicId} type={"Lms"} dataExist={dataPick}/>
+            }
         </div>
 
 

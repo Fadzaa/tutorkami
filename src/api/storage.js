@@ -1,13 +1,11 @@
-import { api, makeResponseFailed } from "./api"
+import {api, makeResponseFailed} from "./api"
 
 export const storageAPI = {
     getStorageRoadmap: async (body) => {
         try {
-            const res = await api.get("storage/roadmap",{
-                params:{...body}
+            return await api.get("storage/roadmap", {
+                params: {...body}
             });
-            console.log("Get User Response:", res);
-            return res;
         } catch (error) {
             return makeResponseFailed({
                 message: error,
@@ -16,11 +14,9 @@ export const storageAPI = {
     },
     getStorageMaterial: async (body) => {
         try {
-            const res = await api.get("storage/material",{
-                params:{...body}
+            return await api.get("storage/material", {
+                params: {...body}
             });
-            console.log("Get User Response:", res);
-            return res;
         } catch (error) {
             return makeResponseFailed({
                 message: error,
@@ -29,11 +25,9 @@ export const storageAPI = {
     },
     getStorageQuestion: async (body) => {
         try {
-            const res = await api.get("storage/question",{
-                params:{...body}
+            return await api.get("storage/question", {
+                params: {...body}
             });
-            console.log("Get User Response:", res);
-            return res;
         } catch (error) {
             return makeResponseFailed({
                 message: error,
@@ -42,11 +36,9 @@ export const storageAPI = {
     },
     getStorageLms: async (body) => {
         try {
-            const res = await api.get("storage/lms",{
-                params:{...body}
+            return await api.get("storage/lms", {
+                params: {...body}
             });
-            console.log("Get User Response:", res);
-            return res;
         } catch (error) {
             return makeResponseFailed({
                 message: error,

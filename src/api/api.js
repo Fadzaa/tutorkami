@@ -28,7 +28,6 @@ apiClient.interceptors.request.use(
 // Handle responses globally
 // apiClient.interceptors.response.use(
 //     (response) => {
-//         console.log("Raw Response Data:", response.data);
 //
 //         return response.data?.data || response.data;
 //     },

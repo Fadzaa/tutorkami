@@ -20,7 +20,7 @@ import {useNavigate} from "react-router-dom";
 import {ContentQuestionSkeleton} from "@/components/skeleton/ContentQuestionSkeleton.jsx";
 
 
-export function ListQuestionContent({id}) {
+export function ListQuestionContent({id, setOpenChatbot}) {
 
 
     const [questions, setQuestions] = useState([]);
@@ -31,7 +31,10 @@ export function ListQuestionContent({id}) {
     const {isLoading, data, isFetching, refetch} = useQuery({
         queryKey: ["getQuestionID"],
         queryFn: async () => {
-            return questionAPI.getQuestionID(id)
+            return questionAPI.getQuestionID(id).then((data) => {
+                data.data.question_detail.solved ? setOpenChatbot(true) : setOpenChatbot(false);
+                return data;
+            })
         },
         enabled: enable,
         refetchOnWindowFocus: false,
@@ -49,8 +52,6 @@ export function ListQuestionContent({id}) {
 
 
         let result = Math.floor(questions.length / data?.data.question_detail.question.length * 100,)
-
-        console.log(result)
         setProgress(result)
 
     }, [questions])
@@ -92,8 +93,6 @@ export function ListQuestionContent({id}) {
         },
 
         onError: (error) => {
-            console.log("onError")
-            console.log(error)
 
 
         },
@@ -126,8 +125,6 @@ export function ListQuestionContent({id}) {
         },
 
         onError: (error) => {
-            console.log("onError")
-            console.log(error)
 
 
         },
@@ -339,4 +336,5 @@ export function ListQuestionContent({id}) {
 
 ListQuestionContent.propTypes = {
     id: PropTypes.string,
+    setOpenChatbot: PropTypes.func.isRequired,
 }

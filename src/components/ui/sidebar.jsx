@@ -208,12 +208,11 @@ const SidebarTrigger = React.forwardRef(
                 size="icon"
                 className={cn(
                     "h-7 w-7",
-                    className === "absolute mt-5 z-50" && state === "expanded" ? "opacity-0" : "",
+                    (className === "absolute mt-5 z-50" || className === "absolute right-0 mt-5 z-20") && state === "expanded" ? "opacity-0 cursor-default" : "",
                     className
                 )}
                 onClick={(event) => {
-                    console.log(state);
-                    toggleSidebar();
+                    (className === "absolute mt-5 z-50" || className === "absolute right-0 mt-5 z-20") && state === "expanded" ? null : toggleSidebar()
                 }}
                 {...props}
             >

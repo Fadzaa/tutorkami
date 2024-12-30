@@ -1,26 +1,17 @@
-import {
-    Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage,
-} from "@/components/ui/form.jsx"
-import {
-    Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
-} from "@/components/ui/select.jsx"
+import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage,} from "@/components/ui/form.jsx"
+import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue,} from "@/components/ui/select.jsx"
 import {Input} from "@/components/ui/input.jsx"
 import {Button} from "@/components/ui/button.jsx";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod"
 import {z} from "zod"
-import {useMutation, useQueryClient} from "@tanstack/react-query";
-import {authAPI} from "@/api/auth.js";
-import {tokenHandler} from "@/utils/tokenHandler.js";
+import {useMutation} from "@tanstack/react-query";
 import {api, makeResponseFailed} from "@/api/api.js";
-import {RoadmapSidebar} from "@/components/sidebar/RoadmapSidebar.jsx";
 import {ContentDistance} from "@/components/ui/content-distance.jsx";
 import {LabelTitleContent} from "@/components/ui/label-title-content.jsx";
-import {Loading} from "@/components/loading/Loading.jsx";
 import {useNavigate} from "react-router-dom";
 import {QuestionSidebar} from "@/components/sidebar/QuestionSidebar.jsx";
 import {LoadingGeneratingContent} from "@/components/loading/LoadingGeneratingContent.jsx";
-import {FallbackAIRefusal} from "@/components/fallback/FallbackAIRefusal.jsx";
 import {SheetContentMobile} from "@/components/content/SheetContentMobile.jsx";
 
 
@@ -49,9 +40,7 @@ export function CreateQuestionPage() {
     const {mutate, isPending,} = useMutation({
         mutationKey: ["postQuestion"], mutationFn: async (body) => {
             try {
-                const res = await api.post("question", body);
-                console.log("Login Response:", res);
-                return res;
+                return await api.post("question", body);
             } catch (error) {
                 return makeResponseFailed({
                     message: error,
@@ -65,9 +54,6 @@ export function CreateQuestionPage() {
         },
 
         onError: (error) => {
-            console.log("onError")
-            console.log(error)
-
 
         },
 

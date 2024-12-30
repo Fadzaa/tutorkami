@@ -45,7 +45,6 @@ export function CreateRoadmapPage() {
         mutationKey: ["postRoadmap"], mutationFn: async (body) => {
             try {
                 const res = await api.post("roadmap", body);
-                console.log("Login Response:", res);
                 return res;
             } catch (error) {
                 return makeResponseFailed({
@@ -60,9 +59,6 @@ export function CreateRoadmapPage() {
         },
 
         onError: (error) => {
-            console.log("onError")
-            console.log(error)
-
 
         },
 

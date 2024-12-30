@@ -111,8 +111,6 @@ export function Header ({isLandingPage}) {
         },
 
         onError: (error, variables, context) => {
-            console.log("onError")
-            console.log(error)
 
             toast({
                 variant: "destructive",
@@ -142,7 +140,7 @@ export function Header ({isLandingPage}) {
     }
 
     const changeLanguage = (lng) => {
-        i18n.changeLanguage(lng).then(r => console.log(r));
+        i18n.changeLanguage(lng).then(r => {});
     };
 
 

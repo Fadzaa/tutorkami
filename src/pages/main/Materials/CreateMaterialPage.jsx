@@ -1,9 +1,5 @@
-import {
-    Form, FormControl, FormField, FormItem, FormLabel, FormMessage,
-} from "@/components/ui/form.jsx"
-import {
-    Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
-} from "@/components/ui/select.jsx"
+import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage,} from "@/components/ui/form.jsx"
+import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue,} from "@/components/ui/select.jsx"
 import {Input} from "@/components/ui/input.jsx"
 import {Button} from "@/components/ui/button.jsx";
 import {useForm} from "react-hook-form";
@@ -13,7 +9,6 @@ import {useMutation} from "@tanstack/react-query";
 import {api, makeResponseFailed} from "@/api/api.js";
 import {ContentDistance} from "@/components/ui/content-distance.jsx";
 import {LabelTitleContent} from "@/components/ui/label-title-content.jsx";
-import {Loading} from "@/components/loading/Loading.jsx";
 import {useNavigate} from "react-router-dom";
 import {MaterialSidebar} from "@/components/sidebar/MaterialSidebar.jsx";
 import {LoadingGeneratingContent} from "@/components/loading/LoadingGeneratingContent.jsx";
@@ -43,9 +38,7 @@ export function CreateMaterialPage() {
     const {mutate, isPending,} = useMutation({
         mutationKey: ["postMaterial"], mutationFn: async (body) => {
             try {
-                const res = await api.post("material", body);
-
-                return res;
+                return await api.post("material", body);
             } catch (error) {
                 return makeResponseFailed({
                     message: error,
@@ -54,15 +47,10 @@ export function CreateMaterialPage() {
         },
 
         onSuccess: (response) => {
-            console.log("halo:" + response.data.data.id)
             navigate("/tools/generative-material/detail/" + response.data.data.id);
         },
 
         onError: (error) => {
-            console.log("onError")
-            console.log(error)
-
-
         },
 
         onMutate: async () => {

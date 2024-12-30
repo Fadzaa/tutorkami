@@ -61,8 +61,6 @@ export function TanstackQueryTestComponent() {
     //     return <div>Error</div>
     // }
 
-    // console.log(data)
-    // console.log(fetchSingleObject.data)
 
     return (
         <div>

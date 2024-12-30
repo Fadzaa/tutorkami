@@ -42,7 +42,6 @@ export function ListQuestionCard({
         mutationFn: async (id) => {
             try {
                 const res = await api.delete(`${type.toString().toLowerCase()}/${id}`);
-                console.log("Login Response:", res);
                 return res;
             } catch (error) {
                 return makeResponseFailed({
@@ -57,9 +56,6 @@ export function ListQuestionCard({
         },
 
         onError: (error) => {
-            console.log("onError")
-            console.log(error)
-
 
         },
 

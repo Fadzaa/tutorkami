@@ -33,7 +33,6 @@ export function LoadingGeneratingContent({isPending, type}) {
         if(!isPending) {
             clearInterval(interval);
             setProgress(100);
-            console.log("Loading complete!");
         }
 
         return () => clearInterval(interval);

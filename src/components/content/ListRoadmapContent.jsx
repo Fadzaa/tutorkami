@@ -98,7 +98,7 @@ export function ListRoadmapContent({id}) {
                                 </Sheet>
                             ))}
 
-                        </ContentDistance>
+                 </ContentDistance>
                     )
                 )}
             </div>

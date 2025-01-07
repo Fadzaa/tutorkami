@@ -63,7 +63,6 @@ export function DetailLmsPage() {
 
     useEffect(() => {
         if (data !== undefined) {
-            console.log(data)
             setTotal(0);
             setCompleted(0);
             data.topic.map((item) => {

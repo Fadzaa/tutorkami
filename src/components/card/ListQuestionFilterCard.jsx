@@ -25,10 +25,6 @@ export function ListQuestionCardDetail({
                     {
                         data?.data.filter(item => {
                             const formattedDate = formatInTimeZone(new Date(item.date), userTimeZone, "yyyy-MM-dd");
-                            console.log(data.data.filter(item => {
-                                const formattedDate = formatInTimeZone(new Date(item.date), userTimeZone, "yyyy-MM-dd");
-                                return formattedDate >= oneWeekAgoFormatted && formattedDate < yesterdayFormatted;
-                            }))
                             return formattedDate === todayFormatted;
                         }).length !== 0 ?
                             <>

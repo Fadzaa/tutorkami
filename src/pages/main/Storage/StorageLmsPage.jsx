@@ -29,7 +29,6 @@ export function StorageLmsPage() {
     const {isLoading, data, refetch} = useQuery({
         queryKey: ["getStorageLms"],
         queryFn: async () => {
-            console.log(date?.from)
             return storageAPI.getStorageLms({
                 search: debounceValue,
                 page: page,

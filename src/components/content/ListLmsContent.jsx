@@ -57,7 +57,6 @@ export function ListLmsContent({id,handle, regenerate, handleCompled, setDataPic
 
     useEffect(() => {
         if (data !== undefined) {
-            console.log(data)
             setDataPick(true);
             const htmlContent = marked(data?.result.detail_content);
             setValue(htmlContent);

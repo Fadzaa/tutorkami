@@ -6,12 +6,10 @@ import {
     DropdownMenu, DropdownMenuContent, DropdownMenuLabel, DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu.jsx";
 import {useMutation, useQuery} from "@tanstack/react-query";
-import {roadmapAPI} from "@/api/roadmap.js";
-import {useEffect, useState} from "react";
+
 import {api, makeResponseFailed} from "@/api/api.js";
 import {Button} from "@/components/ui/button.jsx";
 import {useForm} from "react-hook-form";
-import {zodResolver} from "@hookform/resolvers/zod";
 import {FaCheck, FaRegTrashAlt} from "react-icons/fa";
 
 export function ListQuestionCard({
@@ -23,7 +21,8 @@ export function ListQuestionCard({
                                      isSolved,
                                      type,
                                      id,
-                                    storage
+                                    storage,
+                                     subTopicId
                                  }) {
 
 
@@ -32,9 +31,8 @@ export function ListQuestionCard({
     const navigate = useNavigate();
     const {pathname} = useLocation();
     const handleToDetail = (id) => {
-
-
-        navigate(`/tools/generative-${type.toString().toLowerCase()}/detail/${id}`);
+        type.toString().toLowerCase() === "lms" ? navigate(`/tools/generative-${type.toString().toLowerCase()}/detail/${id}/${subTopicId}`)
+        : navigate(`/tools/generative-${type.toString().toLowerCase()}/detail/${id}`);
     }
 
 
@@ -151,5 +149,6 @@ ListQuestionCard.propTypes = {
     type: PropTypes.string,
     isSolved: PropTypes.bool,
     storage: PropTypes.bool,
-    handleEnable: PropTypes.func
+    handleEnable: PropTypes.func,
+    subTopicId: PropTypes.number,
 }

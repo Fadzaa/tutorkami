@@ -213,11 +213,11 @@ export function ChatBotSidebar({id, type}) {
     }, [chatbot])
 
     return (
-        <SidebarProvider className="hidden lg:block">
+        <SidebarProvider defaultOpen={false} className="hidden lg:block">
             <div className={'fixed w-1/4'}>
                 <Sidebar side="right" className={'w-full absolute bg-[#F8F8F8] rounded-l-lg'}>
                     <div className={'flex items-end justify-between mx-4 pt-4 pb-5'}>
-                        <SidebarTrigger className={`rotate-180`}/>
+                        <SidebarTrigger className={`rotate-180`} />
 
                         <img src="/logo_web.svg" className={'w-20 lg:w-40'} alt=""/>
                     </div>

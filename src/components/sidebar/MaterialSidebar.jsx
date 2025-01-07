@@ -12,6 +12,7 @@ import {Sidebar, SidebarProvider, SidebarTrigger} from "@/components/ui/sidebar.
 import {materialAPI} from "@/api/material.js";
 import {FallbackEmptyContent} from "@/components/fallback/FallbackEmptyContent.jsx";
 import {ListSkeleton} from "@/components/skeleton/ListSkeleton.jsx";
+import {ListQuestionCardDetail} from "@/components/card/ListQuestionFilterCard.jsx";
 
 export function MaterialSidebar() {
     const navigate = useNavigate()
@@ -42,29 +43,9 @@ export function MaterialSidebar() {
 
                         <SidebarTrigger />
                     </div>
-                    <div className="cs px-5 h-[73%]  my-5">
-                        {
-                            isLoading ? <ListSkeleton/> : data.data.data.map((item, index) => (
-                                <ListQuestionCard
-                                    title={item.title}
-                                    key={item}
-                                    id={item.id}
-                                    date={format(item.date, "Y-M-dd")}
-                                    isQuestion={item.is_question}
-                                    category={item.knowledge_level}
-                                    proficiency={item.goal_level}
-                                    type={item.type}
-
-
-                                />
-                            ))
-                        }
-
-                        {
-                            data?.data.data.length === 0 ? <FallbackEmptyContent type={"study"}/> : <></>
-                        }
-
-                    </div>
+                    {
+                        data?.data.data.length === 0 ? <FallbackEmptyContent type={"study"}/> : <ListQuestionCardDetail data={data?.data} isLoading={isLoading} type={"study"}/>
+                    }
 
 
                     <Button className={'mx-5'} onClick={handleToCreate}>Add New Materials</Button>

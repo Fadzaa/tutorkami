@@ -3,18 +3,17 @@ import {Button} from "@/components/ui/button.jsx";
 import {
     Sidebar,
 } from "@/components/ui/sidebar";
-import {format} from "date-fns";
+import {formatInTimeZone } from "date-fns-tz";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import {useNavigate} from "react-router-dom";
 import {useQuery} from "@tanstack/react-query";
 import {lmsAPI} from "@/api/lms.js";
 import {ListSkeleton} from "@/components/skeleton/ListSkeleton.jsx";
 import {FallbackEmptyContent} from "@/components/fallback/FallbackEmptyContent.jsx";
+import {ListQuestionCardDetail} from "@/components/card/ListQuestionFilterCard.jsx";
 
 export function LMSSidebar() {
     const navigate = useNavigate()
-
-
     const {isLoading, data} = useQuery({
         queryKey: ["getLms"],
         queryFn: async () => {
@@ -40,31 +39,9 @@ export function LMSSidebar() {
 
                         <SidebarTrigger />
                     </div>
-                    <div className="cs px-5 h-[73%]  my-5">
-                        {
-                            isLoading ? <ListSkeleton/> : data.data.map((item, index) => (
-                                <ListQuestionCard
-                                    title={item.title}
-                                    key={item}
-                                    id={item.id}
-                                    date={format(item.date, "Y-M-dd")}
-                                    isSolved={item.is_solved}
-                                    category={item.knowledge_level}
-                                    proficiency={item.goal_level}
-                                    type={item.type}
-                                    isQuestion={item.is_question}
-                                />
-                            ))
-                        }
-
-                        {
-                            data?.data.length === 0 ? <FallbackEmptyContent type={"lms"}/> : <></>
-                        }
-                    </div>
-
-
-
-
+                    {
+                        data?.data.length === 0 ? <FallbackEmptyContent type={"lms"}/> : <ListQuestionCardDetail data={data} isLoading={isLoading} type={"lms"}/>
+                    }
 
                     <Button className={'mx-5'} onClick={handleToCreate}>Add New LMS</Button>
 

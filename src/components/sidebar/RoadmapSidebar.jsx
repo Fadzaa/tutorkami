@@ -11,6 +11,7 @@ import {roadmapAPI} from "@/api/roadmap.js";
 import {Sidebar, SidebarProvider, SidebarTrigger} from "@/components/ui/sidebar.jsx";
 import {FallbackEmptyContent} from "@/components/fallback/FallbackEmptyContent.jsx";
 import {ListSkeleton} from "@/components/skeleton/ListSkeleton.jsx";
+import {ListQuestionCardDetail} from "@/components/card/ListQuestionFilterCard.jsx";
 
 export function RoadmapSidebar() {
     const navigate = useNavigate()
@@ -41,30 +42,9 @@ export function RoadmapSidebar() {
 
                         <SidebarTrigger />
                     </div>
-                    <div className="cs px-5 h-[73%]  my-5">
-                        {
-                            isLoading ? <ListSkeleton/> : data.data.data.map((item, index) => (
-                                <ListQuestionCard
-                                    title={item.title}
-                                    key={item}
-                                    id={item.id}
-                                    date={format(item.date, "Y-M-dd")}
-                                    isQuestion={item.is_question}
-                                    category={item.knowledge_level}
-                                    proficiency={item.goal_level}
-                                    type={item.type}
-
-
-                                />
-                            ))
-                        }
-
-                        {
-                            data?.data.data.length === 0 ? <FallbackEmptyContent type={"roadmap"}/> : <></>
-                        }
-
-                    </div>
-
+                    {
+                        data?.data.data.length === 0 ? <FallbackEmptyContent type={"roadmap"}/> : <ListQuestionCardDetail data={data?.data} isLoading={isLoading} type={"roadmap"}/>
+                    }
 
                     <Button className={'mx-5'} onClick={handleToCreate}>Add New Roadmaps</Button>
 

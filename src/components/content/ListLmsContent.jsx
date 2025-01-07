@@ -38,10 +38,12 @@ export function ListLmsContent({id,handle, regenerate, handleCompled, setDataPic
     };
 
     const handleSolved = () => {
-        handle(false);
-        lmsAPI.solvedLmsId(data.result.id);
-        handleCompled(1)
-        refetch();
+        if (data.result.solved !== true) {
+            handle(false);
+            lmsAPI.solvedLmsId(data.result.id);
+            handleCompled(1, "",data.result.lms_topics_id, data.result.id)
+            refetch();
+        }
     };
 
     useEffect(() => {
@@ -55,6 +57,7 @@ export function ListLmsContent({id,handle, regenerate, handleCompled, setDataPic
 
     useEffect(() => {
         if (data !== undefined) {
+            console.log(data)
             setDataPick(true);
             const htmlContent = marked(data?.result.detail_content);
             setValue(htmlContent);

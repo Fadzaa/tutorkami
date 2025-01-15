@@ -27,8 +27,8 @@ import { IoCloseOutline } from "react-icons/io5";
 import { IoIosArrowForward } from "react-icons/io";
 import { CiLogout } from "react-icons/ci";
 import {useTranslation} from "react-i18next";
-import {Loading} from "@/components/loading/Loading.jsx";
 import {Skeleton} from "@/components/ui/skeleton.jsx";
+import {langHandler} from "@/utils/langHandler.js";
 
 const components = [
 
@@ -127,7 +127,20 @@ export function Header ({isLandingPage}) {
 
     const {data, isLoading } = useQuery({
         queryKey: ["getUser"],
-        queryFn: authAPI.getUser,
+        queryFn: async () => {
+            return authAPI.getUser()
+                .then((response) => {
+                    return response;
+                }).catch((err) => {
+                    if (err.message.response.data.message === "Unauthenticated.") {
+                        if (tokenHandler.has()) {
+                            navigate("/login")
+                        }
+                        tokenHandler.unset()
+                        setIsAuthenticated(false)
+                    }
+            })
+        },
     });
 
 
@@ -140,7 +153,9 @@ export function Header ({isLandingPage}) {
     }
 
     const changeLanguage = (lng) => {
-        i18n.changeLanguage(lng).then(r => {});
+        i18n.changeLanguage(lng).then(r => {
+            langHandler.set(lng);
+        }).catch((error) => console.error('Error changing language:', error));;
     };
 
 

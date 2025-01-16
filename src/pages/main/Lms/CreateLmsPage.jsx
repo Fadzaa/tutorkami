@@ -5,13 +5,12 @@ import {Button} from "@/components/ui/button.jsx";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod"
 import {z} from "zod"
-import {useMutation} from "@tanstack/react-query";
-import {api, makeResponseFailed} from "@/api/api.js";
 import {ContentDistance} from "@/components/ui/content-distance.jsx";
 import {LabelTitleContent} from "@/components/ui/label-title-content.jsx";
 import {Loading} from "@/components/loading/Loading.jsx";
-import {useNavigate} from "react-router-dom";
 import {LMSSidebar} from "@/components/sidebar/LMSSidebar.jsx";
+import {useLoading} from "@/utils/global/LoadingProvider.jsx";
+import {useSelector} from "react-redux";
 
 
 const FormSchema = z.object({
@@ -23,49 +22,20 @@ const FormSchema = z.object({
 })
 
 export function CreateLmsPage() {
-
-
     const form = useForm({
         resolver: zodResolver(FormSchema), mode: "all",
     })
 
-    const navigate = useNavigate()
-
-    const {mutate, isPending,} = useMutation({
-        mutationKey: ["postLms"], mutationFn: async (body) => {
-            try {
-                return await api.post("lms/start", body);
-            } catch (error) {
-                return makeResponseFailed({
-                    message: error,
-                })
-            }
-        },
-
-        onSuccess: (response) => {
-
-            navigate("/tools/generative-lms");
-        },
-
-        onError: (error) => {
-
-
-        },
-
-        onMutate: async () => {
-
-        },
-    })
-
+    const loading = useSelector((state) => state.loading);
+    const { fetchLMS } = useLoading();
 
     const onSubmit = (data) => {
-        mutate({...data})
-    }
+        const { data: response, isLoading, isError } = fetchLMS("lms/start", data);
+    };
 
-
-    return (<div className="h-[90vh] overflow-hidden flex">
+    return (
+        <div className="h-[90vh] overflow-hidden flex">
             <LMSSidebar/>
-
 
             <ContentDistance className={"relative flex-1"}>
 
@@ -115,7 +85,7 @@ export function CreateLmsPage() {
                         <Button type="submit">
 
                             {
-                                isPending ?<Loading/>:"Submit"
+                                loading.isLoadingGlobal ?<Loading/>:"Submit"
                             }
 
                         </Button>

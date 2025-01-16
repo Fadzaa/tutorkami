@@ -1,7 +1,7 @@
 import {Button} from "@/components/ui/button.jsx";
-import { cn } from "@/lib/utils.js"
+import { cn } from "@/lib/utils"
 import {forwardRef, useEffect, useState} from 'react';
-import { Avatar, AvatarFallback } from "@/components/ui/avatar.jsx"
+import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import {
     NavigationMenu,
     NavigationMenuContent,
@@ -10,13 +10,13 @@ import {
     NavigationMenuList,
     NavigationMenuTrigger,
     navigationMenuTriggerStyle,
-} from "@/components/ui/navigation-menu.jsx"
+} from "@/components/ui/navigation-menu"
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu.jsx"
+} from "@/components/ui/dropdown-menu"
 import {Link, useNavigate} from "react-router-dom";
 import {tokenHandler} from "@/lib/tokenHandler.js";
 import {useMutation, useQuery} from "@tanstack/react-query";
@@ -139,7 +139,7 @@ export function Header ({isLandingPage}) {
                         tokenHandler.unset()
                         setIsAuthenticated(false)
                     }
-            })
+                })
         },
     });
 

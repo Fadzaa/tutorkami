@@ -2,6 +2,7 @@ import {Header} from "@/components/landing/Header.jsx";
 import {Footer} from "@/components/landing/Footer.jsx";
 import {Outlet, ScrollRestoration} from "react-router-dom";
 import {Toaster} from "@/components/ui/toaster.jsx";
+import {GlobalLoading} from "@/utils/global/GlobalLoading.jsx";
 
 
 export default function AppLayout()  {

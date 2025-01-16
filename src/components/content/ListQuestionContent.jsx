@@ -42,8 +42,6 @@ export function ListQuestionContent({id,setOpenChatbot}) {
     }, [id]);
 
     useEffect(() => {
-
-
         let result = Math.floor(questions.length / data?.data.question_detail.questions.length * 100,)
 
 

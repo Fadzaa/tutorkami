@@ -34,8 +34,8 @@ export function StorageLmsPage() {
                 page: page,
                 proficiency_level: goal,
                 status: status,
-                start_date: date?.from ? format(date?.from, "yyyy-MM-dd") : date?.from,
-                end_date: date?.to ? format(date?.to, "yyyy-MM-dd") : date?.to,
+                start_date: date?.from ? format(date?.from, "yyyy-MM-dd 00:00:00") : date?.from,
+                    end_date: date?.to ? format(date?.to, "yyyy-MM-dd 23:59:59") : date?.to,
             })
         },
     });

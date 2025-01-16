@@ -50,7 +50,7 @@ export const routers = createBrowserRouter([
                 element: <CreateLmsPage/>,
             },
             {
-                path: 'generative-lms/detail/:id',
+                path: 'generative-lms/detail/:id/:subId',
                 element: <DetailLmsPage/>,
             },
             {

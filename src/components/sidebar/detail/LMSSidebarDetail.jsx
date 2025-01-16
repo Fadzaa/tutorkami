@@ -13,7 +13,7 @@ import {ProgressBar} from "@/components/ui/progress-bar.jsx";
 import {useEffect, useState} from "react";
 import {ListSkeleton} from "@/components/skeleton/ListSkeleton.jsx";
 
-export function LMSSidebarDetail({data, handle, subTopicId, isLoading, completed,total}) {
+export function LMSSidebarDetail({data, handle, subTopicId, isLoading, completed,total }) {
     return (
         <SidebarProvider className="hidden lg:block">
             <div className={'fixed w-full'}>
@@ -51,7 +51,6 @@ export function LMSSidebarDetail({data, handle, subTopicId, isLoading, completed
             </div>
 
             <main>
-
                 <SidebarTrigger className={'absolute mt-5 z-50'}/>
             </main>
         </SidebarProvider>

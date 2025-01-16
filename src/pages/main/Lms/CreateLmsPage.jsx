@@ -1,9 +1,5 @@
-import {
-    Form, FormControl, FormField, FormItem, FormLabel, FormMessage,
-} from "@/components/ui/form.jsx"
-import {
-    Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
-} from "@/components/ui/select.jsx"
+import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage,} from "@/components/ui/form.jsx"
+import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue,} from "@/components/ui/select.jsx"
 import {Input} from "@/components/ui/input.jsx"
 import {Button} from "@/components/ui/button.jsx";
 import {useForm} from "react-hook-form";
@@ -38,10 +34,7 @@ export function CreateLmsPage() {
     const {mutate, isPending,} = useMutation({
         mutationKey: ["postLms"], mutationFn: async (body) => {
             try {
-                console.log(body)
-                const res = await api.post("lms/start", body);
-                console.log("Lms Start:", res);
-                return res;
+                return await api.post("lms/start", body);
             } catch (error) {
                 return makeResponseFailed({
                     message: error,
@@ -55,8 +48,6 @@ export function CreateLmsPage() {
         },
 
         onError: (error) => {
-            console.log("onError")
-            console.log(error)
 
 
         },

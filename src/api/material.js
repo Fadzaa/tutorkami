@@ -1,11 +1,9 @@
-import { api, makeResponseFailed } from "./api"
+import {api, makeResponseFailed} from "./api"
 
 export const materialAPI = {
     getMaterial: async () => {
         try {
-            const res = await api.get("material");
-            console.log("Get User Response:", res);
-            return res;
+            return await api.get("material");
         } catch (error) {
             return makeResponseFailed({
                 message: error,
@@ -14,9 +12,7 @@ export const materialAPI = {
     },
     postMaterial: async (body) => {
         try {
-            const res = await api.post("material", body);
-            console.log("Login Response:", res);
-            return res;
+            return await api.post("material", body);
         } catch (error) {
             return makeResponseFailed({
                 message: error,
@@ -25,9 +21,7 @@ export const materialAPI = {
     },
     getMaterialID: async (id) => {
         try {
-            console.log("id:" + id)
             const res = await api.get("material/" + id );
-            console.log("Get User Response:", res);
             return res.data;
         } catch (error) {
             return makeResponseFailed({

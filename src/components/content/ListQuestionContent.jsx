@@ -3,23 +3,28 @@ import {useEffect, useState} from "react";
 import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import {api, makeResponseFailed} from "@/api/api.js";
 import {HeaderContent} from "@/components/ui/header-content.jsx";
+import {FooterContent} from "@/components/ui/footer-content.jsx";
 import {Loading} from "@/components/loading/Loading.jsx";
 import {cn} from "@/lib/utils.js";
 import {ContentDistance} from "@/components/ui/content-distance.jsx";
 import {questionAPI} from "@/api/question.js";
 import {Button} from "@/components/ui/button.jsx";
 import {Progress} from "@/components/ui/progress.jsx";
+import {useForm} from "react-hook-form";
+import {zodResolver} from "@hookform/resolvers/zod";
+import * as item from "date-fns/locale";
 import {Input} from "@/components/ui/input.jsx";
 import {useNavigate} from "react-router-dom";
 import {ContentQuestionSkeleton} from "@/components/skeleton/ContentQuestionSkeleton.jsx";
 import {commonAPI} from "@/api/common.js";
 
 
-export function ListQuestionContent({id}) {
+export function ListQuestionContent({id, setOpenChatbot}) {
 
 
     const [questions, setQuestions] = useState([]);
     const [progress, setProgress] = useState(0)
+
     const [enable, setEnable] = useState(false);
     const navigate = useNavigate();
     const queryClient = useQueryClient();
@@ -27,7 +32,10 @@ export function ListQuestionContent({id}) {
     const {isLoading, data, isFetching, refetch} = useQuery({
         queryKey: ["getQuestionID"],
         queryFn: async () => {
-            return questionAPI.getQuestionID(id)
+            return questionAPI.getQuestionID(id).then((data) => {
+                data.data.question_detail.solved ? setOpenChatbot(true) : setOpenChatbot(false);
+                return data;
+            })
         },
         enabled: enable,
         refetchOnWindowFocus: false,
@@ -44,9 +52,7 @@ export function ListQuestionContent({id}) {
     useEffect(() => {
 
 
-        let result = Math.floor(questions.length / data?.data.question_detail.questions.length * 100,)
-
-
+        let result = Math.floor(questions.length / data?.data.question_detail.question.length * 100,)
         setProgress(result)
 
     }, [questions])
@@ -63,6 +69,7 @@ export function ListQuestionContent({id}) {
 
         setQuestions(questionFilter);
     };
+
 
 
     const {mutate, isPending,} = useMutation({
@@ -96,6 +103,7 @@ export function ListQuestionContent({id}) {
     })
 
 
+
     const onSubmit = (id) => {
         mutate({
             id: id,
@@ -103,6 +111,7 @@ export function ListQuestionContent({id}) {
         })
 
     }
+
 
     const choicesCondintion = (itemParent, i, answers) => {
 

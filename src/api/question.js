@@ -3,9 +3,7 @@ import {api, makeResponseFailed} from "./api"
 export const questionAPI = {
     getQuestion: async () => {
         try {
-            const res = await api.get("question");
-            console.log("Get User Response:", res);
-            return res;
+            return await api.get("question");
         } catch (error) {
             return makeResponseFailed({
                 message: error,
@@ -14,9 +12,7 @@ export const questionAPI = {
     },
     postQuestion: async (body) => {
         try {
-            const res = await api.post("question", body);
-            console.log("Login Response:", res);
-            return res;
+            return await api.post("question", body);
         } catch (error) {
             return makeResponseFailed({
                 message: error,

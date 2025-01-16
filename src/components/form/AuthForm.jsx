@@ -39,14 +39,11 @@ export function AuthForm({authType}) {
                 title: authType === "login" ? "Login Success" : "Register Success",
                 description: authType === "login" ? "You have successfully login" : "You have successfully register",
             })
-            console.log("token check:",response.data.token)
             tokenHandler.set(response.data.token)
             navigate('/')
         },
 
         onError: (error, variables, context) => {
-            console.log("onError")
-            console.log(error)
 
             toast({
                 variant: "destructive",
@@ -76,8 +73,6 @@ export function AuthForm({authType}) {
 
 
         mutate({...getValues(),'google':false})
-        console.log("Data submitted");
-        console.log("isLoading status: " + isPending);
 
     }
 

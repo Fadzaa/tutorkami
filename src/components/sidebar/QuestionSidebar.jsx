@@ -7,6 +7,7 @@ import {Sidebar, SidebarProvider, SidebarTrigger} from "@/components/ui/sidebar.
 import {questionAPI} from "@/api/question.js";
 import {FallbackEmptyContent} from "@/components/fallback/FallbackEmptyContent.jsx";
 import {ListSkeleton} from "@/components/skeleton/ListSkeleton.jsx";
+import {ListQuestionCardDetail} from "@/components/card/ListQuestionFilterCard.jsx";
 
 export function QuestionSidebar() {
     const navigate = useNavigate()

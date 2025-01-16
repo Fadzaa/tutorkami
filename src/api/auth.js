@@ -1,11 +1,9 @@
-import { api, makeResponseFailed } from "./api"
+import {api, makeResponseFailed} from "./api"
 
 export const authAPI = {
     login: async (body) => {
         try {
-            const res = await api.post("auth/login", { ...body });
-            console.log("Login Response:", res);
-            return res;
+            return await api.post("auth/login", {...body});
         } catch (error) {
             return makeResponseFailed({
                 message: error,
@@ -14,9 +12,7 @@ export const authAPI = {
     },
     register: async ({ name, email, password }) => {
         try {
-            const res = await api.post("auth/register", { name, email, password });
-
-            return res;
+            return await api.post("auth/register", {name, email, password});
         } catch (error) {
             return makeResponseFailed({
                 message: error,
@@ -26,9 +22,7 @@ export const authAPI = {
 
     getUser: async () => {
         try {
-            const res = await api.get("user");
-            console.log("Get User Response:", res);
-            return res;
+            return await api.get("user");
         } catch (error) {
             return makeResponseFailed({
                 message: error,
@@ -38,9 +32,7 @@ export const authAPI = {
 
     logout: async () => {
         try {
-            const res = await api.post("logout");
-            console.log("Logout Response:", res);
-            return res;
+            return await api.post("logout");
         } catch (error) {
             return makeResponseFailed({
                 message: error,

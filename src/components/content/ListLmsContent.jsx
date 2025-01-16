@@ -14,7 +14,7 @@ import {InitialContent} from "@/components/content/InitialContent.jsx";
 import {HeaderContent2} from "@/components/ui/header-content-2.jsx";
 import {FooterContent2} from "@/components/ui/footer-content-2.jsx";
 
-export function ListLmsContent({id,handle, regenerate, handleCompled}) {
+export function ListLmsContent({id,handle, regenerate, handleCompled, setDataPick}) {
 
     const [enable, setEnable] = useState(false);
     const {isLoading, data, isFetching, refetch} = useQuery({
@@ -38,10 +38,12 @@ export function ListLmsContent({id,handle, regenerate, handleCompled}) {
     };
 
     const handleSolved = () => {
-        handle(false);
-        lmsAPI.solvedLmsId(data.result.id);
-        handleCompled(1)
-        refetch();
+        if (data.result.solved !== true) {
+            handle(false);
+            lmsAPI.solvedLmsId(data.result.id);
+            handleCompled(1, "",data.result.lms_topics_id, data.result.id)
+            refetch();
+        }
     };
 
     useEffect(() => {
@@ -55,6 +57,7 @@ export function ListLmsContent({id,handle, regenerate, handleCompled}) {
 
     useEffect(() => {
         if (data !== undefined) {
+            setDataPick(true);
             const htmlContent = marked(data?.result.detail_content);
             setValue(htmlContent);
             if (regenerate) {
@@ -119,4 +122,5 @@ ListLmsContent.propTypes = {
     handle: PropTypes.func,
     regenerate: PropTypes.bool,
     handleCompled: PropTypes.func,
+    setDataPick: PropTypes.func.isRequired,
 }

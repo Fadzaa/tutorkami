@@ -3,6 +3,7 @@ import {useState} from "react";
 import {ListRoadmapContent} from "@/components/content/ListRoadmapContent.jsx";
 import {Button} from "@/components/ui/button.jsx";
 import {useParams} from "react-router-dom";
+import {ChatBotSidebar} from "@/components/sidebar/ChatBotSidebar.jsx";
 
 export function DetailRoadmapPage() {
 
@@ -14,6 +15,8 @@ export function DetailRoadmapPage() {
             <RoadmapSidebar />
 
             <ListRoadmapContent id={id}/>
+
+            <ChatBotSidebar id={id} type={"Roadmap"}/>
         </div>
 
 

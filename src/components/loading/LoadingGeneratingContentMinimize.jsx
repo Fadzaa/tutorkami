@@ -7,8 +7,8 @@ import {useTranslation} from "react-i18next";
 import ProgressCircle from "@/components/ui/progress-circle.jsx";
 import Lottie from "lottie-react";
 import {useDispatch, useSelector} from "react-redux";
-import {setMinimizeGlobal} from "@/utils/global/slice/MinimizeSlice.js";
-import {setProgressGlobal} from "@/utils/global/slice/ProgressSlice.js";
+import {setMinimizeGlobal} from "@/lib/utils/global/slice/MinimizeSlice.js";
+import {setProgressGlobal} from "@/lib/utils/global/slice/ProgressSlice.js";
 
 export function LoadingGeneratingContentMinimize({isPending, type}) {
     const dispatch = useDispatch();

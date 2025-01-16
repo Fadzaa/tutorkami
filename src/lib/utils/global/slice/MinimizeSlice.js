@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import {minimizeHandler} from "@/utils/global/handler/MinimizeHandler.js";
+import {minimizeHandler} from "@/lib/utils/global/handler/MinimizeHandler.js";
 
 const initialState = {
     isMinimizeGlobal: minimizeHandler.get(),

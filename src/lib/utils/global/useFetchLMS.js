@@ -1,7 +1,7 @@
 import { useQuery } from 'react-query';
 import { useDispatch } from 'react-redux';
-import { setLoadingGlobal } from '@/utils/global/slice/LoadingSlice.js';
-import { setProgressGlobal } from "@/utils/global/slice/ProgressSlice.js";
+import { setLoadingGlobal } from '@/lib/utils/global/slice/LoadingSlice.js';
+import { setProgressGlobal } from "@/lib/utils/global/slice/ProgressSlice.js";
 import { api } from '@/api/api.js';
 
 export function useFetchLMS(url, body) {

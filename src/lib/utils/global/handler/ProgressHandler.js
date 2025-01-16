@@ -1,4 +1,4 @@
-import {decrypt, encrypt} from "@/utils/Encription.js";
+import {decrypt, encrypt} from "@/lib/Encription.js";
 
 export const progressHandler = {
     get() {

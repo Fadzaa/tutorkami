@@ -1,8 +1,8 @@
 import {ToolsCard} from "@/components/card/ToolsCard.jsx";
 import {useTranslation} from "react-i18next";
 import {useDispatch, useSelector} from "react-redux";
-import {setLoadingGlobal} from "@/utils/global/slice/LoadingSlice.js";
-import {setProgressGlobal} from "@/utils/global/slice/ProgressSlice.js";
+import {setLoadingGlobal} from "@/lib/utils/global/slice/LoadingSlice.js";
+import {setProgressGlobal} from "@/lib/utils/global/slice/ProgressSlice.js";
 
 export function LandingPage() {
     const dispatch = useDispatch();

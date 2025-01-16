@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import {progressHandler} from "@/utils/global/handler/ProgressHandler.js";
+import {progressHandler} from "@/lib/utils/global/handler/ProgressHandler.js";
 
 const initialState = {
     progressGlobal: progressHandler.get(),

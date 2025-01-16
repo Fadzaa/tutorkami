@@ -9,7 +9,7 @@ import {ContentDistance} from "@/components/ui/content-distance.jsx";
 import {LabelTitleContent} from "@/components/ui/label-title-content.jsx";
 import {Loading} from "@/components/loading/Loading.jsx";
 import {LMSSidebar} from "@/components/sidebar/LMSSidebar.jsx";
-import {useLoading} from "@/utils/global/LoadingProvider.jsx";
+import {useLoading} from "@/lib/utils/global/LoadingProvider.jsx";
 import {useSelector} from "react-redux";
 
 

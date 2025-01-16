@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import {loadingHandler} from "@/utils/global/handler/LoadingHandler.js";
+import {loadingHandler} from "@/lib/utils/global/handler/LoadingHandler.js";
 
 const initialState = {
     isLoadingGlobal: loadingHandler.get(),

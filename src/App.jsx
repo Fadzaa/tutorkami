@@ -3,10 +3,10 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import {RouterProvider} from "react-router-dom";
 import { routers } from "./routes"
 import {useEffect} from "react";
-import store from '@/utils/global/store/store.js';
+import store from '@/lib/utils/global/store/store.js';
 
-import {LoadingProvider} from "@/utils/global/LoadingProvider.jsx";
-import {GlobalLoading} from "@/utils/global/GlobalLoading.jsx";
+import {LoadingProvider} from "@/lib/utils/global/LoadingProvider.jsx";
+import {GlobalLoading} from "@/lib/utils/global/GlobalLoading.jsx";
 import {Provider} from "react-redux";
 
 

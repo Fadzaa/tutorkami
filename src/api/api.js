@@ -2,7 +2,7 @@ import axios from "axios";
 import {tokenHandler} from "@/lib/tokenHandler.js";
 
 const apiClient = axios.create({
-    baseURL: import.meta.env.VITE_API_BASE_URL,
+    baseURL: import.meta.env.VITE_API_HOST_URL,
     headers: {
         "ngrok-skip-browser-warning": "1231",
         "Content-Type": "application/json"

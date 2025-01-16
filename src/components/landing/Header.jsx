@@ -27,9 +27,8 @@ import { IoCloseOutline } from "react-icons/io5";
 import { IoIosArrowForward } from "react-icons/io";
 import { CiLogout } from "react-icons/ci";
 import {useTranslation} from "react-i18next";
-import {Loading} from "@/components/loading/Loading.jsx";
 import {Skeleton} from "@/components/ui/skeleton.jsx";
-import {langHandler} from "@/utils/langHandler.js";
+import {langHandler} from "@/lib/langHandler.js";
 
 const components = [
 

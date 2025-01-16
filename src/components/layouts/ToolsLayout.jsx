@@ -1,5 +1,5 @@
-import {Header} from "@/components/header/Header.jsx";
-import {Footer} from "@/components/footer/Footer.jsx";
+import {Header} from "@/components/landing/Header.jsx";
+import {Footer} from "@/components/landing/Footer.jsx";
 import {Outlet, ScrollRestoration} from "react-router-dom";
 
 

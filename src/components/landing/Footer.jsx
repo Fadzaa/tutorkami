@@ -7,9 +7,9 @@ export function Footer () {
                 terarah. Dengan alat seperti Roadmap Study AI hingga Generative LMS AI, kami siap membantu kamu belajar
                 lebih efisien!</p>
             <div className="flex gap-4 text-[0.55rem] lg:text-base">
-                <a href="/" className="text-black">Home</a>
-                <a href="/" className="text-black">Tools</a>
-                <a href="/" className="text-black">Dashboard</a>
+                <a href="/public" className="text-black">Home</a>
+                <a href="/public" className="text-black">Tools</a>
+                <a href="/public" className="text-black">Dashboard</a>
                 <a href="/login" className="text-black">Sign in</a>
             </div>
             <div className="flex gap-4 text-[0.55rem] lg:text-base">

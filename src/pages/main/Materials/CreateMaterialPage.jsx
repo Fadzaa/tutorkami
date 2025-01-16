@@ -10,72 +10,65 @@ import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod"
 import {z} from "zod"
 import {useMutation} from "@tanstack/react-query";
-import {api, makeResponseFailed} from "@/api/api.js";
 import {ContentDistance} from "@/components/ui/content-distance.jsx";
 import {LabelTitleContent} from "@/components/ui/label-title-content.jsx";
-import {Loading} from "@/components/loading/Loading.jsx";
 import {useNavigate} from "react-router-dom";
 import {MaterialSidebar} from "@/components/sidebar/MaterialSidebar.jsx";
 import {LoadingGeneratingContent} from "@/components/loading/LoadingGeneratingContent.jsx";
 import {SheetContentMobile} from "@/components/content/SheetContentMobile.jsx";
+import {materialAPI} from "@/api/material.js";
+import AsyncCreatableSelect from "react-select/async-creatable";
+import {commonAPI} from "@/api/common.js";
+import debounce from "lodash.debounce";
 
 
 const FormSchema = z.object({
     subject: z
         .string(),
-    goal_level: z
-        .string()
+    topic: z
+        .string(),
+    prior_knowledge: z
+        .string().default("The user has a basic understanding of plant biology, including concepts like cells and energy, but is unfamiliar with the details of photosynthesis"),
+    content_depth: z
+        .string(),
+    output_format: z
+        .string(),
+    style_customization: z
+        .string(),
+    proficiency_level: z
+        .string(),
+    length: z
+        .string(),
 })
-
-
 
 
 export function CreateMaterialPage() {
 
+    const navigate = useNavigate()
 
     const form = useForm({
         resolver: zodResolver(FormSchema), mode: "all",
     })
 
-    const navigate = useNavigate()
+    const promiseOptions = (inputValue, callback) => {
+        commonAPI.getSuggestion(inputValue, callback)
+    }
 
+    const loadSuggestions = debounce(promiseOptions, 1000)
 
     const {mutate, isPending,} = useMutation({
-        mutationKey: ["postMaterial"], mutationFn: async (body) => {
-            try {
-                const res = await api.post("material", body);
-
-                return res;
-            } catch (error) {
-                return makeResponseFailed({
-                    message: error,
-                })
-            }
-        },
-
+        mutationFn: async (body) => await materialAPI.postMaterial(body),
         onSuccess: (response) => {
             console.log("halo:" + response.data.data.id)
             navigate("/tools/generative-material/detail/" + response.data.data.id);
         },
-
-        onError: (error) => {
-            console.log("onError")
-            console.log(error)
-
-
-        },
-
-        onMutate: async () => {
-
-        },
-
+        onError: (error) => console.log("onError: " + error),
     })
 
-    const onSubmit = (data) => {
-        mutate({...data})
-    }
+    const onSubmit = (data) => mutate({...data})
 
-    return (<div className="h-[90vh] overflow-hidden flex">
+    const handleChange = (field, value) => field.onChange(value?.value)
+    return (<div className="h-[90vh] overflow-auto cs flex">
             <MaterialSidebar/>
 
             <div className="absolute w-full h-full lg:hidden">
@@ -107,26 +100,158 @@ export function CreateMaterialPage() {
 
                             )}
                         />
+
                         <FormField
                             control={form.control}
-                            name="goal_level"
-                            render={({field}) => (<FormItem>
-                                <FormLabel>What proficiency you prefer</FormLabel>
-                                <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                    <FormControl>
-                                        <SelectTrigger>
-                                            <SelectValue placeholder="Proficieny Level"/>
-                                        </SelectTrigger>
-                                    </FormControl>
-                                    <SelectContent>
-                                        <SelectItem value="Beginner">Beginner</SelectItem>
-                                        <SelectItem value="Intermediate">Intermediate</SelectItem>
-                                        <SelectItem value="Expert">Expert</SelectItem>
-                                    </SelectContent>
-                                </Select>
+                            name="topic"
 
+                            render={({field}) => (<FormItem>
+                                <FormLabel>Topic</FormLabel>
+                                <FormControl>
+                                    <AsyncCreatableSelect allowCreateWhileLoading={true}
+                                                          onChange={(value) => handleChange(field, value)} cacheOptions
+                                                          defaultOptions
+                                                          loadOptions={loadSuggestions}/>
+                                </FormControl>
                                 <FormMessage/>
                             </FormItem>)}
+                        />
+
+                        <FormField
+                            control={form.control}
+                            name="prior_knowledge"
+                            render={({field}) => (<FormItem>
+                                    <FormLabel>What is your fucking issue idiot?</FormLabel>
+                                    <FormControl>
+                                        <Input  placeholder="Mathematic" {...field} />
+                                    </FormControl>
+                                    <FormMessage/>
+                                </FormItem>
+
+                            )}
+                        />
+
+                        <FormField
+                            control={form.control}
+                            name="content_depth"
+                            render={({field}) => (<FormItem>
+                                    <FormLabel>Content Depth</FormLabel>
+                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                        <FormControl>
+                                            <SelectTrigger>
+                                                <SelectValue placeholder="Content Depth"/>
+                                            </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                            <SelectItem value="Concise">Concise</SelectItem>
+                                            <SelectItem value="Detailed">Detailed</SelectItem>
+                                        </SelectContent>
+                                    </Select>
+
+                                    <FormMessage/>
+                                </FormItem>
+
+                            )}
+                        />
+
+                        <FormField
+                            control={form.control}
+                            name="output_format"
+                            render={({field}) => (<FormItem>
+                                    <FormLabel>Output Format</FormLabel>
+                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                        <FormControl>
+                                            <SelectTrigger>
+                                                <SelectValue placeholder="Output Format"/>
+                                            </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                            <SelectItem value="Table">Table</SelectItem>
+                                            <SelectItem value="List">List</SelectItem>
+                                            <SelectItem value="Short Description">Short Description</SelectItem>
+                                            <SelectItem value="Paragraph">Paragraph</SelectItem>
+                                            <SelectItem value="Custom">Custom</SelectItem>
+                                        </SelectContent>
+                                    </Select>
+
+                                    <FormMessage/>
+                                </FormItem>
+
+                            )}
+                        />
+
+                        <FormField
+                            control={form.control}
+                            name="style_customization"
+                            render={({field}) => (<FormItem>
+                                    <FormLabel>Style Customization</FormLabel>
+                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                        <FormControl>
+                                            <SelectTrigger>
+                                                <SelectValue placeholder="Style Customization"/>
+                                            </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                            <SelectItem value="Matching User Style">Matching User Style</SelectItem>
+                                            <SelectItem value="More Human-like">More Human-like</SelectItem>
+                                            <SelectItem value="Easier Language">Easier Language</SelectItem>
+                                            <SelectItem value="Professional Style">Professional Style</SelectItem>
+                                        </SelectContent>
+                                    </Select>
+
+                                    <FormMessage/>
+                                </FormItem>
+
+                            )}
+                        />
+
+                        <FormField
+                            control={form.control}
+                            name="proficiency_level"
+                            render={({field}) => (<FormItem>
+                                    <FormLabel>Proficiency Level</FormLabel>
+                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                        <FormControl>
+                                            <SelectTrigger>
+                                                <SelectValue placeholder="Proficiency Level"/>
+                                            </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                            <SelectItem value="Beginner-Friendly">Beginner-Friendly</SelectItem>
+                                            <SelectItem value="Intermediate Level">Intermediate Level</SelectItem>
+                                            <SelectItem value="Expert Level">Expert Level</SelectItem>
+                                        </SelectContent>
+                                    </Select>
+
+                                    <FormMessage/>
+                                </FormItem>
+
+                            )}
+                        />
+
+                        <FormField
+                            control={form.control}
+                            name="length"
+                            render={({field}) => (<FormItem>
+                                    <FormLabel>Material Length</FormLabel>
+                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                        <FormControl>
+                                            <SelectTrigger>
+                                                <SelectValue placeholder="Material Length"/>
+                                            </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                            <SelectItem value="Ultra-Short">Ultra-Short</SelectItem>
+                                            <SelectItem value="Short">Short</SelectItem>
+                                            <SelectItem value="Medium">Medium</SelectItem>
+                                            <SelectItem value="Long">Long</SelectItem>
+                                        </SelectContent>
+                                    </Select>
+
+                                    <FormMessage/>
+                                </FormItem>
+
+                            )}
                         />
 
                         <Button type="submit">

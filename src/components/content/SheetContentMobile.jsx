@@ -5,7 +5,7 @@ import {
 } from "@/components/ui/sheet"
 import {BsLayoutTextSidebarReverse} from "react-icons/bs";
 import {ListSkeleton} from "@/components/skeleton/ListSkeleton.jsx";
-import {ListQuestionCard} from "@/components/card/ListQuestionCard.jsx";
+import {ListSidebarCard} from "@/components/card/ListSidebarCard.jsx";
 import {format} from "date-fns";
 import {FallbackEmptyContent} from "@/components/fallback/FallbackEmptyContent.jsx";
 import {Button} from "@/components/ui/button.jsx";
@@ -88,7 +88,7 @@ export function SheetContentMobile({type}) {
                 <div className="h-[88%]  my-5">
                     {
                         isLoading ? <ListSkeleton/> : type !== "lms" ? data.data.data.map((item, index) => (
-                            <ListQuestionCard
+                            <ListSidebarCard
                                 title={item.title}
                                 key={item}
                                 id={item.id}
@@ -101,7 +101,7 @@ export function SheetContentMobile({type}) {
 
                             />
                         )) : data.data.map((item, index) => (
-                            <ListQuestionCard
+                            <ListSidebarCard
                                 title={item.title}
                                 key={item}
                                 id={item.id}

@@ -8,7 +8,7 @@ import {
 import {SlOptionsVertical} from "react-icons/sl";
 import {Button} from "@/components/ui/button.jsx";
 import {Skeleton} from "@/components/ui/skeleton.jsx";
-import {ListQuestionCard} from "@/components/card/ListQuestionCard.jsx";
+import {ListSidebarCard} from "@/components/card/ListSidebarCard.jsx";
 import {format} from "date-fns";
 
 export function ListSkeleton() {
@@ -28,8 +28,8 @@ export function ListSkeleton() {
 
                             <Skeleton className="text-transparent w-10/12">IELTS Reading Comprehension</Skeleton>
                             <Skeleton className={"flex justify-between w-11/12"}>
-                                <p className="text-transparent">>Solved</p>
-                                <p className="text-transparent">>date</p>
+                                <p className="text-transparent">Solved</p>
+                                <p className="text-transparent">date</p>
                             </Skeleton>
                         </div>
                     </div>

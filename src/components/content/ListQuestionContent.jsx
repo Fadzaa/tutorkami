@@ -1,23 +1,18 @@
 import PropTypes from "prop-types";
 import {useEffect, useState} from "react";
-import {QueryClient, useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
+import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import {api, makeResponseFailed} from "@/api/api.js";
-
-import {SheetContent, SheetDescription, SheetHeader, Sheet, SheetTitle, SheetTrigger} from "@/components/ui/sheet.jsx";
 import {HeaderContent} from "@/components/ui/header-content.jsx";
-import {FooterContent} from "@/components/ui/footer-content.jsx";
 import {Loading} from "@/components/loading/Loading.jsx";
 import {cn} from "@/lib/utils.js";
 import {ContentDistance} from "@/components/ui/content-distance.jsx";
 import {questionAPI} from "@/api/question.js";
 import {Button} from "@/components/ui/button.jsx";
 import {Progress} from "@/components/ui/progress.jsx";
-import {useForm} from "react-hook-form";
-import {zodResolver} from "@hookform/resolvers/zod";
-import * as item from "date-fns/locale";
 import {Input} from "@/components/ui/input.jsx";
 import {useNavigate} from "react-router-dom";
 import {ContentQuestionSkeleton} from "@/components/skeleton/ContentQuestionSkeleton.jsx";
+import {commonAPI} from "@/api/common.js";
 
 
 export function ListQuestionContent({id}) {
@@ -25,8 +20,9 @@ export function ListQuestionContent({id}) {
 
     const [questions, setQuestions] = useState([]);
     const [progress, setProgress] = useState(0)
-
     const [enable, setEnable] = useState(false);
+    const navigate = useNavigate();
+    const queryClient = useQueryClient();
 
     const {isLoading, data, isFetching, refetch} = useQuery({
         queryKey: ["getQuestionID"],
@@ -48,10 +44,10 @@ export function ListQuestionContent({id}) {
     useEffect(() => {
 
 
-            let result = Math.floor(questions.length / data?.data.question_detail.question.length * 100,)
+        let result = Math.floor(questions.length / data?.data.question_detail.questions.length * 100,)
 
-        console.log(result)
-            setProgress(result)
+
+        setProgress(result)
 
     }, [questions])
     const handleChoices = (id, answer) => {
@@ -69,8 +65,6 @@ export function ListQuestionContent({id}) {
     };
 
 
-    const navigate = useNavigate();
-    const queryClient = useQueryClient();
     const {mutate, isPending,} = useMutation({
         mutationKey: ["postSubmit"], mutationFn: async (body) => {
             try {
@@ -83,61 +77,23 @@ export function ListQuestionContent({id}) {
                 })
             }
         },
-
-        onSuccess: (response) => {
-
-
+        onSuccess: () => {
             refetch()
             queryClient.invalidateQueries(['getQuestion']);
         },
-
-        onError: (error) => {
-            console.log("onError")
-            console.log(error)
-
-
-        },
-
-        onMutate: async () => {
-
-        },
+        onError: (error) => console.log("onError: " + error)
 
     })
 
 
-    const {mutate:retake, isPending:isPendingRetake,} = useMutation({
-        mutationKey: ["postSubmit"], mutationFn: async (body) => {
-            try {
-                const res = await api.delete(`retake/${body.id}`);
-
-                return res;
-            } catch (error) {
-                return makeResponseFailed({
-                    message: error,
-                })
-            }
-        },
-
-        onSuccess: (response) => {
-
-
+    const {mutate: retake, isPending: retakeLoading} = useMutation({
+        mutationKey: ["postSubmit"], mutationFn: async (body) => await commonAPI.retakeQuestion(body.id),
+        onSuccess: () => {
             refetch()
             queryClient.invalidateQueries(['getQuestion']);
         },
-
-        onError: (error) => {
-            console.log("onError")
-            console.log(error)
-
-
-        },
-
-        onMutate: async () => {
-
-        },
-
+        onError: (error) => console.log("onError: " + error)
     })
-
 
 
     const onSubmit = (id) => {
@@ -148,19 +104,12 @@ export function ListQuestionContent({id}) {
 
     }
 
-
     const choicesCondintion = (itemParent, i, answers) => {
 
 
         if (answers.length > 0) {
             let answerFilter = answers.filter(answer => answer.question_id === itemParent.id)[0];
 
-
-            console.log(answerFilter.answer_response === itemParent.answer)
-            console.log(itemParent.answer) //ress
-            console.log(answerFilter.answer_response) // controller
-
-            // let choices =
             return (
                 <div>
                     <p className={cn(
@@ -170,30 +119,45 @@ export function ListQuestionContent({id}) {
                     <h2 className={'font-bold text-lg'}>{itemParent.title}</h2>
 
 
-
                     {
 
                         itemParent.type === "Fill in the blank" ?
                             <Input disabled value={answerFilter.answer_response}
                                    placeholder={"Type your answer here"}/>
                             :
-                            <div className={'mt-5 flex flex-col lg:grid lg:grid-rows-2 w-full lg:w-1/2 lg:grid-flow-col gap-8'}>
+                            <div
+                                className={'mt-5 flex flex-col lg:grid lg:grid-rows-2 w-full lg:w-1/2 lg:grid-flow-col gap-8'}>
                                 {
-                                    itemParent.choices.toString().split(',').map((item, i) => (
+                                    itemParent.choices.toString().split(',').map((item, i) => {
 
-                                        <Button key={item}
-                                                className={cn(
-                                                    'group flex   justify-start  rounded-xl w-full lg:w-96',
-                                                    answerFilter.answer_response === item ? "bg-primary/90" : "bg-transparent hover:bg-transparent border-2",
-                                                    itemParent.answer === item && answerFilter.answer_response !== itemParent.answer ? "bg-[#E2E8F0] hover:bg-[#E2E8F0]" : ""
-                                                )}>
-                                            <p className={cn(
-                                                "overflow-hidden ",
-                                                answerFilter.answer_response === item ? "text-white" : "text-primary"
-                                            )}> {arr[i] + item}</p>
-                                        </Button>
+                                            // jawaban yang di pilih
+                                            const answerchoose = answerFilter.answer_response.toString().trim().toLowerCase() === item.trim().toLowerCase()
 
-                                    ))
+                                            // jawaban benar
+                                            const correctAnswer = itemParent.answer.toString().trim() === item.toString().trim() && answerFilter.answer_response.toString().trim() !== itemParent.answer.toString().trim()
+
+
+                                            return (
+
+                                                <Button key={item}
+                                                        className={cn(
+                                                            'group flex   justify-start  rounded-xl w-full lg:w-96',
+
+                                                            //answer choose
+                                                            answerchoose ? "bg-primary/90" : "bg-transparent hover:bg-transparent border-2",
+                                                            //correct answer
+                                                            correctAnswer ? "bg-[#E2E8F0] hover:bg-[#E2E8F0]" : ""
+                                                        )}>
+                                                    <p className={cn(
+                                                        "overflow-hidden ",
+                                                        answerchoose ? "text-white" : "text-primary"
+                                                    )}> {arr[i] + item}</p>
+                                                </Button>
+
+                                            )
+
+                                        }
+                                    )
                                 }
                             </div>
                     }
@@ -247,12 +211,9 @@ export function ListQuestionContent({id}) {
     }
 
     const handleInput = (e, id) => {
-
-
         let questionFilter = questions.filter(question => question.id !== id);
 
         if (e.target.value !== "") {
-
             questionFilter.push({
                 id: id, answer: e.target.value,
             });
@@ -261,7 +222,6 @@ export function ListQuestionContent({id}) {
 
         } else {
             let newquestion = questions.filter(question => question.id !== id && question.answer === "");
-
 
             setQuestions(newquestion)
         }
@@ -276,6 +236,7 @@ export function ListQuestionContent({id}) {
                 "flex-1 pb-5 cs overflow-y-auto",
                 isLoading || isFetching ? "flex items-center" : ""
             )}>
+
                 {isLoading || isFetching ? (
                     <ContentQuestionSkeleton/>
                 ) : (
@@ -284,16 +245,13 @@ export function ListQuestionContent({id}) {
                         <ContentDistance>
 
                             <HeaderContent
-                                title={data?.data.question_detail.title}
-                                type={data?.data.question_detail.type}
+                                title={data?.data.question_detail.subject}
                                 date={data?.data.question_detail.date}
-                                is_question={data?.data.question_detail.is_question}
-                                solved={data?.data.question_detail.solved}
-                                goal_level={data?.data.question_detail.goal_level}
-                                knowledge_level={data?.data.question_detail.knowledge_level}
-
+                                solved={data?.data.question_detail.is_solved}
+                                desc={`${data?.data.question_detail.type} • ${data?.data.question_detail.topic} • ${data?.data.question_detail.question_difficulty} • ${data?.data.question_detail.target_audience}`}
                             />
-                            {data?.data.question_detail.question.map((itemParent, i) => choicesCondintion(itemParent, i, data?.data.answer_details))}
+
+                            {data?.data.question_detail.questions.map((itemParent, i) => choicesCondintion(itemParent, i, data?.data.answer_detail))}
 
                         </ContentDistance>
                     )
@@ -303,7 +261,7 @@ export function ListQuestionContent({id}) {
 
             {(isLoading || isFetching) || data?.data != null && (
 
-                data?.data.question_detail.solved ? (
+                data?.data.question_detail.is_solved ? (
 
 
                     <div
@@ -315,17 +273,20 @@ export function ListQuestionContent({id}) {
                                 }
                             )
 
-                        } className="w-full">Retake Test</Button>
-                        <Button onClick={() => navigate("/tools/generative-list-question")} className="w-full">Regenerate</Button>
+                        } className="w-full">{retakeLoading ?<Loading/>:"Retake Test"}</Button>
+                        <Button onClick={() => navigate("/tools/generative-list-question")}
+                                className="w-full">Regenerate</Button>
                     </div>
 
                 ) : (
                     <div
-                        className="flex flex-col items-center justify-between gap-4 bg-white border-t-2 border-accent p-4">
+                        className="flex flex-col items-start justify-between gap-4 bg-white border-t-2 border-accent p-4">
+
+                        <p className={'font-bold text-lg text-start'}>00:00</p>
                         <Progress value={progress} className="w-full"/>
                         <div className={'flex flex-row w-full justify-between'}>
-                            <p>{progress ? progress:0}% Complete</p>
-                            <p>{questions.length}/{data?.data.question_detail.question.length}</p>
+                            <p>{progress ? progress : 0}% Complete</p>
+                            <p>{questions.length}/{data?.data.question_detail.questions.length}</p>
 
                         </div>
 

@@ -1,4 +1,4 @@
-import {ListQuestionCard} from "@/components/card/ListQuestionCard.jsx";
+import {ListSidebarCard} from "@/components/card/ListSidebarCard.jsx";
 import {Button} from "@/components/ui/button.jsx";
 import {
     Sidebar,

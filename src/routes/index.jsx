@@ -12,8 +12,7 @@ import {DetailRoadmapPage} from "@/pages/main/Roadmap/DetailRoadmapPage.jsx";
 import {ListMaterialPage} from "@/pages/main/Materials/ListMaterialPage.jsx";
 import {CreateMaterialPage} from "@/pages/main/Materials/CreateMaterialPage.jsx";
 import {DetailMaterialPage} from "@/pages/main/Materials/DetailMaterialPage.jsx";
-import ProtectedRoute from "@/Middlewares/ProtectedRoute.jsx";
-import NotProtectedRoute from "@/Middlewares/NotProtectedRoute.jsx";
+import UseAuth from "@/hooks/use-auth.jsx";
 import {DetailQuestionPage} from "@/pages/main/Question/DetailQuestionPage.jsx";
 import {CreateQuestionPage} from "@/pages/main/Question/CreateQuestionPage.jsx";
 import {ListQuestionPage} from "@/pages/main/Question/ListQuestionPage.jsx";
@@ -40,7 +39,7 @@ export const routers = createBrowserRouter([
     },
     {
         path: '/tools',
-        element:<ProtectedRoute><ToolsLayout /></ProtectedRoute>,
+        element:<UseAuth><ToolsLayout /></UseAuth>,
         children: [
             {
                 path: 'generative-lms',
@@ -95,7 +94,7 @@ export const routers = createBrowserRouter([
     {
         path: '/',
         errorElement: <Fallback body='Something went wrong' title="Please try again later." />,
-        element: <NotProtectedRoute><AuthLayout /></NotProtectedRoute>,
+        element: <AuthLayout />,
         children: [
             {
                 path: 'login',
@@ -110,7 +109,7 @@ export const routers = createBrowserRouter([
     {
         path: '/storage',
         errorElement: <Fallback body='Something went wrong' title="Please try again later." />,
-        element: <ProtectedRoute><StorageLayout /></ProtectedRoute>,
+        element: <UseAuth><StorageLayout /></UseAuth>,
         children: [
             {
                 path: 'roadmap',

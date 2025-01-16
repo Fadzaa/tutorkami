@@ -1,12 +1,4 @@
-import {ListQuestionCard} from "@/components/card/ListQuestionCard.jsx";
-import {format} from "date-fns";
-import {
-    Pagination,
-    PaginationContent, PaginationEllipsis,
-    PaginationItem,
-    PaginationLink, PaginationNext,
-    PaginationPrevious
-} from "@/components/ui/pagination.jsx";
+
 import {Skeleton} from "@/components/ui/skeleton.jsx";
 
 export function StorageSkeleton() {
@@ -25,8 +17,8 @@ export function StorageSkeleton() {
 
                             <Skeleton className="text-transparent w-10/12">IELTS Reading Comprehension</Skeleton>
                             <Skeleton className={"flex justify-between w-11/12"}>
-                                <p className="text-transparent">>Solved</p>
-                                <p className="text-transparent">>date</p>
+                                <p className="text-transparent">Solved</p>
+                                <p className="text-transparent">date</p>
                             </Skeleton>
                         </div>
                     </div>

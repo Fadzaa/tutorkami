@@ -5,9 +5,9 @@ import {useMutation} from "@tanstack/react-query";
 import {authAPI} from "@/api/auth.js";
 import { Loader2 } from "lucide-react"
 import {useToast} from "@/hooks/use-toast.js";
-import {tokenHandler} from "@/utils/tokenHandler.js";
+import {tokenHandler} from "@/lib/tokenHandler.js";
 import {Link, useNavigate} from "react-router-dom";
-import {signInWithGooglePopup} from "@/utils/firebase.utils.js";
+import {signInWithGooglePopup} from "@/lib/firebase.js";
 import {FcGoogle} from "react-icons/fc";
 import {FaEyeSlash} from "react-icons/fa";
 import {useState} from "react";

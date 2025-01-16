@@ -2,7 +2,7 @@ import {format} from "date-fns";
 import {LabelTitleContent} from "@/components/ui/label-title-content.jsx";
 import {SheetContentMobile} from "@/components/content/SheetContentMobile.jsx";
 
-export function HeaderContent({title,date,type,knowledge_level,goal_level,is_question,solved}) {
+export function HeaderContent({title,date,solved,desc,type}) {
 
 
     return (
@@ -14,12 +14,13 @@ export function HeaderContent({title,date,type,knowledge_level,goal_level,is_que
                 <LabelTitleContent>
                     <h1 className="text-xl">{title}</h1>
                 </LabelTitleContent>
-                <p>{`${type} • ${knowledge_level} • ${goal_level}`}</p>
+                <p>{desc}</p>
             </div>
+
             <div>
 
                 {
-                    is_question === true ?
+                    type == "question" && solved === true ?
 
                         <h1 className="text-xs lg:text-lg mb-3 font-bold">{solved === true ? "Solved" : "Unsolved"}</h1>
                         :

@@ -129,16 +129,11 @@
   background-color: #0F172A;
 }
 
-
-.css-1u9des2-indicatorSeparator{
-  display: none;
+.tox .tox-toolbar__group {
+  border: none !important; /* Hilangkan border */
+  box-shadow: none !important; /* Hilangkan shadow */
 }
-
-.custom-dialog-backdrop::backdrop {
-  background-color: transparent;
-}
-
-.custom-list-item::marker {
-  font-size: 0.8em;
-  color: #A9A9A9;
+.tox .tox-toolbar__primary {
+  border: none !important; /* Hilangkan border */
+  box-shadow: none !important; /* Hilangkan shadow */
 }

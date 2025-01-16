@@ -1,7 +1,7 @@
 import {Button} from "@/components/ui/button.jsx";
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils.js"
 import {forwardRef, useEffect, useState} from 'react';
-import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { Avatar, AvatarFallback } from "@/components/ui/avatar.jsx"
 import {
     NavigationMenu,
     NavigationMenuContent,
@@ -10,15 +10,15 @@ import {
     NavigationMenuList,
     NavigationMenuTrigger,
     navigationMenuTriggerStyle,
-} from "@/components/ui/navigation-menu"
+} from "@/components/ui/navigation-menu.jsx"
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu.jsx"
 import {Link, useNavigate} from "react-router-dom";
-import {tokenHandler} from "@/utils/tokenHandler.js";
+import {tokenHandler} from "@/lib/tokenHandler.js";
 import {useMutation, useQuery} from "@tanstack/react-query";
 import {authAPI} from "@/api/auth.js";
 import {toast} from "@/hooks/use-toast.js";
@@ -142,7 +142,7 @@ export function Header ({isLandingPage}) {
     }
 
     const changeLanguage = (lng) => {
-        i18n.changeLanguage(lng).then(r => console.log(r));
+        i18n.changeLanguage(lng)
     };
 
 

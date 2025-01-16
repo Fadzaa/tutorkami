@@ -1,15 +1,9 @@
-import {ListQuestionCard} from "@/components/card/ListQuestionCard.jsx";
+import {ListSidebarCard} from "@/components/card/ListSidebarCard.jsx";
 import {Button} from "@/components/ui/button.jsx";
-import {useForm} from "react-hook-form";
-import {useToast} from "@/hooks/use-toast.js";
 import {useNavigate} from "react-router-dom";
 import {useQuery} from "@tanstack/react-query";
-import {api, makeResponseFailed} from "@/api/api.js";
 import {format} from "date-fns";
-import PropTypes from "prop-types";
-import {roadmapAPI} from "@/api/roadmap.js";
 import {Sidebar, SidebarProvider, SidebarTrigger} from "@/components/ui/sidebar.jsx";
-import {materialAPI} from "@/api/material.js";
 import {questionAPI} from "@/api/question.js";
 import {FallbackEmptyContent} from "@/components/fallback/FallbackEmptyContent.jsx";
 import {ListSkeleton} from "@/components/skeleton/ListSkeleton.jsx";
@@ -20,16 +14,12 @@ export function QuestionSidebar() {
 
     const {isLoading, data} = useQuery({
         queryKey: ["getQuestion"],
-        queryFn: async () => {
-            return await questionAPI.getQuestion()
-        },
+        queryFn: async () => await questionAPI.getQuestion()
 
     })
 
 
-    const handleToCreate = () => {
-        navigate("/tools/generative-question/create")
-    }
+    const handleToCreate = () => navigate("/tools/generative-question/create")
     return (
         <SidebarProvider className="hidden lg:block">
             <div className={'fixed w-full'}>
@@ -45,19 +35,15 @@ export function QuestionSidebar() {
                     </div>
                     <div className="cs px-5 h-[73%]  my-5">
                         {
-                            isLoading ? <ListSkeleton/> : data.data.data.map((item, index) => (
-                                <ListQuestionCard
-                                    title={item.title}
+                            isLoading ? <ListSkeleton/> : data.data.data.map((item) => (
+                                <ListSidebarCard
                                     key={item}
                                     id={item.id}
-                                    date={format(item.date, "Y-M-dd")}
-                                    isQuestion={item.is_question}
-                                    category={item.knowledge_level}
-                                    proficiency={item.goal_level}
+                                    title={item.subject}
                                     type={item.type}
-                                    isSolved={item.solved}
-
-
+                                    isSolved={item.is_solved}
+                                    date={format(item.date, "Y-M-dd")}
+                                    desc={`${item.topic} • ${item.question_difficulty} • ${item.target_audience}`}
                                 />
                             ))
                         }

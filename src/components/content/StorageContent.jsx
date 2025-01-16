@@ -1,4 +1,4 @@
-import {ListQuestionCard} from "@/components/card/ListQuestionCard.jsx";
+import {ListSidebarCard} from "@/components/card/ListSidebarCard.jsx";
 import {format} from "date-fns";
 import {
     Pagination,
@@ -17,7 +17,7 @@ export function StorageContent({roadmapData,prev_page_url,next_page_url,last_pag
 
             <div className="lg:grid gap-3 p-4 lg:grid-cols-4">
                 {roadmapData.map((item) => (
-                    <ListQuestionCard
+                    <ListSidebarCard
                         title={item.title}
                         key={item.id}
                         id={item.id}

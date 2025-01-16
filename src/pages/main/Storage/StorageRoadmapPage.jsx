@@ -17,7 +17,7 @@ import {storageAPI} from "@/api/storage.js";
 import {Sheet, SheetContent, SheetTrigger} from "@/components/ui/sheet.jsx";
 import {BsLayoutTextSidebarReverse} from "react-icons/bs";
 import {ListSkeleton} from "@/components/skeleton/ListSkeleton.jsx";
-import {ListQuestionCard} from "@/components/card/ListQuestionCard.jsx";
+import {ListSidebarCard} from "@/components/card/ListSidebarCard.jsx";
 import {FallbackEmptyContent} from "@/components/fallback/FallbackEmptyContent.jsx";
 import {Label} from "@/components/ui/label.jsx";
 import {StorageSkeleton} from "@/components/skeleton/StorageSkeleton.jsx";

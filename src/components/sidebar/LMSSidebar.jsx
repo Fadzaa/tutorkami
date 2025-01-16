@@ -1,4 +1,4 @@
-import {ListQuestionCard} from "@/components/card/ListQuestionCard.jsx";
+import {ListSidebarCard} from "@/components/card/ListSidebarCard.jsx";
 import {Button} from "@/components/ui/button.jsx";
 import {
     Sidebar,
@@ -43,7 +43,7 @@ export function LMSSidebar() {
                     <div className="cs px-5 h-[73%]  my-5">
                         {
                             isLoading ? <ListSkeleton/> : data.data.map((item, index) => (
-                                <ListQuestionCard
+                                <ListSidebarCard
                                     title={item.title}
                                     key={item}
                                     id={item.id}

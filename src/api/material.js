@@ -35,5 +35,15 @@ export const materialAPI = {
             })
         }
     },
-
+    updateMaterial: async (body,id) => {
+        try {
+            const res = await api.put(`material/${id}`, body);
+            console.log("Login Response:", res);
+            return res;
+        } catch (error) {
+            return makeResponseFailed({
+                message: error,
+            })
+        }
+    },
 }

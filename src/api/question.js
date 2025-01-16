@@ -1,4 +1,4 @@
-import { api, makeResponseFailed } from "./api"
+import {api, makeResponseFailed} from "./api"
 
 export const questionAPI = {
     getQuestion: async () => {
@@ -26,7 +26,7 @@ export const questionAPI = {
     getQuestionID: async (id) => {
         try {
             console.log("id:" + id)
-            const res = await api.get("question/" + id );
+            const res = await api.get("question/" + id);
             console.log("Get User Response:", res);
             return res.data;
         } catch (error) {
@@ -35,10 +35,9 @@ export const questionAPI = {
             })
         }
     },
-    deleteQuestion: async (id) => {
+    deleteQuestion: async (type,id) => {
         try {
-            console.log("id:" + id)
-            const res = await api.delete("question/" + id );
+            const res = await api.delete(`${type.toString().toLowerCase()}/${id}`);
             console.log("Get User Response:", res);
             return res.data;
         } catch (error) {

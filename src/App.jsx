@@ -1,9 +1,12 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import {RouterProvider} from "react-router-dom";
 import { routers } from "./routes"
 import {useEffect} from "react";
+import store from '@/utils/global/store/store.js';
 import {langHandler} from "@/utils/langHandler.js";
+import {LoadingProvider} from "@/utils/global/LoadingProvider.jsx";
+import {GlobalLoading} from "@/utils/global/GlobalLoading.jsx";
+import {Provider} from "react-redux";
 
 
 
@@ -16,12 +19,17 @@ function App() {
 
   return (
     <>
-        <QueryClientProvider client={queryClient}>
-            <main className={'font-Urbanist'}>
-                <RouterProvider router={routers}/>
-            </main>
-            {/*<ReactQueryDevtools initialIsOpen={false} />*/}
-        </QueryClientProvider>
+        <Provider store={store}>
+            <QueryClientProvider client={queryClient}>
+                <main className={'font-Urbanist'}>
+                    <LoadingProvider>
+                        <GlobalLoading/>
+                        <RouterProvider router={routers}/>
+                    </LoadingProvider>
+                </main>
+                {/*<ReactQueryDevtools initialIsOpen={false} />*/}
+            </QueryClientProvider>
+        </Provider>
     </>
   )
 }

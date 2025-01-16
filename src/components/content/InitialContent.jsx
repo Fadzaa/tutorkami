@@ -43,7 +43,6 @@ export function InitialContent({type}) {
 
     return (
         <div className="h-full w-full p-5 flex flex-col items-center lg:justify-center justify-between gap-3">
-
             <div className="flex w-full items-center justify-between lg:hidden">
                 <SheetContentMobile type={type}/>
                 <h1 className="font-semibold">{name}</h1>

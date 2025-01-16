@@ -44,7 +44,7 @@ export function AuthForm({authType}) {
         },
 
         onError: (error, variables, context) => {
-
+            console.log("err",error)
             toast({
                 variant: "destructive",
                 title: authType === "login" ? "Login Failed" : "Register Failed",

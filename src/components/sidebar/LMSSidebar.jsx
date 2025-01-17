@@ -11,6 +11,7 @@ import {lmsAPI} from "@/api/lms.js";
 import {ListSkeleton} from "@/components/skeleton/ListSkeleton.jsx";
 import {FallbackEmptyContent} from "@/components/fallback/FallbackEmptyContent.jsx";
 import {ListQuestionCardDetail} from "@/components/card/ListQuestionFilterCard.jsx";
+import {format} from "date-fns";
 
 export function LMSSidebar() {
     const navigate = useNavigate()
@@ -37,13 +38,28 @@ export function LMSSidebar() {
                     <div className={'flex items-end justify-between mr-4'}>
 
                         <h1 className="px-5 mt-5 font-medium text-xl">List LMS</h1>
-
-
-                        <SidebarTrigger />
+                        <SidebarTrigger/>
                     </div>
-                    {
-                        data?.data.length === 0 ? <FallbackEmptyContent type={"lms"}/> : <ListQuestionCardDetail data={data} isLoading={isLoading} type={"lms"}/>
-                    }
+                    <div className="cs px-5 h-[73%]  my-5">
+                        {
+                            data?.data.length !== 0 && (isLoading ? <ListSkeleton/> : data.data.map((item) => (
+                                <ListSidebarCard
+                                    key={item.id}
+                                    title={item.subject}
+                                    id={item.id}
+                                    date={format(item.date, "Y-M-dd")}
+                                    type={item.type}
+                                    subId={item.subject_detail_lms.lms.topic[0].sub_topic[0].id}
+                                    desc={`${item.subject_detail_lms.difficulty} • ${item.subject_detail_lms.proficiency_level} • ${item.subject_detail_lms.length}`}
+                                />
+                            )))
+                        }
+
+                        {
+                            data?.data.length === 0 ? <FallbackEmptyContent type={"question"}/> : <></>
+                        }
+
+                    </div>
 
                     <Button className={'mx-5'} onClick={handleToCreate}>Add New LMS</Button>
 

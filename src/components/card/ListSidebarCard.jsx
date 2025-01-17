@@ -13,7 +13,7 @@ import {FaRegTrashAlt} from "react-icons/fa";
 import {commonAPI} from "@/api/common.js";
 
 export function ListSidebarCard({
-                                     title, date, desc, isSolved, type, id, storage
+                                     title, date, desc, isSolved, type, id, storage, subId
                                  }) {
 
 
@@ -27,7 +27,7 @@ export function ListSidebarCard({
         onError: (error) => console.log("onError :" + error)
     })
 
-    const handleToDetail = (id) => navigate(`/tools/generative-${type.toString().toLowerCase()}/detail/${id}`);
+    const handleToDetail = (id) => type === "LMS" ? navigate(`/tools/generative-${type.toString().toLowerCase()}/detail/${id}/${subId}`) : navigate(`/tools/generative-${type.toString().toLowerCase()}/detail/${id}`);
     const onSubmit = (data) => mutate(data)
 
     return (<div
@@ -105,6 +105,7 @@ ListSidebarCard.propTypes = {
     title: PropTypes.string,
     date: PropTypes.string,
     id: PropTypes.number,
+    subId: PropTypes.number,
     desc: PropTypes.string,
     type: PropTypes.string,
     isSolved: PropTypes.bool,

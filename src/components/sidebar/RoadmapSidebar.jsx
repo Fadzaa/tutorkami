@@ -40,11 +40,28 @@ export function RoadmapSidebar() {
                         <h1 className="px-5 mt-5 font-medium text-xl">List Roadmaps</h1>
 
 
-                        <SidebarTrigger />
+                        <SidebarTrigger/>
                     </div>
-                    {
-                        data?.data.data.length === 0 ? <FallbackEmptyContent type={"roadmap"}/> : <ListQuestionCardDetail data={data?.data} isLoading={isLoading} type={"roadmap"}/>
-                    }
+                    <div className="cs px-5 h-[73%]  my-5">
+                        {
+                            isLoading ? <ListSkeleton/> : data.data.data.map((item) => (
+                                <ListSidebarCard
+                                    key={item}
+                                    id={item.id}
+                                    title={item.subject}
+                                    type={item.type}
+                                    isSolved={item.is_solved}
+                                    date={format(item.date, "Y-M-dd")}
+                                    desc={`${item.subject} • ${item.subject_detail_roadmap.depth_of_topics} • ${item.subject_detail_roadmap.style_customization	} • ${item.subject_detail_roadmap.timeline}`}
+                                />
+                            ))
+                        }
+
+                        {
+                            data?.data.data.length === 0 ? <FallbackEmptyContent type={"question"}/> : <></>
+                        }
+
+                    </div>
 
                     <Button className={'mx-5'} onClick={handleToCreate}>Add New Roadmaps</Button>
 

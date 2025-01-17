@@ -3,7 +3,9 @@ import {api, makeResponseFailed} from "./api"
 export const lmsAPI = {
     getLms: async () => {
         try {
-            return await api.get("lms");
+            const response = await api.get("lms")
+            console.log(response.data)
+            return response;
         } catch (error) {
             return makeResponseFailed({
                 message: error,

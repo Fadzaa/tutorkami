@@ -65,7 +65,7 @@ export function CreateMaterialPage() {
         onError: (error) => console.log("onError: " + error),
     })
 
-    const onSubmit = (data) => mutate({...data})
+    const onSubmit = (data) => mutate({...data, reference: "No", language: "Indonesian"})
 
     const handleChange = (field, value) => field.onChange(value?.value)
     return (<div className="h-[90vh] overflow-auto cs flex">

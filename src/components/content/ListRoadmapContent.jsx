@@ -27,6 +27,7 @@ export function ListRoadmapContent({id}) {
     });
 
     useEffect(() => {
+        console.log(data)
         if (enable && id) {
             refetch();
         } else if (id) {
@@ -49,14 +50,12 @@ export function ListRoadmapContent({id}) {
                         <ContentDistance>
 
                             <HeaderContent
-                                title={data?.data.title}
+                                title={data?.data.subject}
                                 type={data?.data.type}
                                 date={data?.data.date}
-                                goal_level={data?.data.goal_level}
-                                knowledge_level={data?.data.knowledge_level}
-
+                                desc={data?.data.topic}
                             />
-                            {data?.data.roadmap.map((item, i) => (
+                            {data?.data.subject_detail_roadmap.roadmap.map((item, i) => (
                                 <Sheet key={item.id}>
                                     <SheetTrigger>
                                         <div

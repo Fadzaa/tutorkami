@@ -1,9 +1,5 @@
-import {
-    Form, FormControl, FormField, FormItem, FormLabel, FormMessage,
-} from "@/components/ui/form.jsx"
-import {
-    Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
-} from "@/components/ui/select.jsx"
+import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage,} from "@/components/ui/form.jsx"
+import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue,} from "@/components/ui/select.jsx"
 import {Input} from "@/components/ui/input.jsx"
 import {Button} from "@/components/ui/button.jsx";
 import {useForm} from "react-hook-form";
@@ -17,16 +13,21 @@ import {LabelTitleContent} from "@/components/ui/label-title-content.jsx";
 import {useNavigate} from "react-router-dom";
 import {LoadingGeneratingContent} from "@/components/loading/LoadingGeneratingContent.jsx";
 import {SheetContentMobile} from "@/components/content/SheetContentMobile.jsx";
+import {langHandler} from "@/lib/langHandler.js";
 
 
 const FormSchema = z.object({
     subject: z
         .string(),
-    spesific_focus: z
+    goal: z
         .string(),
-    knowledge_level: z
+    user_proficiency_level: z
         .string(),
-    goal_level: z
+    depth_of_topics: z
+        .string(),
+    style_customization: z
+        .string(),
+    timeline: z
         .string()
 })
 
@@ -44,8 +45,7 @@ export function CreateRoadmapPage() {
     const {mutate, isPending,} = useMutation({
         mutationKey: ["postRoadmap"], mutationFn: async (body) => {
             try {
-                const res = await api.post("roadmap", body);
-                return res;
+                return await api.post("roadmap", body);
             } catch (error) {
                 return makeResponseFailed({
                     message: error,
@@ -70,7 +70,7 @@ export function CreateRoadmapPage() {
 
 
     const onSubmit = (data) => {
-        mutate({...data})
+        mutate({...data, language: langHandler.get() === "id" ? "Indonesian" : "English"})
     }
 
 
@@ -96,7 +96,7 @@ export function CreateRoadmapPage() {
                             render={({field}) => (<FormItem>
                                     <FormLabel>What Subject you interested in?</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="Mathematic" {...field} />
+                                        <Input placeholder="Python Programming" {...field} />
                                     </FormControl>
                                     <FormMessage/>
                                 </FormItem>
@@ -105,30 +105,44 @@ export function CreateRoadmapPage() {
                         />
                         <FormField
                             control={form.control}
-                            name="spesific_focus"
+                            name="goal"
                             render={({field}) => (<FormItem>
-                                <FormLabel>What Spesific do you want?</FormLabel>
-                                <FormControl>
-                                    <Input placeholder="Eg.c Linear Aljabar" {...field} />
-                                </FormControl>
-                                <FormMessage/>
-                            </FormItem>)}
+                                    <FormLabel>Insert Your Learning Goal or Outcome</FormLabel>
+                                    <FormControl>
+                                        <Input placeholder="Become proficient in writing Python scripts for data analysis" {...field} />
+                                    </FormControl>
+                                    <FormMessage/>
+                                </FormItem>
+
+                            )}
                         />
                         <FormField
                             control={form.control}
-                            name="knowledge_level"
+                            name="user_proficiency_level"
                             render={({field}) => (<FormItem>
-                                    <FormLabel>What is your current level</FormLabel>
+                                    <FormLabel>Insert Your Understanding Level</FormLabel>
+                                    <FormControl>
+                                        <Input placeholder="The user has basic knowledge of Python syntax (e.g., variables, loops, and functions) but has no experience with libraries like Pandas or using Python for data analysis." {...field} />
+                                    </FormControl>
+                                    <FormMessage/>
+                                </FormItem>
+
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="depth_of_topics"
+                            render={({field}) => (<FormItem>
+                                    <FormLabel>What Depth of Topics you prefer ?</FormLabel>
                                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                                         <FormControl>
                                             <SelectTrigger>
-                                                <SelectValue placeholder="Current Level"/>
+                                                <SelectValue placeholder="Detailed Breakdown"/>
                                             </SelectTrigger>
                                         </FormControl>
                                         <SelectContent>
-                                            <SelectItem value="Beginner">Beginner</SelectItem>
-                                            <SelectItem value="Intermediate">Intermediate</SelectItem>
-                                            <SelectItem value="Expert">Expert</SelectItem>
+                                            <SelectItem value="High-Level-Overview">High Level Overview</SelectItem>
+                                            <SelectItem value="Detailed-Breakdown">Detailed Breakdown</SelectItem>
                                         </SelectContent>
                                     </Select>
 
@@ -139,24 +153,48 @@ export function CreateRoadmapPage() {
                         />
                         <FormField
                             control={form.control}
-                            name="goal_level"
+                            name="style_customization"
                             render={({field}) => (<FormItem>
-                                <FormLabel>What proficiency you prefer</FormLabel>
+                                <FormLabel>What Style Customization you prefer ?</FormLabel>
                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                                     <FormControl>
                                         <SelectTrigger>
-                                            <SelectValue placeholder="Proficieny Level"/>
+                                            <SelectValue placeholder="Style Customization"/>
                                         </SelectTrigger>
                                     </FormControl>
                                     <SelectContent>
-                                        <SelectItem value="Beginner">Beginner</SelectItem>
-                                        <SelectItem value="Intermediate">Intermediate</SelectItem>
-                                        <SelectItem value="Expert">Expert</SelectItem>
+                                        <SelectItem value="More-Human-Like">More Human Like</SelectItem>
+                                        <SelectItem value="Easier-Language">Easier Language</SelectItem>
+                                        <SelectItem value="Professional-Style">Professional Style</SelectItem>
                                     </SelectContent>
                                 </Select>
 
                                 <FormMessage/>
-                            </FormItem>)}
+                            </FormItem>
+                            )}
+                        />
+
+                        <FormField
+                            control={form.control}
+                            name="timeline"
+                            render={({field}) => (<FormItem>
+                                <FormLabel>What timeline you prefer ?</FormLabel>
+                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl>
+                                        <SelectTrigger>
+                                            <SelectValue placeholder="Timeline"/>
+                                        </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                        <SelectItem value="Short-Term">Short Term</SelectItem>
+                                        <SelectItem value="Medium-Term">Medium Term</SelectItem>
+                                        <SelectItem value="Long-Term">Long Term</SelectItem>
+                                    </SelectContent>
+                                </Select>
+
+                                <FormMessage/>
+                            </FormItem>
+                            )}
                         />
 
                         <Button type="submit">

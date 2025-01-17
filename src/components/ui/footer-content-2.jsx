@@ -5,7 +5,7 @@ export function FooterContent2({handle, solved}) {
 
     return (
         <div className="h-[100px] overflow-hidden flex items-center justify-between gap-4 bg-white border-t-2 border-accent p-4">
-            <Button onClick={handle} className="w-full">Regenerate</Button>
+            <Button onClick={() => handle(true)} className="w-full">Regenerate</Button>
             <Button className="w-full">Generate a Quiz</Button>
             <Button onClick={solved} className="w-full">Solved</Button>
         </div>

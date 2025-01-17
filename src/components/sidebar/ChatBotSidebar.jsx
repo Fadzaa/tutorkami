@@ -59,7 +59,7 @@ export function ChatBotSidebar({id, type}) {
             key: "getRoadmapID",
             api:  () => roadmapAPI.getRoadmapID(id),
             content : (data) => {
-                const roadmap = data.data.roadmap.map((item, index) => {
+                const roadmap = data.data.subject_detail_roadmap.roadmap.map((item, index) => {
                     return `Roadmap : ${index + 1} `+
                         `type : ${data.data.type} ` +
                         `title roadmap : ${item.title} `+

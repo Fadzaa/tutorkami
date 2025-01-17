@@ -1,7 +1,7 @@
 import {format} from "date-fns";
 import {LabelTitleContent} from "@/components/ui/label-title-content.jsx";
 
-export function HeaderContent2({title,date,type,knowledge_level,goal_level,is_question,solved,main_content}) {
+export function HeaderContent2({title,date,type,difficulty_level,length,is_question,solved,main_content}) {
 
 
     return (
@@ -10,7 +10,7 @@ export function HeaderContent2({title,date,type,knowledge_level,goal_level,is_qu
                 <LabelTitleContent>
                     {title}
                 </LabelTitleContent>
-                <p>{`${type} • ${knowledge_level} • ${goal_level}`}</p>
+                <p>{`${type} • ${difficulty_level} • ${length}`}</p>
                 <LabelTitleContent>
                     {main_content}
                 </LabelTitleContent>

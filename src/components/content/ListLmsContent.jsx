@@ -1,8 +1,6 @@
 import PropTypes from "prop-types";
 import {useEffect, useState} from "react";
 import {useQuery} from "@tanstack/react-query";
-import {HeaderContent} from "@/components/ui/header-content.jsx";
-import {FooterContent} from "@/components/ui/footer-content.jsx";
 import {Loading} from "@/components/loading/Loading.jsx";
 import {cn} from "@/lib/utils.js";
 import {ContentDistance} from "@/components/ui/content-distance.jsx";
@@ -13,14 +11,17 @@ import {marked} from "marked";
 import {InitialContent} from "@/components/content/InitialContent.jsx";
 import {HeaderContent2} from "@/components/ui/header-content-2.jsx";
 import {FooterContent2} from "@/components/ui/footer-content-2.jsx";
+import {ModalPicker} from "@/components/ui/modal-picker.jsx";
 
 export function ListLmsContent({id,handle, regenerate, handleCompled, setDataPick}) {
 
     const [enable, setEnable] = useState(false);
+    const [open, setOpen] = useState(false);
+    const [length, setLength] = useState(null);
     const {isLoading, data, isFetching, refetch} = useQuery({
         queryKey: ["getLmsID",regenerate],
         queryFn: async () => {
-            return lmsAPI.getLmsDetail(id, {regenerate : regenerate})
+            return lmsAPI.getLmsDetail(id, {regenerate : regenerate, length : length})
         },
         enabled: enable,
         refetchOnWindowFocus: false,
@@ -33,8 +34,8 @@ export function ListLmsContent({id,handle, regenerate, handleCompled, setDataPic
     const [value, setValue] = useState('');
 
     const handleRegenerate = () => {
-        handle(true);
         setValue('');
+        handle(true);
     };
 
     const handleSolved = () => {
@@ -71,6 +72,7 @@ export function ListLmsContent({id,handle, regenerate, handleCompled, setDataPic
     return (
         <div className="flex flex-col h-full relative flex-1 overflow-hidden">
 
+            <ModalPicker text={"Pick a length for generate content"} open={open} setOpen={setOpen} handleRegenerate={handleRegenerate} setValue={setLength} value1={"Concise"} value2={"Detailed"}/>
             <div className={cn(
                 "flex-1 pb-5 cs overflow-y-auto",
                 isLoading || isFetching ? "flex items-center" : ""
@@ -87,8 +89,8 @@ export function ListLmsContent({id,handle, regenerate, handleCompled, setDataPic
                                 title={data.data.title}
                                 type={data.data.type}
                                 date={data.data.date}
-                                goal_level={data.data.goal_level}
-                                knowledge_level={data.data.knowledge_level}
+                                difficulty_level={data.subject.difficulty}
+                                length={data.subject.length}
                                 solved={data.result.solved}
                                 main_content={data.result.sub_topic}
                             />
@@ -109,7 +111,7 @@ export function ListLmsContent({id,handle, regenerate, handleCompled, setDataPic
 
 
             {(isLoading || isFetching) || data?.result != null && (
-                <FooterContent2 handle={handleRegenerate} solved={handleSolved}/>
+                <FooterContent2 handle={setOpen} solved={handleSolved}/>
             )}
 
 

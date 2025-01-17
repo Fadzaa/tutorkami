@@ -172,7 +172,16 @@ export function ListQuestionContent({id}) {
                     }
 
                     {
-                        itemParent.type === "Fill-in-the-Blank" || itemParent.type == "Short Answer" && (
+                        itemParent.type === "Fill-in-the-Blank" && (
+                            <>
+                                <h2 className={'mt-7 font-bold'}>Answer: </h2>
+                                <p>{itemParent.answer}</p>
+                            </>
+                        )
+                    }
+
+                    {
+                        itemParent.type === "Short Answer" && (
                             <>
                                 <h2 className={'mt-7 font-bold'}>Answer: </h2>
                                 <p>{itemParent.answer}</p>

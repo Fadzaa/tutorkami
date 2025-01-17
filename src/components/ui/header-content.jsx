@@ -20,7 +20,7 @@ export function HeaderContent({title,date,solved,desc,type}) {
             <div>
 
                 {
-                    type == "question" && solved === true ?
+                    type === "question" && solved === true ?
 
                         <h1 className="text-xs lg:text-lg mb-3 font-bold">{solved === true ? "Solved" : "Unsolved"}</h1>
                         :

@@ -1,11 +1,7 @@
 import {ToolsCard} from "@/components/card/ToolsCard.jsx";
 import {useTranslation} from "react-i18next";
-import {useDispatch, useSelector} from "react-redux";
-import {setLoadingGlobal} from "@/lib/utils/global/slice/LoadingSlice.js";
-import {setProgressGlobal} from "@/lib/utils/global/slice/ProgressSlice.js";
 
 export function LandingPage() {
-    const dispatch = useDispatch();
     const {t} = useTranslation()
 
     const tools = [
@@ -134,13 +130,8 @@ export function LandingPage() {
     return (
         <>
             <div className="mt-10 h-[100vh] w-full items-center justify-center flex flex-col gap-8 px-8 lg:px-14">
-                <img src="/logo_web.svg" className={'w-40 lg:w-60'} alt=""onClick={() => {
-                    dispatch(setLoadingGlobal(false));
-                    dispatch(setProgressGlobal(0));
-                }}/>
-                <h1 className="text-base lg:text-2xl text-[#334155] font-medium" onClick={() => {
-                    dispatch(setLoadingGlobal(true));
-                }}>Ekosistem Belajar yang disesuaikan untukmu</h1>
+                <img src="/logo_web.svg" className={'w-40 lg:w-60'} alt=""/>
+                <h1 className="text-base lg:text-2xl text-[#334155] font-medium">Ekosistem Belajar yang disesuaikan untukmu</h1>
                 <div className="flex flex-col lg:flex-row gap-3">
                     {
                         tools.map((tool, index) => (

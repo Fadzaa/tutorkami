@@ -147,7 +147,7 @@ export function CreateQuestionPage() {
                                             <SelectItem value="Fill-in-the-Blank">Fill In The Blank</SelectItem>
                                             <SelectItem value="True/False">True-False</SelectItem>
                                             <SelectItem value="Short Answer">Short Answer</SelectItem>
-                                            <SelectItem value="Mixed">Short Answer</SelectItem>
+                                            <SelectItem value="Mixed">Mixed</SelectItem>
                                         </SelectContent>
                                     </Select>
 

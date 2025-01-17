@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import {useEffect, useState} from "react";
+import {Suspense, useEffect, useState} from "react";
 import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import {api, makeResponseFailed} from "@/api/api.js";
 import {HeaderContent} from "@/components/ui/header-content.jsx";
@@ -10,19 +10,20 @@ import {questionAPI} from "@/api/question.js";
 import {Button} from "@/components/ui/button.jsx";
 import {Progress} from "@/components/ui/progress.jsx";
 import {Input} from "@/components/ui/input.jsx";
-import {useNavigate} from "react-router-dom";
 import {ContentQuestionSkeleton} from "@/components/skeleton/ContentQuestionSkeleton.jsx";
 import {commonAPI} from "@/api/common.js";
+import SearchModal from "@/components/modals/SearchModal.jsx";
 
 
-export function ListQuestionContent({id,setOpenChatbot}) {
+export function ListQuestionContent({id}) {
 
 
     const [questions, setQuestions] = useState([]);
     const [progress, setProgress] = useState(0)
+
     const [enable, setEnable] = useState(false);
-    const navigate = useNavigate();
     const queryClient = useQueryClient();
+
 
     const {isLoading, data, isFetching, refetch} = useQuery({
         queryKey: ["getQuestionID"],
@@ -32,6 +33,7 @@ export function ListQuestionContent({id,setOpenChatbot}) {
         enabled: enable,
         refetchOnWindowFocus: false,
     });
+
 
     useEffect(() => {
         if (enable && id) {
@@ -93,6 +95,15 @@ export function ListQuestionContent({id,setOpenChatbot}) {
         onError: (error) => console.log("onError: " + error)
     })
 
+    const {mutate: regenerate, isPending: regenerateLoading} = useMutation({
+        mutationKey: ["postSubmit"], mutationFn: async (body) => await commonAPI.regenerateQuestion(body, id),
+        onSuccess: () => {
+            refetch()
+            queryClient.invalidateQueries(['getQuestion']);
+        },
+        onError: (error) => console.log("onError: " + error)
+    })
+
 
     const onSubmit = (id) => {
         mutate({
@@ -119,7 +130,7 @@ export function ListQuestionContent({id,setOpenChatbot}) {
 
                     {
 
-                        itemParent.type === "Fill in the blank" ?
+                        itemParent.type === "Fill-in-the-Blank" || itemParent.type == "Short Answer" ?
                             <Input disabled value={answerFilter.answer_response}
                                    placeholder={"Type your answer here"}/>
                             :
@@ -161,7 +172,7 @@ export function ListQuestionContent({id,setOpenChatbot}) {
                     }
 
                     {
-                        itemParent.type === "Fill in the blank" && (
+                        itemParent.type === "Fill-in-the-Blank" || itemParent.type == "Short Answer" && (
                             <>
                                 <h2 className={'mt-7 font-bold'}>Answer: </h2>
                                 <p>{itemParent.answer}</p>
@@ -181,7 +192,7 @@ export function ListQuestionContent({id,setOpenChatbot}) {
 
                     <div className={'mt-5 flex flex-col lg:grid lg:grid-rows-2 w-full lg:w-1/2 lg:grid-flow-col gap-8'}>
                         {
-                            itemParent.type === "Fill in the blank" ?
+                            itemParent.type === "Fill-in-the-Blank" || itemParent.type == "Short Answer" ?
                                 <Input onChange={(e) => handleInput(e, itemParent.id)}
                                        placeholder={"Type your answer here"}/>
                                 :
@@ -230,6 +241,7 @@ export function ListQuestionContent({id,setOpenChatbot}) {
     return (
         <div className="flex flex-col h-full relative flex-1">
 
+
             <div className={cn(
                 "flex-1 pb-5 cs overflow-y-auto",
                 isLoading || isFetching ? "flex items-center" : ""
@@ -255,8 +267,6 @@ export function ListQuestionContent({id,setOpenChatbot}) {
                     )
                 )}
             </div>
-
-
             {(isLoading || isFetching) || data?.data != null && (
 
                 data?.data.question_detail.is_solved ? (
@@ -271,16 +281,35 @@ export function ListQuestionContent({id,setOpenChatbot}) {
                                 }
                             )
 
-                        } className="w-full">{retakeLoading ?<Loading/>:"Retake Test"}</Button>
-                        <Button onClick={() => navigate("/tools/generative-list-question")}
-                                className="w-full">Regenerate</Button>
+                        } className="w-full">{retakeLoading ? <Loading/> : "Retake Test"}</Button>
+                        <Button onClick={() => {
+                            let arrayWrongAnswer = []
+
+                            for (let i = 0; i < data?.data.question_detail.questions.length; i++) {
+
+                                const result = data?.data.answer_detail.find(item => item.answer_response != data?.data.question_detail.questions[i].answer && item.question_id == data?.data.question_detail.questions[i].id)
+
+
+                                if (result) {
+                                    arrayWrongAnswer.push({
+                                        title: result.question.title,
+                                    })
+                                }
+
+                            }
+
+                            regenerate({
+                                questions: arrayWrongAnswer
+                            })
+
+                        }}
+                                className="w-full">{regenerateLoading ? <Loading/> : "Regenerate"}</Button>
                     </div>
 
                 ) : (
                     <div
                         className="flex flex-col items-start justify-between gap-4 bg-white border-t-2 border-accent p-4">
 
-                        <p className={'font-bold text-lg text-start'}>00:00</p>
                         <Progress value={progress} className="w-full"/>
                         <div className={'flex flex-row w-full justify-between'}>
                             <p>{progress ? progress : 0}% Complete</p>
@@ -301,6 +330,9 @@ export function ListQuestionContent({id,setOpenChatbot}) {
             )}
 
 
+            <Suspense>
+                <SearchModal/>
+            </Suspense>
         </div>
     );
 }

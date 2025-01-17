@@ -1,23 +1,21 @@
 import PropTypes from "prop-types";
 import {useEffect, useState} from "react";
 import {useMutation, useQuery} from "@tanstack/react-query";
-import {HeaderContent} from "@/components/ui/header-content.jsx";
-import {FooterContent} from "@/components/ui/footer-content.jsx";
 import {Loading} from "@/components/loading/Loading.jsx";
-import {cn} from "@/lib/utils.js";
 import {ContentDistance} from "@/components/ui/content-distance.jsx";
-import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css'; // ES6
 
 import {materialAPI} from "@/api/material.js";
 import {Editor} from "@tinymce/tinymce-react";
+import {Button} from "@/components/ui/button.jsx";
+import {Save} from "@mui/icons-material";
 
 export function ListMaterialContent({id}) {
 
     const [enable, setEnable] = useState(false);
     const [editorContent, setEditorContent] = useState("");
     const {data, isFetching, refetch} = useQuery({
-        queryKey: ["getRoadmapID"],
+        queryKey: ["getMaterialID"],
         queryFn: async () => await materialAPI.getMaterialID(id),
         enabled: enable,
         refetchOnWindowFocus: false,
@@ -25,8 +23,8 @@ export function ListMaterialContent({id}) {
 
 
     const {mutate, isPending,} = useMutation({
-        mutationKey: ["postRoadmap"], mutationFn: async (body) => await materialAPI.updateMaterial(body, id),
-        onSuccess: () => refetch(),
+        mutationKey: ["updateMaterial"],
+        mutationFn: async (body) => await materialAPI.updateMaterial(body, id),
         onError: (error) => console.log("onError: " + error)
     })
 
@@ -50,23 +48,25 @@ export function ListMaterialContent({id}) {
     const handleEditorChange = (content) => {
         setEditorContent(content);
 
-        mutate({
-            content:content
-        })
+
     };
+
+    const handleChange = ()=>{
+        mutate({
+            content:editorContent
+        })
+    }
     return (
         <div className="flex flex-col h-full relative flex-1">
+            <Button className={'w-fit absolute top-20 right-11 z-50'} onClick={()=>handleChange()}>
 
+                {
+                    isPending ?<Loading/>:<Save/>
+                }
+
+            </Button>
             <ContentDistance>
 
-                {/*<HeaderContent*/}
-                {/*    title={data?.data.title}*/}
-                {/*    type={data?.data.type}*/}
-                {/*    date={data?.data.date}*/}
-                {/*    goal_level={data?.data.goal_level}*/}
-                {/*    knowledge_level={data?.data.knowledge_level}*/}
-
-                {/*/>*/}
 
 
                 {
@@ -82,14 +82,6 @@ export function ListMaterialContent({id}) {
                                     'checklist', 'mediaembed', 'casechange', 'export', 'formatpainter', 'pageembed', 'a11ychecker', 'permanentpen', 'powerpaste', 'advtable', 'advcode', 'editimage', 'advtemplate', 'ai', 'mentions', 'tinycomments', 'tableofcontents', 'footnotes', 'mergetags', 'autocorrect', 'typography', 'inlinecss', 'markdown'
                                 ],
                                 toolbar: ' blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap customInsertButton',
-                                setup: (editor) => {
-
-                                    editor.ui.registry.addButton('customInsertButton', {
-                                        text: isPending ? <Loading/> : 'Button',
-                                        onAction: () => handleEditorChange(editorContent),
-
-                                    });
-                                },
                                 menubar: '',
                                 tinycomments_mode: 'embedded',
                                 tinycomments_author: 'Author name',

@@ -35,5 +35,13 @@ export const commonAPI = {
         }
     },
 
-
+    regenerateQuestion: async (body,id) => {
+        try {
+            return await api.put(`common-question/${id}`,body);
+        } catch (error) {
+            return makeResponseFailed({
+                message: error,
+            })
+        }
+    },
 }

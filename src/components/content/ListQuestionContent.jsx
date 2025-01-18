@@ -12,7 +12,6 @@ import {Progress} from "@/components/ui/progress.jsx";
 import {Input} from "@/components/ui/input.jsx";
 import {ContentQuestionSkeleton} from "@/components/skeleton/ContentQuestionSkeleton.jsx";
 import {commonAPI} from "@/api/common.js";
-import useMaterialModal from "@/hooks/use-material-modal.js";
 import useQuestionsModal from "@/hooks/use-question-modal.js";
 import QuestionModal from "@/components/modals/QuestionModal.jsx";
 import {useToast} from "@/hooks/use-toast.js";
@@ -21,7 +20,7 @@ import {useToast} from "@/hooks/use-toast.js";
 export function ListQuestionContent({id}) {
 
 
-    const [questions, setQuestions] = useState([]);
+        const [questions, setQuestions] = useState([]);
     const [progress, setProgress] = useState(0)
 
     const [enable, setEnable] = useState(false);
@@ -295,7 +294,8 @@ export function ListQuestionContent({id}) {
 
     }
 
-    const handleRegenerate = () => {
+    const handleRegenerate = (dataRegeneration) => {
+
         let arrayWrongAnswer = []
 
         for (let i = 0; i < data?.data.question_detail.questions.length; i++) {
@@ -312,9 +312,9 @@ export function ListQuestionContent({id}) {
         }
 
 
-
         regenerate({
-            questions: arrayWrongAnswer
+            ...dataRegeneration,
+            questions: arrayWrongAnswer,
         })
 
     }

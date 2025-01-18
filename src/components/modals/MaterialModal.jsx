@@ -1,4 +1,4 @@
-import {useCallback, useMemo, useState} from "react";
+import {useCallback, useEffect, useMemo, useState} from "react";
 import Modal from "./Modal";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
@@ -8,6 +8,10 @@ import {useMutation} from "@tanstack/react-query";
 import {questionAPI} from "@/api/question.js";
 import useMaterialModal from "@/hooks/use-material-modal.js";
 import {cn} from "@/lib/utils.js";
+import useQuestionModal from "@/hooks/use-question-modal.js";
+import {Button} from "@/components/ui/button.jsx";
+import {Close} from "@mui/icons-material";
+import {Check} from "lucide-react";
 
 // Define steps
 const STEPS = {
@@ -24,9 +28,11 @@ const FormSchema = z.object({
     target_audience: z.string().nonempty("Target audience is required"),
 });
 
-const MaterialModal = ({regenerate,regenerateLoading}) => {
+const QuestionModal = ({regenerate, regenerateLoading}) => {
 
-    const materialModal = useMaterialModal();
+    const materialModal = useQuestionModal();
+
+    const [choices, setChoices] = useState({});
 
     const navigate = useNavigate();
 
@@ -37,38 +43,67 @@ const MaterialModal = ({regenerate,regenerateLoading}) => {
     });
 
 
-
-
     const onSubmit = useCallback(async () => {
-        regenerate()
+        regenerate(choices)
         materialModal.onClose()
-    }, [step, materialModal, form]);
+    }, [step, materialModal, form,choices]);
 
 
-    const list = [{
+
+    const [list,setList] = useState([{
         title: "Is the material too easy or too advanced for your current level?",
-        help_text: "This helps generate content more suitable for your understanding."
+        help_text: "This helps generate content more suitable for your understanding.",
+        choices: ["Beginner-Friendly","Intermediate Level","Expert Level"],
+        type: "proficiency_level",
+        showChoices: false,
     }, {
         title: "Is the length of the content not meeting your expectations?",
-        help_text: "Adjust the content length to better align with your preferences and study needs."
-    }, {
-        title: "What didn’t meet your expectations in the previous material?",
-        help_text: "Provide feedback on what was lacking or confusing in the last version."
-    },]
+        help_text: "Adjust the content length to better align with your preferences and study needs.",
+        type: "length",
+        choices: ["Ultra-Short","Short","Medium","Long"],
+        showChoices: false,
+    }])
+
+
+    const handleInput = (itemChoices,item) => {
+
+        const typeChoices = item.type
+
+        const filteredData = Object.keys(choices)
+            .filter((key) => key !== item.type)
+            .reduce((obj, key) => {
+                obj[key] = choices[key];
+                return obj;
+            }, {});
+
+
+
+        setChoices({
+            ...filteredData,
+            [typeChoices]:itemChoices
+        })
+
+
+    }
+
 
 
     let content = (<>
 
-            {list.map((item) => (<div
-                    key={item}
-                    className={cn("flex w-full p-4 ps-0 gap-4 rounded-lg",)}
-                >
+        {list.map((item) => (<div
+            key={item}
+            className={cn("flex w-full p-4 ps-0 gap-4 rounded-lg",)}
+        >
 
-                    <hr className="h-auto w-[1px] bg-black"/>
+            <hr className="h-auto w-[1px] bg-black"/>
 
-                    <div className="w-full flex flex-col justify-between gap-3">
+            <div className="w-full flex flex-col justify-between gap-3">
 
-                        <section className={'flex flex-col'}>
+                <section className={'flex flex-col'}>
+
+                    <div className={'flex justify-between items-start'}>
+
+                        <div>
 
                             <h1 className="text-base lg:text-lg font-semibold">{item.title}</h1>
 
@@ -76,15 +111,88 @@ const MaterialModal = ({regenerate,regenerateLoading}) => {
                                 <p className="text-lg lg:text-base text-[#C1C1C1]">{item.help_text}</p>
                             </div>
 
+                        </div>
 
-                        </section>
+                        <div className={'flex gap-2'}>
+                            {
+                                item.showChoices ?<></>:(
+                                    <>
+
+                                        <Button onClick={()=>setList(list.filter(itemFilter => itemFilter.type != item.type))   } className={'w-fit bg-transparent hover:bg-transparent text-black text-5xl'}>
+
+                                            <Close/>
+                                        </Button>
+
+
+                                        <Button onClick={()=>{
+
+
+                                            const getAll = {
+                                                ...list.find(itemFilter => itemFilter.type == item.type),
+                                                showChoices: true,
+                                            }
+
+
+                                            const getAllListExceptCurrentList = list.filter(itemFilter => itemFilter.type != item.type)
+
+
+                                            setList([
+                                                getAll,
+                                                ...getAllListExceptCurrentList,
+                                            ])
+
+
+                                        }} className={'w-fit bg-transparent hover:bg-transparent text-black text-5xl'}>
+
+                                            <Check/>
+                                        </Button>
+                                    </>
+                                )
+                            }
+                        </div>
+
 
 
                     </div>
-                </div>))}
+
+                    {
+                        item.showChoices && (
+                            <div className={'flex gap-3 mt-3'}>
+                                {
+                                    item.choices.map(itemChoices => {
+
+                                        // jawaban yang di pilih
+                                        const answerchoose = choices[item.type] == itemChoices
 
 
-        </>)
+                                        return (
+                                            <Button
+
+                                                className={cn(
+                                                    'rounded-full',
+                                                    answerchoose ? "bg-primary/90" : "bg-transparent hover:bg-transparent border-2",
+                                                )} onClick={() => handleInput(itemChoices, item)}>
+
+                                                <p className={answerchoose ? "text-white" : "text-primary"}> {itemChoices}</p>
+
+                                            </Button>
+                                        )
+                                    })
+                                }
+                            </div>
+
+                        )
+                    }
+
+
+                </section>
+
+
+            </div>
+        </div>))}
+
+
+    </>)
 
 
     return (
@@ -98,6 +206,11 @@ const MaterialModal = ({regenerate,regenerateLoading}) => {
                 title="Content Regeneration"
                 actionLabel={"Regenerate"}
                 regenerateLoading={regenerateLoading}
+                disabled={
+                    (list.some(item => item.showChoices) &&
+                        list.some(item => !choices[item.type])) ||
+                    Object.keys(choices).length === 0
+                }
                 body={content}
             />
         </form>
@@ -105,4 +218,4 @@ const MaterialModal = ({regenerate,regenerateLoading}) => {
     );
 };
 
-export default MaterialModal;
+export default QuestionModal;

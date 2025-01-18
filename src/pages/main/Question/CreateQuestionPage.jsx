@@ -23,6 +23,7 @@ import {questionAPI} from "@/api/question.js";
 import AsyncCreatableSelect from "react-select/async-creatable";
 import debounce from 'lodash.debounce';
 import {suggestionAPI} from "@/api/suggestion.js";
+import {useToast} from "@/hooks/use-toast.js";
 
 const FormSchema = z.object({
     subject: z
@@ -53,7 +54,7 @@ export function CreateQuestionPage() {
     const form = useForm({
         resolver: zodResolver(FormSchema), mode: "all",
     })
-
+    const {toast} = useToast()
     const navigate = useNavigate()
 
     const promiseOptions = (inputValue, callback) => {
@@ -65,8 +66,21 @@ export function CreateQuestionPage() {
     const {mutate, isPending,} = useMutation({
         mutationKey: ["postQuestion"],
         mutationFn: async (body) => await questionAPI.postQuestion(body),
-        onSuccess: (response) => navigate("/tools/generative-question/detail/" + response.data.data.id),
-        onError: (error) => console.log("onError: " + error)
+        onSuccess: (response) => {
+            toast({
+                title: "Create Question Success",
+                description: "You have successfully create question.",
+            })
+            navigate("/tools/generative-question/detail/" + response.data.data.id)
+        },
+        onError: (error) => {
+            toast({
+                variant: "destructive",
+                title: "Create Question Failed",
+                description: "Failed create question.",
+            })
+            console.log("onError: " + error)
+        }
     })
 
 
@@ -130,7 +144,7 @@ export function CreateQuestionPage() {
                             name="total"
 
                             render={({field}) => (<FormItem>
-                                <FormLabel>Total Questions</FormLabel>
+                                <FormLabel>Time Questions</FormLabel>
                                 <FormControl>
                                     <Input type={'number'} placeholder="Total Question" {...field} />
                                 </FormControl>

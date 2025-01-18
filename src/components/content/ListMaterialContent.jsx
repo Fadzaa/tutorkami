@@ -37,7 +37,21 @@ export function ListMaterialContent({id}) {
     const {mutate, isPending,} = useMutation({
         mutationKey: ["updateMaterial"],
         mutationFn: async (body) => await materialAPI.updateMaterial(body, id),
-        onError: (error) => console.log("onError: " + error)
+        onSuccess: ()=>{
+            toast({
+                title: "Update Material Success",
+                description: "You have successfully update material.",
+            })
+        },
+        onError: (error) => {
+            toast({
+                variant: "destructive",
+                title: "Update Material Failed",
+                description: "Failed update material",
+            })
+            console.log("onError: " + error)
+
+        }
     })
 
     const {mutate: regenerate, isPending: regenerateLoading} = useMutation({
@@ -54,7 +68,14 @@ export function ListMaterialContent({id}) {
 
         },
         onMutate: () => setSave(false),
-        onError: (error) => console.log("onError: " + error)
+        onError: (error) => {
+            toast({
+                variant: "destructive",
+                title: "Regenerate Failed",
+                description: "Failed regenerated questions.",
+            })
+            console.log("onError: " + error)
+        }
     })
 
     useEffect(() => {

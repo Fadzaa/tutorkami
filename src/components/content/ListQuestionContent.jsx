@@ -15,6 +15,7 @@ import {commonAPI} from "@/api/common.js";
 import useMaterialModal from "@/hooks/use-material-modal.js";
 import useQuestionsModal from "@/hooks/use-question-modal.js";
 import QuestionModal from "@/components/modals/QuestionModal.jsx";
+import {useToast} from "@/hooks/use-toast.js";
 
 
 export function ListQuestionContent({id}) {
@@ -35,6 +36,9 @@ export function ListQuestionContent({id}) {
         enabled: enable,
         refetchOnWindowFocus: false,
     });
+
+
+    const {toast} = useToast()
 
 
     useEffect(() => {
@@ -80,10 +84,24 @@ export function ListQuestionContent({id}) {
             }
         },
         onSuccess: () => {
+            toast({
+                title: "Submit Success",
+                description: "You have successfully submited questions.",
+            })
+            setQuestions([])
+            setProgress(0)
             refetch()
             queryClient.invalidateQueries(['getQuestion']);
         },
-        onError: (error) => console.log("onError: " + error)
+        onError: (error) => {
+
+            toast({
+                variant: "destructive",
+                title: "Submit Failed",
+                description: "Failed submited questions.",
+            })
+            console.log("onError: " + error)
+        }
 
     })
 
@@ -91,24 +109,47 @@ export function ListQuestionContent({id}) {
     const {mutate: retake, isPending: retakeLoading} = useMutation({
         mutationKey: ["postSubmit"], mutationFn: async (body) => await commonAPI.retakeQuestion(body.id),
         onSuccess: () => {
+            toast({
+                title: "Retake Success",
+                description: "You have successfully retake questions.",
+            })
             setQuestions([])
             setProgress(0)
             refetch()
             queryClient.invalidateQueries(['getQuestion']);
         },
-        onError: (error) => console.log("onError: " + error)
+        onError: (error) => {
+            toast({
+                variant: "destructive",
+                title: "Retake Failed",
+                description: "Failed retake questions.",
+            })
+            console.log("onError: " + error)
+        }
     })
 
     const {mutate: regenerate, isPending: regenerateLoading} = useMutation({
         mutationKey: ["postSubmit"], mutationFn: async (body) => await commonAPI.regenerateQuestion(body, id),
         onSuccess: () => {
+
+            toast({
+                title: "Regenerate Success",
+                description: "You have successfully regenerated questions.",
+            })
             setQuestions([])
             setProgress(0)
             refetch()
             queryClient.invalidateQueries(['getQuestion']);
 
         },
-        onError: (error) => console.log("onError: " + error)
+        onError: (error) => {
+            toast({
+                variant: "destructive",
+                title: "Regenerate Failed",
+                description: "Failed regenerated questions.",
+            })
+            console.log("onError: " + error)
+        }
     })
 
 

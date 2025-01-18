@@ -24,6 +24,7 @@ import AsyncCreatableSelect from "react-select/async-creatable";
 import debounce from 'lodash.debounce';
 import {suggestionAPI} from "@/api/suggestion.js";
 import {useToast} from "@/hooks/use-toast.js";
+import {langHandler} from "@/lib/langHandler.js";
 
 const FormSchema = z.object({
     subject: z
@@ -84,7 +85,7 @@ export function CreateQuestionPage() {
     })
 
 
-    const onSubmit = (data) => mutate({...data})
+    const onSubmit = (data) => mutate({...data,language: langHandler.get() === "id" ? "Indonesian" : "English"})
 
     const handleChange = (field,value) => field.onChange(value?.value)
 

@@ -20,6 +20,7 @@ import {commonAPI} from "@/api/common.js";
 import debounce from "lodash.debounce";
 import {suggestionAPI} from "@/api/suggestion.js";
 import {useToast} from "@/hooks/use-toast.js";
+import {langHandler} from "@/lib/langHandler.js";
 
 const FormSchema = z.object({
     subject: z
@@ -77,7 +78,7 @@ export function CreateMaterialPage() {
         },
     })
 
-    const onSubmit = (data) => mutate({...data, reference: "No", language: "Indonesian"})
+    const onSubmit = (data) => mutate({...data, language: langHandler.get() === "id" ? "Indonesian" : "English"})
 
     const handleChange = (field, value) => field.onChange(value?.value)
     return (<div className="h-[90vh] overflow-auto cs flex">

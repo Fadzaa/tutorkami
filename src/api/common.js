@@ -15,9 +15,7 @@ export const commonAPI = {
     },
     deleteQuestion: async (id) => {
         try {
-            console.log("id:" + id)
             const res = await api.delete(id );
-            console.log("Get User Response:", res);
             return res.data;
         } catch (error) {
             return makeResponseFailed({

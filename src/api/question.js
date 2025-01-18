@@ -21,9 +21,7 @@ export const questionAPI = {
     },
     getQuestionID: async (id) => {
         try {
-            console.log("id:" + id)
             const res = await api.get("question/" + id);
-            console.log("Get User Response:", res);
             return res.data;
         } catch (error) {
             return makeResponseFailed({
@@ -34,7 +32,6 @@ export const questionAPI = {
     deleteQuestion: async (type,id) => {
         try {
             const res = await api.delete(`${type.toString().toLowerCase()}/${id}`);
-            console.log("Get User Response:", res);
             return res.data;
         } catch (error) {
             return makeResponseFailed({

@@ -59,7 +59,6 @@ export function CreateMaterialPage() {
     const {mutate, isPending,} = useMutation({
         mutationFn: async (body) => await materialAPI.postMaterial(body),
         onSuccess: (response) => {
-            console.log("halo:" + response.data.data.id)
             navigate("/tools/generative-material/detail/" + response.data.data.id);
         },
         onError: (error) => console.log("onError: " + error),

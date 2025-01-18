@@ -2,7 +2,7 @@ import bookLoadingAnimation from '/public/book_loading_lottie.json'
 import bookLoadingAnimationMinimize from '/public/book_loading_lottie_minimize.json'
 import close from '/public/close_icon.svg'
 import {Progress} from "@/components/ui/progress.jsx";
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 import {useTranslation} from "react-i18next";
 import ProgressCircle from "@/components/ui/progress-circle.jsx";
 import Lottie from "lottie-react";
@@ -107,7 +107,7 @@ export function LoadingGeneratingContentMinimize({isPending, type}) {
                     animationData={bookLoadingAnimationMinimize}
                 />
                 <h1 className="font-semibold text-sm lg:text-lg mr-2 lg:mr-4 cursor-default">{title}</h1>
-                <ProgressCircle width={"w-6 lg:w-8"} height={"h-6 lg:h-8"} progress={progress.progressGlobal} textProgress={Math.round(progress.progressGlobal)} text={"text-[5px] lg:text-[8px]"}/>
+                <ProgressCircle width={"w-6 lg:w-8"} height={"h-6 lg:h-8"} progress={progress.progressGlobal} textProgress={Math.round(progress.progressGlobal)+"%"} text={"text-[5px] lg:text-[8px]"}/>
             </div>
     )
 

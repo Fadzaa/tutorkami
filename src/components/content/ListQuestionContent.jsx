@@ -12,7 +12,9 @@ import {Progress} from "@/components/ui/progress.jsx";
 import {Input} from "@/components/ui/input.jsx";
 import {ContentQuestionSkeleton} from "@/components/skeleton/ContentQuestionSkeleton.jsx";
 import {commonAPI} from "@/api/common.js";
-import SearchModal from "@/components/modals/SearchModal.jsx";
+import useMaterialModal from "@/hooks/use-material-modal.js";
+import useQuestionsModal from "@/hooks/use-question-modal.js";
+import QuestionModal from "@/components/modals/QuestionModal.jsx";
 
 
 export function ListQuestionContent({id}) {
@@ -24,7 +26,7 @@ export function ListQuestionContent({id}) {
     const [enable, setEnable] = useState(false);
     const queryClient = useQueryClient();
 
-
+    const modal = useQuestionsModal();
     const {isLoading, data, isFetching, refetch} = useQuery({
         queryKey: ["getQuestionID"],
         queryFn: async () => {
@@ -68,7 +70,7 @@ export function ListQuestionContent({id}) {
     const {mutate, isPending,} = useMutation({
         mutationKey: ["postSubmit"], mutationFn: async (body) => {
             try {
-                const res = await api.post("submit", body);
+                const res = await api.post("common-question", body);
 
                 return res;
             } catch (error) {
@@ -89,6 +91,8 @@ export function ListQuestionContent({id}) {
     const {mutate: retake, isPending: retakeLoading} = useMutation({
         mutationKey: ["postSubmit"], mutationFn: async (body) => await commonAPI.retakeQuestion(body.id),
         onSuccess: () => {
+            setQuestions([])
+            setProgress(0)
             refetch()
             queryClient.invalidateQueries(['getQuestion']);
         },
@@ -98,8 +102,11 @@ export function ListQuestionContent({id}) {
     const {mutate: regenerate, isPending: regenerateLoading} = useMutation({
         mutationKey: ["postSubmit"], mutationFn: async (body) => await commonAPI.regenerateQuestion(body, id),
         onSuccess: () => {
+            setQuestions([])
+            setProgress(0)
             refetch()
             queryClient.invalidateQueries(['getQuestion']);
+
         },
         onError: (error) => console.log("onError: " + error)
     })
@@ -113,7 +120,7 @@ export function ListQuestionContent({id}) {
 
     }
 
-    const choicesCondintion = (itemParent, i, answers) => {
+    const choicesCondintion = (itemParent, i, answers,qsDetail) => {
 
 
         if (answers.length > 0) {
@@ -127,6 +134,10 @@ export function ListQuestionContent({id}) {
                         Answer) {answerFilter.answer_response === itemParent.answer ? "V" : "X"}</p>
                     <h2 className={'font-bold text-lg'}>{itemParent.title}</h2>
 
+                    <div className={cn('mt-5 flex flex-col lg:grid  w-full lg:w-1/2 lg:grid-flow-col gap-8',
+
+                        itemParent.type === "Fill-in-the-Blank" || itemParent.type == "Short Answer" ? '' : 'lg:grid-rows-2'
+                    )}>
 
                     {
 
@@ -134,9 +145,8 @@ export function ListQuestionContent({id}) {
                             <Input disabled value={answerFilter.answer_response}
                                    placeholder={"Type your answer here"}/>
                             :
-                            <div
-                                className={'mt-5 flex flex-col lg:grid lg:grid-rows-2 w-full lg:w-1/2 lg:grid-flow-col gap-8'}>
-                                {
+
+
                                     itemParent.choices.toString().split(',').map((item, i) => {
 
                                             // jawaban yang di pilih
@@ -167,30 +177,24 @@ export function ListQuestionContent({id}) {
 
                                         }
                                     )
-                                }
-                            </div>
-                    }
 
+
+                    }
+                    </div>
                     {
-                        itemParent.type === "Fill-in-the-Blank" && (
+
+                        (itemParent.type === "Short Answer" || itemParent.type === "Fill-in-the-Blank") && qsDetail.include_answer == "Yes" &&  qsDetail.explanations == "Yes"  && (
                             <>
                                 <h2 className={'mt-7 font-bold'}>Answer: </h2>
                                 <p>{itemParent.answer}</p>
+
+                                <h2 className={'mt-7 font-bold'}>Explanation: </h2>
+                                <p>{itemParent.explanation}</p>
                             </>
                         )
                     }
 
-                    {
-                        itemParent.type === "Short Answer" && (
-                            <>
-                                <h2 className={'mt-7 font-bold'}>Answer: </h2>
-                                <p>{itemParent.answer}</p>
-                            </>
-                        )
-                    }
 
-                    <h2 className={'mt-7 font-bold'}>Explanation: </h2>
-                    <p>{itemParent.explanation}</p>
                 </div>
             )
         } else {
@@ -199,7 +203,11 @@ export function ListQuestionContent({id}) {
                     <p>Question {i + 1} ({itemParent.type} • Single Answer)</p>
                     <h2 className={'font-bold text-lg'}>{itemParent.title}</h2>
 
-                    <div className={'mt-5 flex flex-col lg:grid lg:grid-rows-2 w-full lg:w-1/2 lg:grid-flow-col gap-8'}>
+
+                    <div className={cn('mt-5 flex flex-col lg:grid  w-full lg:w-1/2 lg:grid-flow-col gap-8',
+
+                        itemParent.type === "Fill-in-the-Blank" || itemParent.type == "Short Answer" ?'':'lg:grid-rows-2'
+                        )}>
                         {
                             itemParent.type === "Fill-in-the-Blank" || itemParent.type == "Short Answer" ?
                                 <Input onChange={(e) => handleInput(e, itemParent.id)}
@@ -246,6 +254,30 @@ export function ListQuestionContent({id}) {
 
     }
 
+    const handleRegenerate = () => {
+        let arrayWrongAnswer = []
+
+        for (let i = 0; i < data?.data.question_detail.questions.length; i++) {
+
+            const result = data?.data.answer_detail.find(item => item.answer_response != data?.data.question_detail.questions[i].answer && item.question_id == data?.data.question_detail.questions[i].id)
+
+
+            if (result) {
+                arrayWrongAnswer.push({
+                    title: result.question.title,
+                })
+            }
+
+        }
+
+
+
+        regenerate({
+            questions: arrayWrongAnswer
+        })
+
+    }
+
     let arr = ["A. ", "B. ", "C. ", "D. "];
     return (
         <div className="flex flex-col h-full relative flex-1">
@@ -270,7 +302,7 @@ export function ListQuestionContent({id}) {
                                 desc={`${data?.data.question_detail.type} • ${data?.data.question_detail.topic} • ${data?.data.question_detail.question_difficulty} • ${data?.data.question_detail.target_audience}`}
                             />
 
-                            {data?.data.question_detail.questions.map((itemParent, i) => choicesCondintion(itemParent, i, data?.data.answer_detail))}
+                            {data?.data.question_detail.questions.map((itemParent, i) => choicesCondintion(itemParent, i, data?.data.answer_detail,data?.data.question_detail))}
 
                         </ContentDistance>
                     )
@@ -291,27 +323,7 @@ export function ListQuestionContent({id}) {
                             )
 
                         } className="w-full">{retakeLoading ? <Loading/> : "Retake Test"}</Button>
-                        <Button onClick={() => {
-                            let arrayWrongAnswer = []
-
-                            for (let i = 0; i < data?.data.question_detail.questions.length; i++) {
-
-                                const result = data?.data.answer_detail.find(item => item.answer_response != data?.data.question_detail.questions[i].answer && item.question_id == data?.data.question_detail.questions[i].id)
-
-
-                                if (result) {
-                                    arrayWrongAnswer.push({
-                                        title: result.question.title,
-                                    })
-                                }
-
-                            }
-
-                            regenerate({
-                                questions: arrayWrongAnswer
-                            })
-
-                        }}
+                        <Button onClick={() => modal.onOpen()}
                                 className="w-full">{regenerateLoading ? <Loading/> : "Regenerate"}</Button>
                     </div>
 
@@ -338,10 +350,17 @@ export function ListQuestionContent({id}) {
                 )
             )}
 
+            {
 
-            <Suspense>
-                <SearchModal/>
-            </Suspense>
+                (isLoading || isFetching) || data?.data != null && (
+
+                    <Suspense>
+                        <QuestionModal regenerate={handleRegenerate} regenerateLoading={regenerateLoading}/>
+                    </Suspense>
+                )
+
+            }
+
         </div>
     );
 }

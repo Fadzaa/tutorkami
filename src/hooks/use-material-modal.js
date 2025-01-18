@@ -1,10 +1,10 @@
 import { create } from 'zustand';
 
 
-const useRegenerateModal = create((set) => ({
+const useMaterialModal = create((set) => ({
     isOpen: false,
     onOpen: () => set({ isOpen: true }),
     onClose: () => set({ isOpen: false }),
 }))
 
-export default useRegenerateModal;
+export default useMaterialModal;

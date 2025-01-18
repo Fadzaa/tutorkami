@@ -18,6 +18,7 @@ import {materialAPI} from "@/api/material.js";
 import AsyncCreatableSelect from "react-select/async-creatable";
 import {commonAPI} from "@/api/common.js";
 import debounce from "lodash.debounce";
+import {suggestionAPI} from "@/api/suggestion.js";
 
 
 const FormSchema = z.object({
@@ -51,7 +52,7 @@ export function CreateMaterialPage() {
     })
 
     const promiseOptions = (inputValue, callback) => {
-        commonAPI.getSuggestion(inputValue, callback)
+        suggestionAPI.getUniversalSuggestion(inputValue, callback)
     }
 
     const loadSuggestions = debounce(promiseOptions, 1000)

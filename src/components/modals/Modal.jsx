@@ -1,12 +1,12 @@
 import {useCallback, useEffect, useState} from 'react'
 import {Close} from '@mui/icons-material'
-import {Progress} from "@/components/ui/progress"
 import PropTypes from "prop-types";
 import {Button} from "@/components/ui/button.jsx";
+import {Loading} from "@/components/loading/Loading.jsx";
 
 
 const Modal = ({
-                   progress,
+
                    isOpen,
                    onClose,
                    onSubmit,
@@ -15,8 +15,7 @@ const Modal = ({
                    footer,
                    actionLabel,
                    disabled,
-                   secondaryAction,
-                   secondaryActionLabel
+                   regenerateLoading
                }) => {
     const [showModal, setShowModal] = useState(isOpen);
 
@@ -46,20 +45,13 @@ const Modal = ({
 
     }, [disabled, onSubmit]);
 
-    const handleSecondaryAction = useCallback(() => {
-        if (disabled || !secondaryAction) {
-            return;
-        }
 
-        secondaryAction();
-    }, [disabled, secondaryAction]);
 
     if (!isOpen) {
         return null;
     }
 
-    return (
-        <>
+    return (<>
             <div
                 className="
         justify-center
@@ -95,6 +87,8 @@ const Modal = ({
                 ${showModal ? 'translate-y-0' : 'translate-y-full'}
                 ${showModal ? 'opacity-100' : 'opacity-0'}
             `}>
+
+
                         <div
                             className="
                     translate
@@ -102,7 +96,7 @@ const Modal = ({
                     lg:h-auto
                     md:h-auto
                     relative
-                    rounded-lg
+                    rounded-xl
                     shadow-lg
                     border-0
                     flex
@@ -112,16 +106,29 @@ const Modal = ({
                     outline-none
                     focus:outline-none
                 ">
+
                             <div
                                 className="
                     flex
                     items-center
-                    p-6
+                    px-6
+                    pt-6
+                    pb-3
                     rounded-t
-                    justify-center
+                    justify-start
                     relative
-                    border-b-[1px]
+
                     ">
+
+
+                                <div
+                                    className="
+                        text-xl
+                        font-semibold"
+                                >
+                                    {title}
+                                </div>
+
                                 <button
                                     onClick={handleClose}
                                     className="
@@ -130,27 +137,19 @@ const Modal = ({
                             hover:opacity-70
                             transition
                             absolute
-                            left-9
+                            right-9
                         ">
                                     <Close
                                         className="text-gray-800 sm"/>
                                 </button>
-                                <div
-                                    className="
-                        text-lg
-                        font-semibold"
-                                >
-                                    {title}
-                                </div>
                             </div>
 
-                            <Progress value={progress} className="w-full"/>
 
-                            <div className="relative p-6 flex-auto">
+                            <div className="relative px-6 pb-3 flex-auto">
                                 {body}
                             </div>
 
-                            <div className="flex flex-col gap-2 pb-6 pt-2 px-6">
+                            <div className="flex flex-col gap-2 pb-8 pt-2 px-6">
                                 <div
                                     className="
                             flex
@@ -159,19 +158,15 @@ const Modal = ({
                             w-full
                             items-center
                         ">
-                                    {secondaryAction && secondaryActionLabel && (
-                                        <Button
-                                            outline
-                                            disabled={disabled}
-                                            onClick={handleSecondaryAction}>
-                                            {secondaryActionLabel}
-                                        </Button>
-                                    )}
+
                                     <Button
+                                        className={'w-full'}
                                         disabled={disabled}
                                         onClick={handleSubmit}>
 
-                                        {actionLabel}
+                                        {
+                                            regenerateLoading === true ?<Loading/>: actionLabel
+                                        }
                                     </Button>
                                 </div>
                                 {footer}
@@ -180,8 +175,7 @@ const Modal = ({
                     </div>
                 </div>
             </div>
-        </>
-    )
+    </>)
 }
 
 Modal.propTypes = {
@@ -196,5 +190,6 @@ Modal.propTypes = {
     onClose: PropTypes.func,
     onSubmit: PropTypes.func,
     secondaryAction: PropTypes.func,
+    regenerateLoading: PropTypes.bool,
 }
 export default Modal

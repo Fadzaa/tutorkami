@@ -11,4 +11,17 @@ export const suggestionAPI = {
             })
         }
     },
+    getUniversalSuggestion:  (inputValue, callback) => {
+        return api.get(`topic-suggestion?topic=${inputValue}`).then((response) => {
+            const options = []
+            response.data.forEach((item) => {
+                options.push({
+                    label: item,
+                    value: item
+                })
+            })
+            callback(options);
+        })
+    },
+
 }

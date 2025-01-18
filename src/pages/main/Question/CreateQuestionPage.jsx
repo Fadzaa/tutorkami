@@ -22,6 +22,7 @@ import {commonAPI} from "@/api/common.js";
 import {questionAPI} from "@/api/question.js";
 import AsyncCreatableSelect from "react-select/async-creatable";
 import debounce from 'lodash.debounce';
+import {suggestionAPI} from "@/api/suggestion.js";
 
 const FormSchema = z.object({
     subject: z
@@ -30,11 +31,17 @@ const FormSchema = z.object({
         .string(),
     total: z
         .string(),
+    time_limit: z
+        .string(),
     type: z
         .string(),
     question_difficulty: z
         .string(),
     target_audience: z
+        .string(),
+    include_answer: z
+        .string(),
+    explanations: z
         .string(),
 
 })
@@ -50,7 +57,7 @@ export function CreateQuestionPage() {
     const navigate = useNavigate()
 
     const promiseOptions = (inputValue, callback) => {
-        commonAPI.getSuggestion(inputValue, callback)
+        suggestionAPI.getUniversalSuggestion(inputValue, callback)
     }
 
     const loadSuggestions = debounce(promiseOptions, 1000)
@@ -133,6 +140,20 @@ export function CreateQuestionPage() {
 
                         <FormField
                             control={form.control}
+                            name="time_limit"
+
+                            render={({field}) => (<FormItem>
+                                <FormLabel>Total Questions</FormLabel>
+                                <FormControl>
+                                    <Input type={'number'} placeholder="Time Limit" {...field} />
+                                </FormControl>
+                                <FormMessage/>
+                            </FormItem>)}
+                        />
+
+
+                        <FormField
+                            control={form.control}
                             name="type"
                             render={({field}) => (<FormItem>
                                     <FormLabel>Question Type</FormLabel>
@@ -207,6 +228,50 @@ export function CreateQuestionPage() {
                             )}
                         />
 
+                        <FormField
+                            control={form.control}
+                            name="include_answer"
+                            render={({field}) => (<FormItem>
+                                    <FormLabel>Include Answer</FormLabel>
+                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                        <FormControl>
+                                            <SelectTrigger>
+                                                <SelectValue placeholder="Include Answer"/>
+                                            </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                            <SelectItem value="Yes">Yes</SelectItem>
+                                            <SelectItem value="No">No</SelectItem>
+                                        </SelectContent>
+                                    </Select>
+
+                                    <FormMessage/>
+                                </FormItem>
+
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="explanations"
+                            render={({field}) => (<FormItem>
+                                    <FormLabel>Include Explanations</FormLabel>
+                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                        <FormControl>
+                                            <SelectTrigger>
+                                                <SelectValue placeholder="Include Explanations"/>
+                                            </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                            <SelectItem value="Yes">Yes</SelectItem>
+                                            <SelectItem value="No">No</SelectItem>
+                                        </SelectContent>
+                                    </Select>
+
+                                    <FormMessage/>
+                                </FormItem>
+
+                            )}
+                        />
 
                         <Button type="submit">
                             Submit

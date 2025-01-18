@@ -31,16 +31,4 @@ export const questionAPI = {
             })
         }
     },
-    deleteQuestion: async (type,id) => {
-        try {
-            const res = await api.delete(`${type.toString().toLowerCase()}/${id}`);
-            console.log("Get User Response:", res);
-            return res.data;
-        } catch (error) {
-            return makeResponseFailed({
-                message: error,
-            })
-        }
-    },
-
 }

@@ -9,7 +9,6 @@ import {LoadingProvider} from "@/lib/utils/global/LoadingProvider.jsx";
 import {GlobalLoading} from "@/lib/utils/global/GlobalLoading.jsx";
 import {Provider} from "react-redux";
 import {langHandler} from "@/lib/langHandler.js";
-import SearchModal from "@/components/modals/SearchModal.jsx";
 import {createTheme, MantineProvider} from "@mantine/core";
 
 

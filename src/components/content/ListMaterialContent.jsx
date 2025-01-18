@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
-import {useEffect, useState} from "react";
-import {useMutation, useQuery} from "@tanstack/react-query";
+import {Suspense, useEffect, useState} from "react";
+import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import {Loading} from "@/components/loading/Loading.jsx";
 import {ContentDistance} from "@/components/ui/content-distance.jsx";
 import 'react-quill/dist/quill.snow.css'; // ES6
@@ -9,11 +9,23 @@ import {materialAPI} from "@/api/material.js";
 import {Editor} from "@tinymce/tinymce-react";
 import {Button} from "@/components/ui/button.jsx";
 import {Save} from "@mui/icons-material";
+import {cn} from "@/lib/utils.js";
+import {useNavigate} from "react-router-dom";
+import {commonAPI} from "@/api/common.js";
+import {regenerateAPI} from "@/api/regenerate.js";
+import MaterialModal from "@/components/modals/MaterialModal.jsx";
+import useMaterialModal from "@/hooks/use-material-modal.js";
+import {useToast} from "@/hooks/use-toast.js";
 
 export function ListMaterialContent({id}) {
 
     const [enable, setEnable] = useState(false);
     const [editorContent, setEditorContent] = useState("");
+    const [save, setSave] = useState(false);
+    const navigate = useNavigate()
+    const queryClient = useQueryClient();
+    const modal = useMaterialModal();
+    const { toast } = useToast()
     const {data, isFetching, refetch} = useQuery({
         queryKey: ["getMaterialID"],
         queryFn: async () => await materialAPI.getMaterialID(id),
@@ -28,6 +40,22 @@ export function ListMaterialContent({id}) {
         onError: (error) => console.log("onError: " + error)
     })
 
+    const {mutate: regenerate, isPending: regenerateLoading} = useMutation({
+        mutationKey: ["regenerateMaterial"],
+        mutationFn: async (body) => await regenerateAPI.regenerateMaterial(body, id),
+        onSuccess: () => {
+            toast({
+                title: "Regenerate Material",
+                description:  "Regenerate Material Successfully",
+            })
+            setSave(false)
+            refetch()
+            queryClient.invalidateQueries(['getMaterial']);
+
+        },
+        onMutate: () => setSave(false),
+        onError: (error) => console.log("onError: " + error)
+    })
 
     useEffect(() => {
         if (enable && id) {
@@ -40,52 +68,66 @@ export function ListMaterialContent({id}) {
 
     useEffect(() => {
         setEditorContent(data?.data)
-    }, [isFetching,data]);
+    }, [isFetching, data]);
+
+    useEffect(() => {
+        setSave(editorContent !== data?.data);
+    }, [editorContent, data?.data]);
 
 
+    const handleEditorChange = (data, content) => {
 
-
-    const handleEditorChange = (content) => {
         setEditorContent(content);
 
 
     };
 
-    const handleChange = ()=>{
+    const handleChange = () => {
         mutate({
-            content:editorContent
+            content: editorContent
         })
+
+
+
     }
     return (
         <div className="flex flex-col h-full relative flex-1">
-            <Button className={'w-fit absolute top-20 right-11 z-50'} onClick={()=>handleChange()}>
-
-                {
-                    isPending ?<Loading/>:<Save/>
-                }
-
-            </Button>
-            <ContentDistance>
 
 
+            {
 
-                {
+                isFetching && data?.data == null ? <Loading/> :
+                    <>
 
-                    isFetching && data?.data == null ? <Loading/> : (
-                        <Editor
-                            apiKey='cnlivas6mxjs0iqh6d2y9xwvfsilnghkmrica2zvrafazrum'
-                            init={{
-                                selector: 'textarea',
-                                plugins: [
+                        {
+                            save &&
+                            <Button className={'w-fit absolute top-20 right-20 z-50'} onClick={() => handleChange()}>
 
-                                    'anchor', 'autolink', 'codesample', 'lists', 'searchreplace', 'visualblocks',
-                                    'checklist', 'mediaembed', 'casechange', 'export', 'formatpainter', 'pageembed', 'a11ychecker', 'permanentpen', 'powerpaste', 'advtable', 'advcode', 'editimage', 'advtemplate', 'ai', 'mentions', 'tinycomments', 'tableofcontents', 'footnotes', 'mergetags', 'autocorrect', 'typography', 'inlinecss', 'markdown'
-                                ],
-                                toolbar: ' blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap customInsertButton',
-                                menubar: '',
-                                tinycomments_mode: 'embedded',
-                                tinycomments_author: 'Author name',
-                                content_style: `
+                                {
+                                    isPending ? <Loading/> : <Save/>
+                                }
+
+                            </Button>
+                        }
+
+                        <div className="flex-1 overflow-hidden">
+                            <ContentDistance>
+
+
+                                <Editor
+                                    apiKey='cnlivas6mxjs0iqh6d2y9xwvfsilnghkmrica2zvrafazrum'
+                                    init={{
+                                        selector: 'textarea',
+                                        plugins: [
+
+                                            'anchor', 'autolink', 'codesample', 'lists', 'searchreplace', 'visualblocks',
+                                            'checklist', 'mediaembed', 'casechange', 'export', 'formatpainter', 'pageembed', 'a11ychecker', 'permanentpen', 'powerpaste', 'advtable', 'advcode', 'editimage', 'advtemplate', 'ai', 'mentions', 'tinycomments', 'tableofcontents', 'footnotes', 'mergetags', 'autocorrect', 'typography', 'inlinecss', 'markdown'
+                                        ],
+                                        toolbar: ' blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap customInsertButton',
+                                        menubar: '',
+                                        tinycomments_mode: 'embedded',
+                                        tinycomments_author: 'Author name',
+                                        content_style: `
                                 
                                 
 
@@ -116,22 +158,34 @@ export function ListMaterialContent({id}) {
                                 
                                 `,
 
-                                height: '90vh',
-                                resize: true,
-                                skin: 'borderless',
-                                ai_request: (request, respondWith) => respondWith.string(() => Promise.reject('See docs to implement AI Assistant')),
+                                        height: '79vh',
+                                        resize: true,
+                                        skin: 'borderless',
+                                        ai_request: (request, respondWith) => respondWith.string(() => Promise.reject('See docs to implement AI Assistant')),
 
-                            }}
+                                    }}
 
-                            value={editorContent}
-                            onEditorChange={handleEditorChange}
-                        />
-                    )
-
-                }
+                                    value={editorContent}
+                                    onEditorChange={(content) => handleEditorChange(data?.data, content)}
+                                />
 
 
-            </ContentDistance>
+                            </ContentDistance>
+                        </div>
+                        <div
+                            className="h-[100px] overflow-hidden flex items-center justify-between gap-4 bg-white border-t-2 border-accent p-4">
+                            <Button onClick={() => navigate("/tools/generative-question")}
+                                    className="w-full">{"Generate a Quiz"}</Button>
+                            <Button onClick={() => modal.onOpen()} className="w-full">{regenerateLoading ?
+                                <Loading/> : "Regenerate"}</Button>
+                        </div>
+                        <Suspense>
+                            <MaterialModal regenerate={regenerate} regenerateLoading={regenerateLoading}/>
+                        </Suspense>
+                    </>
+
+
+            }
 
 
         </div>

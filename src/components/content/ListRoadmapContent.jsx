@@ -12,10 +12,12 @@ import {ContentDistance} from "@/components/ui/content-distance.jsx";
 import {LabelTitleContent} from "@/components/ui/label-title-content.jsx";
 import {roadmapAPI} from "@/api/roadmap.js";
 import {ContentRoadmapSkeleton} from "@/components/skeleton/ContentRoadmapSkeleton.jsx";
+import {useNavigate} from "react-router-dom";
 
 export function ListRoadmapContent({id}) {
 
     const [enable, setEnable] = useState(false);
+    const navigate = useNavigate();
 
     const {isLoading, data, isFetching, refetch} = useQuery({
         queryKey: ["getRoadmapID"],
@@ -27,7 +29,6 @@ export function ListRoadmapContent({id}) {
     });
 
     useEffect(() => {
-        console.log(data)
         if (enable && id) {
             refetch();
         } else if (id) {
@@ -58,7 +59,7 @@ export function ListRoadmapContent({id}) {
                             {data?.data.subject_detail_roadmap.roadmap.map((item, i) => (
                                 <Sheet key={item.id}>
                                     <SheetTrigger>
-                                        <div
+                                        <div onClick={() => console.log(data?.data.subject_detail_roadmap)}
                                             className="flex justify-start w-full p-4 gap-4 rounded-lg bg-white border-accent border-2 hover:bg-accent cursor-pointer">
                                             <div className="h-auto w-[1px] bg-black"></div>
                                             <div className="flex flex-col items-start gap-3">
@@ -85,10 +86,17 @@ export function ListRoadmapContent({id}) {
                                                         key={ref.id}
                                                         className="flex flex-row items-center gap-5"
                                                     >
-                                                        <div className="p-2 text-sm bg-primary rounded text-white">
+                                                        <div onClick={() => window.location.href = ref.url} className="cursor-pointer hover:bg-gray-400 hover:text-black p-2 text-sm bg-primary rounded text-white">
                                                             {ref.type}
                                                         </div>
-                                                        <p className="text-sm">{ref.content}</p>
+                                                        <div className={`flex w-full justify-between`}>
+                                                            <span>
+                                                                {ref.title}
+                                                            </span>
+                                                            <span className={`pl-5 text-end justify-end items-center flex`}>
+                                                                {ref.platform}
+                                                            </span>
+                                                        </div>
                                                     </div>
                                                 ))}
                                             </SheetDescription>

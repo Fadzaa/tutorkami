@@ -31,9 +31,7 @@ export const materialAPI = {
     },
     updateMaterial: async (body,id) => {
         try {
-            const res = await api.put(`material/${id}`, body);
-            console.log("Login Response:", res);
-            return res;
+            return await api.put(`material/${id}`, body);
         } catch (error) {
             return makeResponseFailed({
                 message: error,

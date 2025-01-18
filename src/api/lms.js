@@ -4,7 +4,6 @@ export const lmsAPI = {
     getLms: async () => {
         try {
             const response = await api.get("lms")
-            console.log(response.data)
             return response;
         } catch (error) {
             return makeResponseFailed({

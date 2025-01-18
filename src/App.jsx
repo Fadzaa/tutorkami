@@ -28,8 +28,6 @@ function App() {
                 <main className={'font-Urbanist'}>
                     <LoadingProvider>
                         <GlobalLoading/>
-
-
                         <RouterProvider router={routers}/>
                     </LoadingProvider>
                 </main>

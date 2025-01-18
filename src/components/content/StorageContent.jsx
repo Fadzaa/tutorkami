@@ -11,7 +11,7 @@ import PropTypes from "prop-types";
 import {formatInTimeZone} from "date-fns-tz";
 
 
-export function StorageContent({roadmapData,prev_page_url,next_page_url,last_page,current_page,handlePageChange}) {
+export function StorageContent({data,prev_page_url,next_page_url,last_page,current_page,handlePageChange}) {
     const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
     return (
@@ -19,17 +19,14 @@ export function StorageContent({roadmapData,prev_page_url,next_page_url,last_pag
 
             <div className="lg:grid gap-3 p-4 lg:grid-cols-4">
                 {
-                    roadmapData.map((item) => (
+                    data.map((item) => (
                                 <ListSidebarCard
-                                    title={item.title}
+                                    title={item.subject}
                                     key={item.id}
                                     id={item.id}
+                                    desc={item.topic}
                                     date={formatInTimeZone(new Date(item.date), userTimeZone, "yyyy-MM-dd")}
-                                    isQuestion={item.is_question}
-                                    category={item.knowledge_level}
-                                    proficiency={item.goal_level}
                                     type={item.type}
-                                    isSolved={item.solved}
                                     storage={true}
                                 />
                             ))

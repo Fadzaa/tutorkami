@@ -29,6 +29,16 @@ export const roadmapAPI = {
             })
         }
     },
+    solvedRoadmapID: async (id) => {
+        try {
+            const res = await api.get("roadmap/solved/" + id );
+            return res.data;
+        } catch (error) {
+            return makeResponseFailed({
+                message: error,
+            })
+        }
+    },
     deleteRoadmap: async (id) => {
         try {
             const res = await api.delete("roadmap/" + id );

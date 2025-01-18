@@ -30,6 +30,8 @@ const FormSchema = z.object({
         .string(),
     long_loading: z
         .boolean(),
+    activity_type: z
+        .string(),
 
 })
 
@@ -143,6 +145,27 @@ export function CreateLmsPage() {
                                     <SelectContent>
                                         <SelectItem value="Concise">Concise</SelectItem>
                                         <SelectItem value="Detailed">Detailed</SelectItem>
+                                    </SelectContent>
+                                </Select>
+
+                                <FormMessage/>
+                            </FormItem>)}
+                        />
+
+                        <FormField
+                            control={form.control}
+                            name="activity_type"
+                            render={({field}) => (<FormItem>
+                                <FormLabel>What activity type you prefer for your content</FormLabel>
+                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl>
+                                        <SelectTrigger>
+                                            <SelectValue placeholder="Activity Type"/>
+                                        </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                        <SelectItem value="Practical-Quiz">Practical Quiz</SelectItem>
+                                        <SelectItem value="Capstone-Project">Capstone Project</SelectItem>
                                     </SelectContent>
                                 </Select>
 

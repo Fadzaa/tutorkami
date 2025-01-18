@@ -25,7 +25,7 @@ export default function ProgressCircle({ width, height, progress, textProgress, 
                 </svg>
                 <div
                     className={`${text} absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 font-bold text-gray-900 dark:text-gray-50`}>
-                    {textProgress}%
+                    {textProgress}
                 </div>
             </div>
         </div>

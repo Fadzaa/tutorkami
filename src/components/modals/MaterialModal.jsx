@@ -28,9 +28,9 @@ const FormSchema = z.object({
     target_audience: z.string().nonempty("Target audience is required"),
 });
 
-const QuestionModal = ({regenerate, regenerateLoading}) => {
+const MaterialModal = ({regenerate, regenerateLoading}) => {
 
-    const materialModal = useQuestionModal();
+    const materialModal = useMaterialModal();
 
     const [choices, setChoices] = useState({});
 
@@ -218,4 +218,4 @@ const QuestionModal = ({regenerate, regenerateLoading}) => {
     );
 };
 
-export default QuestionModal;
+export default MaterialModal;

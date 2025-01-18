@@ -1,21 +1,11 @@
 import {api, makeResponseFailed} from "./api"
 
 export const commonAPI = {
-    getSuggestion:  (inputValue, callback) => {
-        return api.get(`topic-suggestion?topic=${inputValue}`).then((response) => {
-            const options = []
-            response.data.forEach((item) => {
-                options.push({
-                    label: item,
-                    value: item
-                })
-            })
-            callback(options);
-        })
-    },
-    deleteQuestion: async (id) => {
+    deleteSidebarUniversal: async (body) => {
         try {
-            const res = await api.delete(id );
+            console.log("body:" + body)
+            const res = await api.delete(body );
+            console.log("Get User Response:", res);
             return res.data;
         } catch (error) {
             return makeResponseFailed({
@@ -25,13 +15,20 @@ export const commonAPI = {
     },
     retakeQuestion: async (id) => {
         try {
-            return await api.delete(`retake/${id}`);
+            return await api.delete(`common-question/${id}`);
         } catch (error) {
             return makeResponseFailed({
                 message: error,
             })
         }
     },
-
-
+    regenerateQuestion: async (body,id) => {
+        try {
+            return await api.put(`question-regenerate/${id}`,body);
+        } catch (error) {
+            return makeResponseFailed({
+                message: error,
+            })
+        }
+    },
 }

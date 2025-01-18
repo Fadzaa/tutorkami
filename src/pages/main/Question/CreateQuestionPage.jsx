@@ -22,6 +22,8 @@ import {commonAPI} from "@/api/common.js";
 import {questionAPI} from "@/api/question.js";
 import AsyncCreatableSelect from "react-select/async-creatable";
 import debounce from 'lodash.debounce';
+import {suggestionAPI} from "@/api/suggestion.js";
+import {useToast} from "@/hooks/use-toast.js";
 
 const FormSchema = z.object({
     subject: z
@@ -30,11 +32,17 @@ const FormSchema = z.object({
         .string(),
     total: z
         .string(),
+    time_limit: z
+        .string(),
     type: z
         .string(),
     question_difficulty: z
         .string(),
     target_audience: z
+        .string(),
+    include_answer: z
+        .string(),
+    explanations: z
         .string(),
 
 })
@@ -46,11 +54,11 @@ export function CreateQuestionPage() {
     const form = useForm({
         resolver: zodResolver(FormSchema), mode: "all",
     })
-
+    const {toast} = useToast()
     const navigate = useNavigate()
 
     const promiseOptions = (inputValue, callback) => {
-        commonAPI.getSuggestion(inputValue, callback)
+        suggestionAPI.getUniversalSuggestion(inputValue, callback)
     }
 
     const loadSuggestions = debounce(promiseOptions, 1000)
@@ -58,8 +66,21 @@ export function CreateQuestionPage() {
     const {mutate, isPending,} = useMutation({
         mutationKey: ["postQuestion"],
         mutationFn: async (body) => await questionAPI.postQuestion(body),
-        onSuccess: (response) => navigate("/tools/generative-question/detail/" + response.data.data.id),
-        onError: (error) => console.log("onError: " + error)
+        onSuccess: (response) => {
+            toast({
+                title: "Create Question Success",
+                description: "You have successfully create question.",
+            })
+            navigate("/tools/generative-question/detail/" + response.data.data.id)
+        },
+        onError: (error) => {
+            toast({
+                variant: "destructive",
+                title: "Create Question Failed",
+                description: "Failed create question.",
+            })
+            console.log("onError: " + error)
+        }
     })
 
 
@@ -123,13 +144,27 @@ export function CreateQuestionPage() {
                             name="total"
 
                             render={({field}) => (<FormItem>
-                                <FormLabel>Total Questions</FormLabel>
+                                <FormLabel>Time Questions</FormLabel>
                                 <FormControl>
                                     <Input type={'number'} placeholder="Total Question" {...field} />
                                 </FormControl>
                                 <FormMessage/>
                             </FormItem>)}
                         />
+
+                        <FormField
+                            control={form.control}
+                            name="time_limit"
+
+                            render={({field}) => (<FormItem>
+                                <FormLabel>Total Questions</FormLabel>
+                                <FormControl>
+                                    <Input type={'number'} placeholder="Time Limit" {...field} />
+                                </FormControl>
+                                <FormMessage/>
+                            </FormItem>)}
+                        />
+
 
                         <FormField
                             control={form.control}
@@ -147,7 +182,7 @@ export function CreateQuestionPage() {
                                             <SelectItem value="Fill-in-the-Blank">Fill In The Blank</SelectItem>
                                             <SelectItem value="True/False">True-False</SelectItem>
                                             <SelectItem value="Short Answer">Short Answer</SelectItem>
-                                            <SelectItem value="Mixed">Short Answer</SelectItem>
+                                            <SelectItem value="Mixed">Mixed</SelectItem>
                                         </SelectContent>
                                     </Select>
 
@@ -207,6 +242,50 @@ export function CreateQuestionPage() {
                             )}
                         />
 
+                        <FormField
+                            control={form.control}
+                            name="include_answer"
+                            render={({field}) => (<FormItem>
+                                    <FormLabel>Include Answer</FormLabel>
+                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                        <FormControl>
+                                            <SelectTrigger>
+                                                <SelectValue placeholder="Include Answer"/>
+                                            </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                            <SelectItem value="Yes">Yes</SelectItem>
+                                            <SelectItem value="No">No</SelectItem>
+                                        </SelectContent>
+                                    </Select>
+
+                                    <FormMessage/>
+                                </FormItem>
+
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="explanations"
+                            render={({field}) => (<FormItem>
+                                    <FormLabel>Include Explanations</FormLabel>
+                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                        <FormControl>
+                                            <SelectTrigger>
+                                                <SelectValue placeholder="Include Explanations"/>
+                                            </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                            <SelectItem value="Yes">Yes</SelectItem>
+                                            <SelectItem value="No">No</SelectItem>
+                                        </SelectContent>
+                                    </Select>
+
+                                    <FormMessage/>
+                                </FormItem>
+
+                            )}
+                        />
 
                         <Button type="submit">
                             Submit

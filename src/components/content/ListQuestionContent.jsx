@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import {useEffect, useState} from "react";
+import {Suspense, useEffect, useState} from "react";
 import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import {api, makeResponseFailed} from "@/api/api.js";
 import {HeaderContent} from "@/components/ui/header-content.jsx";
@@ -10,20 +10,24 @@ import {questionAPI} from "@/api/question.js";
 import {Button} from "@/components/ui/button.jsx";
 import {Progress} from "@/components/ui/progress.jsx";
 import {Input} from "@/components/ui/input.jsx";
-import {useNavigate} from "react-router-dom";
 import {ContentQuestionSkeleton} from "@/components/skeleton/ContentQuestionSkeleton.jsx";
 import {commonAPI} from "@/api/common.js";
+import useMaterialModal from "@/hooks/use-material-modal.js";
+import useQuestionsModal from "@/hooks/use-question-modal.js";
+import QuestionModal from "@/components/modals/QuestionModal.jsx";
+import {useToast} from "@/hooks/use-toast.js";
 
 
-export function ListQuestionContent({id,setOpenChatbot}) {
+export function ListQuestionContent({id}) {
 
 
     const [questions, setQuestions] = useState([]);
     const [progress, setProgress] = useState(0)
+
     const [enable, setEnable] = useState(false);
-    const navigate = useNavigate();
     const queryClient = useQueryClient();
 
+    const modal = useQuestionsModal();
     const {isLoading, data, isFetching, refetch} = useQuery({
         queryKey: ["getQuestionID"],
         queryFn: async () => {
@@ -32,6 +36,10 @@ export function ListQuestionContent({id,setOpenChatbot}) {
         enabled: enable,
         refetchOnWindowFocus: false,
     });
+
+
+    const {toast} = useToast()
+
 
     useEffect(() => {
         if (enable && id) {
@@ -66,7 +74,7 @@ export function ListQuestionContent({id,setOpenChatbot}) {
     const {mutate, isPending,} = useMutation({
         mutationKey: ["postSubmit"], mutationFn: async (body) => {
             try {
-                const res = await api.post("submit", body);
+                const res = await api.post("common-question", body);
 
                 return res;
             } catch (error) {
@@ -76,10 +84,24 @@ export function ListQuestionContent({id,setOpenChatbot}) {
             }
         },
         onSuccess: () => {
+            toast({
+                title: "Submit Success",
+                description: "You have successfully submited questions.",
+            })
+            setQuestions([])
+            setProgress(0)
             refetch()
             queryClient.invalidateQueries(['getQuestion']);
         },
-        onError: (error) => console.log("onError: " + error)
+        onError: (error) => {
+
+            toast({
+                variant: "destructive",
+                title: "Submit Failed",
+                description: "Failed submited questions.",
+            })
+            console.log("onError: " + error)
+        }
 
     })
 
@@ -87,10 +109,47 @@ export function ListQuestionContent({id,setOpenChatbot}) {
     const {mutate: retake, isPending: retakeLoading} = useMutation({
         mutationKey: ["postSubmit"], mutationFn: async (body) => await commonAPI.retakeQuestion(body.id),
         onSuccess: () => {
+            toast({
+                title: "Retake Success",
+                description: "You have successfully retake questions.",
+            })
+            setQuestions([])
+            setProgress(0)
             refetch()
             queryClient.invalidateQueries(['getQuestion']);
         },
-        onError: (error) => console.log("onError: " + error)
+        onError: (error) => {
+            toast({
+                variant: "destructive",
+                title: "Retake Failed",
+                description: "Failed retake questions.",
+            })
+            console.log("onError: " + error)
+        }
+    })
+
+    const {mutate: regenerate, isPending: regenerateLoading} = useMutation({
+        mutationKey: ["postSubmit"], mutationFn: async (body) => await commonAPI.regenerateQuestion(body, id),
+        onSuccess: () => {
+
+            toast({
+                title: "Regenerate Success",
+                description: "You have successfully regenerated questions.",
+            })
+            setQuestions([])
+            setProgress(0)
+            refetch()
+            queryClient.invalidateQueries(['getQuestion']);
+
+        },
+        onError: (error) => {
+            toast({
+                variant: "destructive",
+                title: "Regenerate Failed",
+                description: "Failed regenerated questions.",
+            })
+            console.log("onError: " + error)
+        }
     })
 
 
@@ -102,7 +161,7 @@ export function ListQuestionContent({id,setOpenChatbot}) {
 
     }
 
-    const choicesCondintion = (itemParent, i, answers) => {
+    const choicesCondintion = (itemParent, i, answers,qsDetail) => {
 
 
         if (answers.length > 0) {
@@ -116,16 +175,19 @@ export function ListQuestionContent({id,setOpenChatbot}) {
                         Answer) {answerFilter.answer_response === itemParent.answer ? "V" : "X"}</p>
                     <h2 className={'font-bold text-lg'}>{itemParent.title}</h2>
 
+                    <div className={cn('mt-5 flex flex-col lg:grid  w-full lg:w-1/2 lg:grid-flow-col gap-8',
+
+                        itemParent.type === "Fill-in-the-Blank" || itemParent.type == "Short Answer" ? '' : 'lg:grid-rows-2'
+                    )}>
 
                     {
 
-                        itemParent.type === "Fill in the blank" ?
+                        itemParent.type === "Fill-in-the-Blank" || itemParent.type == "Short Answer" ?
                             <Input disabled value={answerFilter.answer_response}
                                    placeholder={"Type your answer here"}/>
                             :
-                            <div
-                                className={'mt-5 flex flex-col lg:grid lg:grid-rows-2 w-full lg:w-1/2 lg:grid-flow-col gap-8'}>
-                                {
+
+
                                     itemParent.choices.toString().split(',').map((item, i) => {
 
                                             // jawaban yang di pilih
@@ -156,21 +218,24 @@ export function ListQuestionContent({id,setOpenChatbot}) {
 
                                         }
                                     )
-                                }
-                            </div>
-                    }
 
+
+                    }
+                    </div>
                     {
-                        itemParent.type === "Fill in the blank" && (
+
+                        (itemParent.type === "Short Answer" || itemParent.type === "Fill-in-the-Blank") && qsDetail.include_answer == "Yes" &&  qsDetail.explanations == "Yes"  && (
                             <>
                                 <h2 className={'mt-7 font-bold'}>Answer: </h2>
                                 <p>{itemParent.answer}</p>
+
+                                <h2 className={'mt-7 font-bold'}>Explanation: </h2>
+                                <p>{itemParent.explanation}</p>
                             </>
                         )
                     }
 
-                    <h2 className={'mt-7 font-bold'}>Explanation: </h2>
-                    <p>{itemParent.explanation}</p>
+
                 </div>
             )
         } else {
@@ -179,9 +244,13 @@ export function ListQuestionContent({id,setOpenChatbot}) {
                     <p>Question {i + 1} ({itemParent.type} • Single Answer)</p>
                     <h2 className={'font-bold text-lg'}>{itemParent.title}</h2>
 
-                    <div className={'mt-5 flex flex-col lg:grid lg:grid-rows-2 w-full lg:w-1/2 lg:grid-flow-col gap-8'}>
+
+                    <div className={cn('mt-5 flex flex-col lg:grid  w-full lg:w-1/2 lg:grid-flow-col gap-8',
+
+                        itemParent.type === "Fill-in-the-Blank" || itemParent.type == "Short Answer" ?'':'lg:grid-rows-2'
+                        )}>
                         {
-                            itemParent.type === "Fill in the blank" ?
+                            itemParent.type === "Fill-in-the-Blank" || itemParent.type == "Short Answer" ?
                                 <Input onChange={(e) => handleInput(e, itemParent.id)}
                                        placeholder={"Type your answer here"}/>
                                 :
@@ -226,9 +295,34 @@ export function ListQuestionContent({id,setOpenChatbot}) {
 
     }
 
+    const handleRegenerate = () => {
+        let arrayWrongAnswer = []
+
+        for (let i = 0; i < data?.data.question_detail.questions.length; i++) {
+
+            const result = data?.data.answer_detail.find(item => item.answer_response != data?.data.question_detail.questions[i].answer && item.question_id == data?.data.question_detail.questions[i].id)
+
+
+            if (result) {
+                arrayWrongAnswer.push({
+                    title: result.question.title,
+                })
+            }
+
+        }
+
+
+
+        regenerate({
+            questions: arrayWrongAnswer
+        })
+
+    }
+
     let arr = ["A. ", "B. ", "C. ", "D. "];
     return (
         <div className="flex flex-col h-full relative flex-1">
+
 
             <div className={cn(
                 "flex-1 pb-5 cs overflow-y-auto",
@@ -249,14 +343,12 @@ export function ListQuestionContent({id,setOpenChatbot}) {
                                 desc={`${data?.data.question_detail.type} • ${data?.data.question_detail.topic} • ${data?.data.question_detail.question_difficulty} • ${data?.data.question_detail.target_audience}`}
                             />
 
-                            {data?.data.question_detail.questions.map((itemParent, i) => choicesCondintion(itemParent, i, data?.data.answer_detail))}
+                            {data?.data.question_detail.questions.map((itemParent, i) => choicesCondintion(itemParent, i, data?.data.answer_detail,data?.data.question_detail))}
 
                         </ContentDistance>
                     )
                 )}
             </div>
-
-
             {(isLoading || isFetching) || data?.data != null && (
 
                 data?.data.question_detail.is_solved ? (
@@ -271,16 +363,15 @@ export function ListQuestionContent({id,setOpenChatbot}) {
                                 }
                             )
 
-                        } className="w-full">{retakeLoading ?<Loading/>:"Retake Test"}</Button>
-                        <Button onClick={() => navigate("/tools/generative-list-question")}
-                                className="w-full">Regenerate</Button>
+                        } className="w-full">{retakeLoading ? <Loading/> : "Retake Test"}</Button>
+                        <Button onClick={() => modal.onOpen()}
+                                className="w-full">{regenerateLoading ? <Loading/> : "Regenerate"}</Button>
                     </div>
 
                 ) : (
                     <div
                         className="flex flex-col items-start justify-between gap-4 bg-white border-t-2 border-accent p-4">
 
-                        <p className={'font-bold text-lg text-start'}>00:00</p>
                         <Progress value={progress} className="w-full"/>
                         <div className={'flex flex-row w-full justify-between'}>
                             <p>{progress ? progress : 0}% Complete</p>
@@ -300,6 +391,16 @@ export function ListQuestionContent({id,setOpenChatbot}) {
                 )
             )}
 
+            {
+
+                (isLoading || isFetching) || data?.data != null && (
+
+                    <Suspense>
+                        <QuestionModal regenerate={handleRegenerate} regenerateLoading={regenerateLoading}/>
+                    </Suspense>
+                )
+
+            }
 
         </div>
     );

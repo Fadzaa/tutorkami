@@ -29,15 +29,4 @@ export const questionAPI = {
             })
         }
     },
-    deleteQuestion: async (type,id) => {
-        try {
-            const res = await api.delete(`${type.toString().toLowerCase()}/${id}`);
-            return res.data;
-        } catch (error) {
-            return makeResponseFailed({
-                message: error,
-            })
-        }
-    },
-
 }

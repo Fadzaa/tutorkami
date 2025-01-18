@@ -18,7 +18,8 @@ import {materialAPI} from "@/api/material.js";
 import AsyncCreatableSelect from "react-select/async-creatable";
 import {commonAPI} from "@/api/common.js";
 import debounce from "lodash.debounce";
-
+import {suggestionAPI} from "@/api/suggestion.js";
+import {useToast} from "@/hooks/use-toast.js";
 
 const FormSchema = z.object({
     subject: z
@@ -45,13 +46,13 @@ const FormSchema = z.object({
 export function CreateMaterialPage() {
 
     const navigate = useNavigate()
-
+    const {toast} = useToast()
     const form = useForm({
         resolver: zodResolver(FormSchema), mode: "all",
     })
 
     const promiseOptions = (inputValue, callback) => {
-        commonAPI.getSuggestion(inputValue, callback)
+        suggestionAPI.getUniversalSuggestion(inputValue, callback)
     }
 
     const loadSuggestions = debounce(promiseOptions, 1000)
@@ -59,9 +60,21 @@ export function CreateMaterialPage() {
     const {mutate, isPending,} = useMutation({
         mutationFn: async (body) => await materialAPI.postMaterial(body),
         onSuccess: (response) => {
+            toast({
+                title: "Create Material Success",
+                description: "You have successfully create material.",
+            })
+            console.log("halo:" + response.data.data.id)
             navigate("/tools/generative-material/detail/" + response.data.data.id);
         },
-        onError: (error) => console.log("onError: " + error),
+        onError: (error) => {
+            toast({
+                variant: "destructive",
+                title: "Create Material Failed",
+                description: "Failed create material.",
+            })
+            console.log("onError: " + error)
+        },
     })
 
     const onSubmit = (data) => mutate({...data, reference: "No", language: "Indonesian"})
@@ -120,9 +133,9 @@ export function CreateMaterialPage() {
                             control={form.control}
                             name="prior_knowledge"
                             render={({field}) => (<FormItem>
-                                    <FormLabel>What is your fucking issue idiot?</FormLabel>
+                                    <FormLabel>Prior Knowledge</FormLabel>
                                     <FormControl>
-                                        <Input  placeholder="Mathematic" {...field} />
+                                        <Input  placeholder="The user has a basic understanding of plant biology, including concepts like cells and energy, but is unfamiliar with the details of photosynthesis." {...field} />
                                     </FormControl>
                                     <FormMessage/>
                                 </FormItem>

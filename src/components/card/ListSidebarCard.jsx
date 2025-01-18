@@ -22,7 +22,7 @@ export function ListSidebarCard({
     const {pathname} = useLocation();
 
     const {mutate} = useMutation({
-        mutationFn: async (id) => await commonAPI.deleteQuestion(`${type.toString().toLowerCase()}/${id}`),
+        mutationFn: async (id) => await commonAPI.deleteSidebarUniversal(`${type.toString().toLowerCase()}/${id}`),
         onSuccess: () => navigate(`/tools/generative-${type.toString().toLowerCase()}/`),
         onError: (error) => console.log("onError :" + error)
     })

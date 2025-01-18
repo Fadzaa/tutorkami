@@ -24,6 +24,7 @@ import {StorageRoadmapPage} from "@/pages/main/Storage/StorageRoadmapPage.jsx";
 import {StorageQuestionPage} from "@/pages/main/Storage/StorageQuestionPage.jsx";
 import {StorageMaterialPage} from "@/pages/main/Storage/StorageMaterialPage.jsx";
 import {StorageLmsPage} from "@/pages/main/Storage/StorageLmsPage.jsx";
+import {StoragePage} from "@/pages/main/Storage/StoragePage.jsx";
 
 export const routers = createBrowserRouter([
     {
@@ -107,10 +108,14 @@ export const routers = createBrowserRouter([
         ],
     },
     {
-        path: '/storage',
+        path: '/',
         errorElement: <Fallback body='Something went wrong' title="Please try again later." />,
         element: <UseAuth><StorageLayout /></UseAuth>,
         children: [
+            {
+                path: 'storage',
+                element: <StoragePage />,
+            },
             {
                 path: 'roadmap',
                 element: <StorageRoadmapPage />,

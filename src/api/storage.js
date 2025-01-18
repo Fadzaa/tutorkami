@@ -45,5 +45,16 @@ export const storageAPI = {
             })
         }
     },
+    getStorage: async (body) => {
+        try {
+            return await api.get("storage/universal", {
+                params: {...body}
+            });
+        } catch (error) {
+            return makeResponseFailed({
+                message: error,
+            })
+        }
+    },
 
 }

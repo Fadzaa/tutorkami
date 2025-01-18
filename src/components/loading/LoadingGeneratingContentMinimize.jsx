@@ -2,7 +2,7 @@ import bookLoadingAnimation from '/public/book_loading_lottie.json'
 import bookLoadingAnimationMinimize from '/public/book_loading_lottie_minimize.json'
 import close from '/public/close_icon.svg'
 import {Progress} from "@/components/ui/progress.jsx";
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 import {useTranslation} from "react-i18next";
 import ProgressCircle from "@/components/ui/progress-circle.jsx";
 import Lottie from "lottie-react";

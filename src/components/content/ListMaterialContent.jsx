@@ -88,12 +88,12 @@ export function ListMaterialContent({id}) {
 
 
     useEffect(() => {
-        setEditorContent(data?.data)
+        setEditorContent(data?.data?.data)
     }, [isFetching, data]);
 
     useEffect(() => {
-        setSave(editorContent !== data?.data);
-    }, [editorContent, data?.data]);
+        setSave(editorContent !== data?.data?.data);
+    }, [editorContent, data?.data?.data]);
 
 
     const handleEditorChange = (data, content) => {
@@ -117,7 +117,7 @@ export function ListMaterialContent({id}) {
 
             {
 
-                isFetching && data?.data == null ? <Loading/> :
+                isFetching && data?.data?.data == null ? <Loading/> :
                     <>
 
                         {
@@ -188,7 +188,7 @@ export function ListMaterialContent({id}) {
                                     }}
 
                                     value={editorContent}
-                                    onEditorChange={(content) => handleEditorChange(data?.data, content)}
+                                    onEditorChange={(content) => handleEditorChange(data?.data?.data, content)}
                                 />
 
 

@@ -7,16 +7,13 @@ import {useState} from "react";
 export function DetailQuestionPage() {
 
     const {id} = useParams();
-    const [openChatbot, setOpenChatbot] = useState(false);
 
 
     return (
         <div className="h-[90vh] overflow-hidden flex">
             <QuestionSidebar />
             <ListQuestionContent id={id}/>
-            {
-                openChatbot && <ChatBotSidebar id={id} type={"Question"}/>
-            }
+              <ChatBotSidebar id={id} type={"Question"}/>
         </div>
 
 

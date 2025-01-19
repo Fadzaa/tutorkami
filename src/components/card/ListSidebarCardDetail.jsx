@@ -2,9 +2,9 @@ import PropTypes from "prop-types";
 import {ListSkeleton} from "@/components/skeleton/ListSkeleton.jsx";
 import {formatInTimeZone} from "date-fns-tz";
 import { subDays, subMonths, subWeeks, subYears} from "date-fns";
-import {ListQuestionCardWrapper} from "@/components/card/ListQuestionCardWrapper.jsx";
+import {ListSidebarCardWrapper} from "@/components/card/ListSidebarCardWrapper.jsx";
 
-export function ListQuestionCardDetail({
+export function ListSidebarCardDetail({
                                      data, isLoading, type
                                  }) {
     const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -21,9 +21,10 @@ export function ListQuestionCardDetail({
 
     return (
         <>
-            <div className="cs px-5 h-[73%] my-5">
+            <div className="cs px-5 h-[75%] my-5">
                     {
                         data?.data.filter(item => {
+                            console.log(data?.data)
                             const formattedDate = formatInTimeZone(new Date(item.date), userTimeZone, "yyyy-MM-dd");
                             return formattedDate === todayFormatted;
                         }).length !== 0 ?
@@ -34,7 +35,7 @@ export function ListQuestionCardDetail({
                                         const formattedDate = formatInTimeZone(new Date(item.date), userTimeZone, "yyyy-MM-dd");
                                         return formattedDate === todayFormatted;
                                     }).map((item, index) => (
-                                        <ListQuestionCardWrapper
+                                        <ListSidebarCardWrapper
                                             key={item.id}
                                             item={item}
                                             type={type}
@@ -58,7 +59,7 @@ export function ListQuestionCardDetail({
                                     const formattedDate = formatInTimeZone(new Date(item.date), userTimeZone, "yyyy-MM-dd");
                                     return formattedDate === yesterdayFormatted;
                                 }).map((item, index) => (
-                                    <ListQuestionCardWrapper
+                                    <ListSidebarCardWrapper
                                         key={item.id}
                                         item={item}
                                         type={type}
@@ -82,7 +83,7 @@ export function ListQuestionCardDetail({
                                     const formattedDate = formatInTimeZone(new Date(item.date), userTimeZone, "yyyy-MM-dd");
                                     return formattedDate >= oneWeekAgoFormatted && formattedDate < yesterdayFormatted;
                                 }).map((item, index) => (
-                                    <ListQuestionCardWrapper
+                                    <ListSidebarCardWrapper
                                         key={item.id}
                                         item={item}
                                         type={type}
@@ -106,7 +107,7 @@ export function ListQuestionCardDetail({
                                     const formattedDate = formatInTimeZone(new Date(item.date), userTimeZone, "yyyy-MM-dd");
                                     return formattedDate >= oneMonthAgoFormatted && formattedDate <= oneWeekAgoFormatted;
                                 }).map((item, index) => (
-                                    <ListQuestionCardWrapper
+                                    <ListSidebarCardWrapper
                                         key={item.id}
                                         item={item}
                                         type={type}
@@ -130,7 +131,7 @@ export function ListQuestionCardDetail({
                                     const formattedDate = formatInTimeZone(new Date(item.date), userTimeZone, "yyyy-MM-dd");
                                     return formattedDate >= oneYearAgoFormatted && formattedDate <= oneMonthAgoFormatted;
                                 }).map((item, index) => (
-                                    <ListQuestionCardWrapper
+                                    <ListSidebarCardWrapper
                                         key={item.id}
                                         item={item}
                                         type={type}
@@ -146,7 +147,7 @@ export function ListQuestionCardDetail({
     )
 }
 
-ListQuestionCardDetail.propTypes = {
+ListSidebarCardDetail.propTypes = {
     data: PropTypes.any,
     isLoading: PropTypes.bool,
     type: PropTypes.string,

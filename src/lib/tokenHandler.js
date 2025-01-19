@@ -3,6 +3,7 @@ import {decrypt, encrypt} from "@/lib/Encription.js";
 export const tokenHandler = {
     get() {
         var token = !!localStorage.getItem("token");
+        console.log(decrypt(localStorage.getItem('token')))
         return token ? decrypt(localStorage.getItem('token')) : null ;
     },
     has() {

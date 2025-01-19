@@ -21,8 +21,7 @@ export const materialAPI = {
     },
     getMaterialID: async (id) => {
         try {
-            const res = await api.get("material/" + id );
-            return res.data;
+            return await api.get("material/" + id);
         } catch (error) {
             return makeResponseFailed({
                 message: error,

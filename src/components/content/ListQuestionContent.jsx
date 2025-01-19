@@ -150,6 +150,40 @@ export function ListQuestionContent({id}) {
             console.log("onError: " + error)
         }
     })
+    const [seconds, setSeconds] = useState(0);
+
+
+    useEffect(() => {
+        if(data?.data != null){
+            setSeconds(10)
+        }
+    }, [data]);
+
+
+    useEffect(() => {
+
+        if (seconds <= 0) {
+
+            setQuestions([])
+
+            return;
+        }
+
+        const timer = setInterval(() => {
+            setSeconds((prevSeconds) => prevSeconds - 1);
+        }, 1000);
+
+        return () => clearInterval(timer);
+    }, [seconds]);
+
+    const formatTime = (timeInSeconds) => {
+
+        const minutes = Math.floor(timeInSeconds / 60)
+            .toString()
+            .padStart(2, "0");
+        const seconds = (timeInSeconds % 60).toString().padStart(2, "0");
+        return `${minutes}:${seconds}`;
+    };
 
 
     const onSubmit = (id) => {
@@ -372,12 +406,15 @@ export function ListQuestionContent({id}) {
                     <div
                         className="flex flex-col items-start justify-between gap-4 bg-white border-t-2 border-accent p-4">
 
+                        {formatTime(seconds)}
                         <Progress value={progress} className="w-full"/>
                         <div className={'flex flex-row w-full justify-between'}>
                             <p>{progress ? progress : 0}% Complete</p>
                             <p>{questions.length}/{data?.data.question_detail.questions.length}</p>
 
                         </div>
+
+
 
                         <Button onClick={() => onSubmit(data?.data.question_detail.id)} disabled={progress !== 100}
                                 className="w-full">

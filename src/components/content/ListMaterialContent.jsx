@@ -23,6 +23,10 @@ export function ListMaterialContent({id}) {
 
     const [enable, setEnable] = useState(false);
     const [editorContent, setEditorContent] = useState("");
+
+    const [minute, setMinute] = useState(0);
+    const [second, setSecond] = useState(0);
+
     const [save, setSave] = useState(false);
     const navigate = useNavigate()
     const queryClient = useQueryClient();
@@ -35,7 +39,6 @@ export function ListMaterialContent({id}) {
         enabled: enable,
         refetchOnWindowFocus: false,
     });
-
 
     const {mutate, isPending,} = useMutation({
         mutationKey: ["updateMaterial"],
@@ -80,6 +83,9 @@ export function ListMaterialContent({id}) {
             console.log("onError: " + error)
         }
     })
+
+
+
 
     useEffect(() => {
         if (enable && id) {
@@ -143,7 +149,6 @@ export function ListMaterialContent({id}) {
                                     init={{
                                         selector: 'textarea',
                                         plugins: [
-                                            "autoresize",
                                             'anchor', 'autolink', 'codesample', 'lists', 'searchreplace', 'visualblocks',
                                             'checklist', 'mediaembed', 'casechange', 'export', 'formatpainter', 'pageembed', 'a11ychecker', 'permanentpen', 'powerpaste', 'advtable', 'advcode', 'editimage', 'advtemplate', 'ai', 'mentions', 'tinycomments', 'tableofcontents', 'footnotes', 'mergetags', 'autocorrect', 'typography', 'inlinecss', 'markdown'
                                         ],
@@ -183,7 +188,7 @@ export function ListMaterialContent({id}) {
                                 
                                 `,
 
-                                        height: '79vh',
+                                        height: '75vh',
                                         resize: true,
                                         skin: 'borderless',
                                         ai_request: (request, respondWith) => respondWith.string(() => Promise.reject('See docs to implement AI Assistant')),

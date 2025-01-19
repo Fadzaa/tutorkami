@@ -19,7 +19,7 @@ export function CommonSelectItem({
     }, []);
 
     const handleSelect = (item) => {
-        field.value = item.value;
+        field.onChange(item.value)
         setSelectedValue(item.value);
 
         console.log(field)

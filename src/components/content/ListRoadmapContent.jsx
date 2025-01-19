@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import {Suspense, useEffect, useState} from "react";
-import {useMutation, useQuery} from "@tanstack/react-query";
+import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import {SheetContent, SheetDescription, SheetHeader, Sheet, SheetTitle, SheetTrigger} from "@/components/ui/sheet.jsx";
 import {HeaderContent} from "@/components/ui/header-content.jsx";
 import check from "/public/check.svg";
@@ -38,6 +38,7 @@ export function ListRoadmapContent({id}) {
     const [completedId, setCompletedId] = useState(0);
     const [hoverCompleted, setHoverCompleted] = useState(false);
     const [hoverId, setHoverId] = useState(0);
+    const queryClient = useQueryClient();
     const roadmapsModal = useRoadmapsModal();
     const roadmapsUpdateModal = useRoadmapsUpdateModal();
     const roadmapRegenerateModal = useRoadmapRegenerateModal();
@@ -114,6 +115,7 @@ export function ListRoadmapContent({id}) {
                 title: "Update Roadmap Success",
                 description: "You have successfully update roadmap.",
             })
+            queryClient.invalidateQueries(['getRoadmap']);
             refetch().then(() => {
                 setCompletedId(0);
             })

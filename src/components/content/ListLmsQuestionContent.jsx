@@ -203,7 +203,7 @@ export function ListLmsQuestionContent({data,lms}) {
                 )}
             </div>
             {
-                data?.is_solved === 0 && (
+                data?.is_solved === false && (
                     <div
                         className="flex flex-col items-start justify-between gap-4 bg-white border-t-2 border-accent p-4">
 

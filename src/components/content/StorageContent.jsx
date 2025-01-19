@@ -15,11 +15,26 @@ import {useEffect, useState} from "react";
 export function StorageContent({data,prev_page_url,next_page_url,last_page,current_page,handlePageChange}) {
     const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
+    const lmsTotalSolved = (item) => {
+        let solved = 0;
+        item?.subject_detail_lms?.lms?.topic?.forEach((item) => item.sub_topic.forEach((sub) => {
+            if (sub.solved) {
+                solved++;
+            }
+        }))
+        return solved;
+    }
 
+    const lmsLength = (item) => {
+        let length = 0;
+        item?.subject_detail_lms?.lms?.topic?.forEach((item) =>
+            length = length + item.sub_topic.length
+        )
+        return length;
+    }
 
     return (
         <>
-
             <div className="lg:grid gap-3 p-4 lg:grid-cols-4">
                 {
                     data.map((item) => (
@@ -34,6 +49,8 @@ export function StorageContent({data,prev_page_url,next_page_url,last_page,curre
                                 subId={item.subject_detail_lms?.lms?.topic?.[0]?.sub_topic?.[0]?.id}
                                 desc={`${item.subject_detail_lms.difficulty} • ${item.subject_detail_lms.activity_type}`}
                                 isSolved={true}
+                                totalSolve={lmsTotalSolved(item).toString()}
+                                length={lmsLength(item).toString()}
 
                             />
                         ) : item.type === 'Question' ? (

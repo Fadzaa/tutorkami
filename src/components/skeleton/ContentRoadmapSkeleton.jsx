@@ -7,7 +7,7 @@ import {FooterContent} from "@/components/ui/footer-content.jsx";
 import {HeaderContentSkeleton} from "@/components/skeleton/HeaderContentSkeleton.jsx";
 import {Skeleton} from "@/components/ui/skeleton.jsx";
 
-export function ContentRoadmapSkeleton() {
+export function ContentRoadmapSkeleton({array}) {
     return (
         <div className="flex flex-col h-full relative flex-1 overflow-hidden">
 
@@ -15,7 +15,7 @@ export function ContentRoadmapSkeleton() {
                 <ContentDistance>
 
                     <HeaderContentSkeleton/>
-                    {Array(5).fill(null).map((item, i) => (
+                    {Array(array).fill(null).map((item, i) => (
                         <Skeleton
                             className="text-transparent flex justify-start w-full p-4 gap-4 rounded-lg  border-accent border-2 hover:bg-accent cursor-pointer">
                             <div className="h-auto w-[1px] "></div>

@@ -8,6 +8,7 @@ import {cn} from "@/lib/utils.js";
 import {Button} from "@/components/ui/button.jsx";
 import {Progress} from "@/components/ui/progress.jsx";
 import {useToast} from "@/hooks/use-toast.js";
+import {ContentDistance} from "@/components/ui/content-distance.jsx";
 
 
 export function ListLmsQuestionContent({data,lms}) {
@@ -113,7 +114,7 @@ export function ListLmsQuestionContent({data,lms}) {
 
                                                 <Button key={item}
                                                         className={cn(
-                                                            'group flex   justify-start  rounded-xl w-full',
+                                                            'group flex   justify-start  rounded-xl w-full lg:w-96',
 
                                                             answerchoose ? "bg-primary/90" : "bg-transparent hover:bg-transparent border-2",
                                                             correctAnswer ? "bg-[#E2E8F0] hover:bg-[#E2E8F0]" : ""
@@ -161,7 +162,7 @@ export function ListLmsQuestionContent({data,lms}) {
                                 itemParent.choices.toString().split(',').map((item, i) => (
                                     <Button key={item} onClick={() => handleChoices(itemParent.id, item, data?.id)}
                                             className={cn(
-                                                'group flex hover:border-0 justify-start  rounded-xl w-full border-2',
+                                                'group flex hover:border-0 justify-start  rounded-xl w-full lg:w-96 border-2',
                                                 questions.find(question => question.answer === item && question.id === itemParent.id) ? "bg-primary/90" : "bg-transparent"
                                             )}>
                                         <p className={cn(
@@ -190,7 +191,7 @@ export function ListLmsQuestionContent({data,lms}) {
             )}>
 
                 {data != null && (
-                        <div className={`flex h-full flex-col gap-4 mt-5 mx-10`}>
+                        <ContentDistance className={`flex w-full h-full justify-between flex-col gap-4 mt-5 mx-10`}>
                             <HeaderContent
                                 title={lms?.subject}
                                 date={data?.date}
@@ -199,7 +200,7 @@ export function ListLmsQuestionContent({data,lms}) {
                             />
 
                             {data?.lms_quiz.map((itemParent, i) => choicesCondintion(itemParent, i, data?.lms_quiz_response	, data))}
-                        </div>
+                        </ContentDistance>
                 )}
             </div>
             {

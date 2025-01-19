@@ -1,13 +1,14 @@
 import PropTypes from "prop-types";
-import {cn} from "@/lib/utils.js";
 
 import { useState} from "react";
 import { ChevronUp} from "lucide-react";
 import * as React from "react";
 import {motion,AnimatePresence} from "framer-motion";
+import solved from "/public/dark-checked.svg";
 
 export function ListContentDetailCard({
                                      title,
+    isSolved,
     subTopicContent,
     handle,
     id,
@@ -17,16 +18,21 @@ export function ListContentDetailCard({
 
     return (
         <>
-            <div className={`flex justify-between hover:bg-accent cursor-pointer rounded-sm py-1 px-1`} onClick={() => {
-                if (subTopicId !== id && !isOpen) {
-                    handle(id);
+            <div className={`flex items-center justify-between w-full`}>
+                <div className={`flex justify-between hover:bg-accent cursor-pointer rounded-sm py-1 px-1`} onClick={() => {
+                    if (subTopicId !== id && !isOpen) {
+                        handle(id);
+                    }
+                    setIsOpen(prevState => !prevState);
+                }}>
+                    <p className={`text-base font-semibold`}>{title}</p>
+                    <ChevronUp
+                        className={`relative top-[1px] text-[#94A3B8] ml-3 h-5 w-5 transition duration-200 ${isOpen ? "rotate-180" : "rotate-90"}`}
+                        aria-hidden="true" />
+                </div>
+                {
+                    isSolved && <img src={solved} alt="" className="h-4"/>
                 }
-                setIsOpen(prevState => !prevState);
-            }}>
-                <p className={`text-base font-semibold`}>{title}</p>
-                <ChevronUp
-                    className={`relative top-[1px] text-[#94A3B8] ml-3 h-5 w-5 transition duration-200 ${isOpen ? "rotate-180" : "rotate-90"}`}
-                    aria-hidden="true" />
             </div>
             <AnimatePresence initial={false}>
                 {isOpen && (
@@ -59,6 +65,7 @@ export function ListContentDetailCard({
 
 ListContentDetailCard.propTypes = {
     title: PropTypes.string,
+    isSolved: PropTypes.bool,
     id: PropTypes.number,
     subTopicContent: PropTypes.array,
     subTopicId: PropTypes.string,

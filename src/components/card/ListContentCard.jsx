@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import {cn} from "@/lib/utils.js";
-
+import solved from "/public/check.svg"
 import {useState} from "react";
 import {ChevronUp} from "lucide-react";
 import * as React from "react";
@@ -35,10 +35,11 @@ export function ListContentCard({
                     >
                         <div className="flex px-1">
                             <div className="h-auto w-[1px] bg-black"></div>
-                            <div className="pt-2 pl-4">
+                            <div className="pt-2 pl-4 w-full">
                                 {subTopic.map((item, index) => {
+                                    console.log(item)
                                     return (
-                                        <ListContentDetailCard title={item.sub_topic}
+                                        <ListContentDetailCard title={item.sub_topic} isSolved={item.solved}
                                                                subTopicContent={item.sub_topic_content} handle={handle}
                                                                id={item.id} subTopicId={subTopicId}/>
                                     )

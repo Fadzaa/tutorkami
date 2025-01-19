@@ -13,7 +13,7 @@ export function HeaderContent({title,date,solved,desc,type,progress, progressTex
             </div>
             <div>
                 <LabelTitleContent>
-                    <h1 className="text-xl" onClick={() => console.log(type)}>{title}</h1>
+                    <h1 className="text-xl">{title}</h1>
                 </LabelTitleContent>
                 <p>{desc}</p>
             </div>

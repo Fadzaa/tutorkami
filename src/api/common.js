@@ -3,9 +3,7 @@ import {api, makeResponseFailed} from "./api"
 export const commonAPI = {
     deleteSidebarUniversal: async (body) => {
         try {
-            console.log("body:" + body)
             const res = await api.delete(body );
-            console.log("Get User Response:", res);
             return res.data;
         } catch (error) {
             return makeResponseFailed({

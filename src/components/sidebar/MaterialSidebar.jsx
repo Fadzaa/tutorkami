@@ -30,7 +30,7 @@ export function MaterialSidebar() {
 
                     <div className={'flex items-end justify-between mr-4'}>
 
-                        <h1 className="px-5 mt-5 font-medium text-xl" onClick={() => console.log(data)}>List Materials</h1>
+                        <h1 className="px-5 mt-5 font-medium text-xl" >List Materials</h1>
 
 
                         <SidebarTrigger />

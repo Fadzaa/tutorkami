@@ -1,6 +1,5 @@
 import {useNavigate, useParams} from "react-router-dom";
 import {LMSSidebarDetail} from "@/components/sidebar/detail/LMSSidebarDetail.jsx";
-import {InitialContent} from "@/components/content/InitialContent.jsx";
 import {ListLmsContent} from "@/components/content/ListLmsContent.jsx";
 import {useEffect, useState} from "react";
 import {useQuery} from "@tanstack/react-query";

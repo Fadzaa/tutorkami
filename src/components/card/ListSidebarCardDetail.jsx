@@ -24,7 +24,6 @@ export function ListSidebarCardDetail({
             <div className="cs px-5 h-[75%] my-5">
                     {
                         data?.data.filter(item => {
-                            console.log(data?.data)
                             const formattedDate = formatInTimeZone(new Date(item.date), userTimeZone, "yyyy-MM-dd");
                             return formattedDate === todayFormatted;
                         }).length !== 0 ?

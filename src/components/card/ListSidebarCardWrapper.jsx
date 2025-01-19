@@ -9,13 +9,10 @@ export function ListSidebarCardWrapper ({ item, type, userTimeZone }) {
         if (type === "lms") {
             return `${item.subject_detail_lms.difficulty} • ${item.subject_detail_lms.activity_type}`;
         } else if (type === "study") {
-            console.log(item)
             return `${item.proficiency_level} • ${item.style_customization} • ${item.output_format}`;
         } else if (type === "roadmap") {
-            console.log(item)
             return `${item.subject} • ${item.subject_detail_roadmap.proficiency_level} • ${item.subject_detail_roadmap.timeline}`;
         } else if (type === "question") {
-            console.log(item)
             return `${item.topic} • ${item.question_difficulty} • ${item.target_audience}`;
         }
     }

@@ -35,7 +35,6 @@ export function ChatBotSidebar({id, type}) {
             api: () => materialAPI.getMaterialID(id),
             content : (data) => data?.data?.data,
             topic : (data) => {
-                console.log(data)
                 return data.data.subject_list.topic
             },
             topicId : (data) => data.data.material.id,

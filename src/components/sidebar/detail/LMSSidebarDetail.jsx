@@ -43,11 +43,20 @@ export function LMSSidebarDetail({data, id, handle, subTopicId, isLoading, compl
                             ))
                         }
                         {
-                            data?.subject_lms_quiz.lms_quiz !== null && (
+                            data?.subject_lms_quiz !== null && (
                                 <div className={`flex justify-between hover:bg-accent cursor-pointer rounded-sm py-1 px-1`}
                                      onClick={() => navigate(`/tools/generative-lms/detail/${id}/quiz`)}
                                 >
                                     <p className={`text-base font-semibold`}>Quiz</p>
+                                </div>
+                            )
+                        }
+                        {
+                            data?.lms_capstone !== null && (
+                                <div className={`flex justify-between hover:bg-accent cursor-pointer rounded-sm py-1 px-1`}
+                                     onClick={() => navigate(`/tools/generative-lms/detail/${id}/capstone`)}
+                                >
+                                    <p className={`text-base font-semibold`}>Capstone</p>
                                 </div>
                             )
                         }

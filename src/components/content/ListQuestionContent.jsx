@@ -195,7 +195,14 @@ export function ListQuestionContent({id}) {
     useEffect(() => {
 
         if (seconds <= 0) {
-            modalTime.onOpen()
+
+            if(data?.data != null){
+                if(data?.data.question_detail.time_limit != 0) {
+
+                    modalTime.onOpen()
+                }
+            }
+
             return;
         }
 
@@ -437,7 +444,7 @@ export function ListQuestionContent({id}) {
                     <div
                         className="flex flex-col items-start justify-between gap-4 bg-white border-t-2 border-accent p-4">
 
-                        {formatTime(seconds)}
+                        {data?.data.question_detail.time_limit == 0 ?<></>:formatTime(seconds)}
                         <Progress value={progress} className="w-full"/>
                         <div className={'flex flex-row w-full justify-between'}>
                             <p>{progress ? progress : 0}% Complete</p>

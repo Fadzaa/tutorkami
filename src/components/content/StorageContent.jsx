@@ -14,9 +14,6 @@ import {useEffect, useState} from "react";
 
 export function StorageContent({data,prev_page_url,next_page_url,last_page,current_page,handlePageChange}) {
     const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-
-    console.log(data)
-
     const lmsTotalSolved = (item) => {
         let solved = 0;
         item?.subject_detail_lms?.lms?.topic?.forEach((item) => item.sub_topic.forEach((sub) => {
@@ -93,7 +90,7 @@ export function StorageContent({data,prev_page_url,next_page_url,last_page,curre
                                 length={item.subject_detail_roadmap.roadmap.length}
                             />
                         ) : <div>empty</div>
-                            ))
+                    ))
 
                 }
             </div>

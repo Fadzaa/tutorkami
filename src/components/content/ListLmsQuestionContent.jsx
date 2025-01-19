@@ -17,8 +17,6 @@ export function ListLmsQuestionContent({data,lms}) {
     const [questions, setQuestions] = useState([]);
     const [progress, setProgress] = useState(0)
 
-    const queryClient = useQueryClient();
-
 
     const {toast} = useToast()
 
@@ -85,7 +83,7 @@ export function ListLmsQuestionContent({data,lms}) {
     }
 
     const choicesCondintion = (itemParent, i, answers,qsDetail) => {
-
+        console.log("itemParent", itemParent)
 
         if (answers?.length > 0) {
             let answerFilter = answers?.filter(answer => answer.question_id === itemParent.id)[0];

@@ -69,7 +69,6 @@ export function ListLmsQuestionContent({data,lms}) {
                 title: "Submit Failed",
                 description: "Failed submited questions.",
             })
-            console.log("onError: " + error)
         }
 
     })
@@ -83,10 +82,9 @@ export function ListLmsQuestionContent({data,lms}) {
     }
 
     const choicesCondintion = (itemParent, i, answers,qsDetail) => {
-        console.log("itemParent", itemParent)
 
         if (answers?.length > 0) {
-            let answerFilter = answers?.filter(answer => answer.question_id === itemParent.id)[0];
+            let answerFilter = answers?.filter(answer => answer.lms_id === itemParent.id)[0];
 
             return (
                 <div>

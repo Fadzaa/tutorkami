@@ -80,14 +80,11 @@ export function CreateQuestionPage() {
                 title: "Create Question Failed",
                 description: "Failed create question.",
             })
-            console.log("onError: " + error)
-            console.log(error)
         }
     })
 
 
     const onSubmit = (data) => {
-        console.log(data)
         mutate({
             ...data,
             language: langHandler.get() === "id" ? "Indonesian" : "English",

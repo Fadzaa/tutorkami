@@ -56,7 +56,6 @@ const GenerateMaterialModal = ({subject, topic}) => {
                 title: "Create Material Success",
                 description: "You have successfully create material.",
             })
-            console.log("halo:" + response.data.data.id)
             navigate("/tools/generative-material/detail/" + response.data.data.id);
         },
         onError: (error) => {
@@ -65,14 +64,11 @@ const GenerateMaterialModal = ({subject, topic}) => {
                 title: "Create Material Failed",
                 description: "Failed create material.",
             })
-            console.log("onError: " + error)
-            console.log(error)
         },
     })
 
     const onSubmit = () => {
         const formData = form.getValues();
-        console.log(formData)
         mutate({
             ...formData,
             subject: subject,

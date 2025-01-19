@@ -54,22 +54,18 @@ export function ListQuestionContent({id}) {
     useEffect(() => {
         let result = Math.floor(questions.length / data?.data.question_detail.questions.length * 100,)
 
-
         setProgress(result)
 
     }, [questions])
     const handleChoices = (id, answer) => {
 
-
         let questionFilter = questions.filter(question => question.id !== id);
-
 
         questionFilter.push({
             id: id,
             answer: answer,
 
         });
-
         setQuestions(questionFilter);
     };
 
@@ -103,7 +99,6 @@ export function ListQuestionContent({id}) {
                 title: "Submit Failed",
                 description: "Failed submited questions.",
             })
-            console.log("onError: " + error)
         }
 
     })
@@ -127,7 +122,6 @@ export function ListQuestionContent({id}) {
                 title: "Retake Failed",
                 description: "Failed retake questions.",
             })
-            console.log("onError: " + error)
         }
     })
 
@@ -152,19 +146,17 @@ export function ListQuestionContent({id}) {
                 title: "Regenerate Failed",
                 description: "Failed regenerated questions.",
             })
-            console.log("onError: " + error)
         }
     })
 
 
     const {mutate: update, isPending: updateLoading} = useMutation({
-        mutationKey: ["update"], mutationFn: async (body) => await questionAPI.updateQuestion(id),
+        mutationKey: ["update"], mutationFn: async (body) => await questionAPI.updateQuestion(body,id),
         onSuccess: () => {
             if (data?.data != null) {
                 setSeconds(data?.data.question_detail.time_limit * 60)
             }
             modalTime.onClose()
-            refetch()
         },
         onError: (error) => {
 
@@ -181,12 +173,12 @@ export function ListQuestionContent({id}) {
             if (data?.data.question_detail.is_time_limit == true) {
                 modalTime.onOpen()
             } else {
-                setSeconds(data?.data.question_detail.time_limit * 60)
+                setSeconds(0)
             }
 
         }
         return () => {
-            setSeconds(1);
+            setSeconds(0);
             modalTime.onClose()
         };
     }, [data]);
@@ -198,8 +190,9 @@ export function ListQuestionContent({id}) {
 
             if(data?.data != null){
                 if(data?.data.question_detail.time_limit != 0) {
-
-                    modalTime.onOpen()
+                    update({
+                        is_time_limit:true
+                    })
                 }
             }
 

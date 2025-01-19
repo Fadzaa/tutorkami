@@ -69,8 +69,6 @@ export function CreateMaterialPage() {
                 title: "Create Material Failed",
                 description: "Failed create material.",
             })
-            console.log("onError: " + error)
-            console.log(error)
         },
     })
 

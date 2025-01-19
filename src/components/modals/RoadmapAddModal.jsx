@@ -41,7 +41,6 @@ const RoadmapAddModal = ({update,update2}) => {
 
     const onSubmit = async () => {
         if (ai) {
-            console.log(formAi.getValues().goal)
             if (formAi.getValues().goal !== undefined) {
                 update({...formAi.getValues(), update_type: "AI"})
                 formAi.reset()

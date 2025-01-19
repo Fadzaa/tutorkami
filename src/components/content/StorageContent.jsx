@@ -60,7 +60,7 @@ export function StorageContent({data,prev_page_url,next_page_url,last_page,curre
                                 type={item.type}
                                 isSolved={item.subject_detail_question.is_solved}
                                 date={format(item.date, "Y-M-dd")}
-                                desc={`${item.subject_detail_question.question?.[0]?.type} • ${item.subject_detail_question.total} Questions • ${item.subject_detail_question.question_difficulty}`}
+                                desc={`${item.subject_detail_question.total} Questions • ${item.subject_detail_question.question_difficulty}`}
                                 subject={item.subject}
                                 topic={item.topic}
                             />

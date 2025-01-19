@@ -21,7 +21,6 @@ export function LMSSidebar() {
 
     })
 
-    console.log("data", data)
 
 
     const handleToCreate = () => {

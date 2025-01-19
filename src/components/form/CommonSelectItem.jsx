@@ -22,7 +22,6 @@ export function CommonSelectItem({
         field.onChange(item.value)
         setSelectedValue(item.value);
 
-        console.log(field)
     };
 
     return (

@@ -127,18 +127,15 @@ export function ListRoadmapContent({id}) {
 
     const {mutate: regenerate, isPending: regenerateLoading} = useMutation({
         mutationKey: ["regenerateMaterial"],
-        mutationFn: async (body) => await regenerateAPI.regenerateMaterial(body, id),
+        mutationFn: async (body) => await regenerateAPI.regenerateRoadmap(body, id),
         onSuccess: () => {
             toast({
                 title: "Regenerate Material",
                 description:  "Regenerate Material Successfully",
             })
-            setSave(false)
             refetch()
-            queryClient.invalidateQueries(['getMaterial']);
 
         },
-        onMutate: () => setSave(false),
         onError: (error) => {
             toast({
                 variant: "destructive",
@@ -156,6 +153,19 @@ export function ListRoadmapContent({id}) {
             setEnable(true);
         }
     }, [id]);
+
+    const handleRegenerate = (dataRegeneration) => {
+
+        regenerate({
+            ...dataRegeneration,
+        })
+
+
+        console.log(dataRegeneration)
+
+
+
+    }
 
     return (
         <div className="flex flex-col h-full relative flex-1 overflow-hidden">
@@ -334,14 +344,14 @@ export function ListRoadmapContent({id}) {
                 <>
                     <div
                         className="h-[100px] overflow-hidden flex items-center justify-between gap-4 bg-white border-t-2 border-accent p-4">
-                        <Button onClick={() => navigate("/tools/generative-question")}
-                                className="w-full">{"Generate a Quiz"}</Button>
+                        {/*<Button onClick={() => navigate("/tools/generative-question")}*/}
+                        {/*        className="w-full">{"Generate a Quiz"}</Button>*/}
                         <Button onClick={() => roadmapRegenerateModal.onOpen()} className="w-full">{regenerateLoading ?
                             <Loading/> : "Regenerate"}</Button>
                     </div>
 
                     <Suspense>
-                        <RoadmapModal regenerate={regenerate} regenerateLoading={regenerateLoading}/>
+                        <RoadmapModal regenerate={handleRegenerate} regenerateLoading={regenerateLoading}/>
                         <GenerateQuizModal topic={data?.data?.topic} subject={data?.data?.subject}/>
                         <GenerateMaterialModal topic={data?.data?.topic} subject={data?.data?.subject}/>
                     </Suspense>

@@ -19,6 +19,7 @@ export function QuestionSidebar() {
 
     })
 
+    console.log(data)
 
     const handleToCreate = () => navigate("/tools/generative-question/create")
     return (
@@ -36,7 +37,7 @@ export function QuestionSidebar() {
                     </div>
                     <div className="cs px-5 h-[73%]  my-5">
                         {
-                            isLoading ? <ListSkeleton/> : data.data.data.map((item) => (
+                            isLoading ? <ListSkeleton/> : data?.data.data.map((item) => (
                                 <ListSidebarCard
                                     key={item}
                                     id={item.id}
@@ -44,7 +45,11 @@ export function QuestionSidebar() {
                                     type={item.type}
                                     isSolved={item.is_solved}
                                     date={format(item.date, "Y-M-dd")}
-                                    desc={`${item.topic} • ${item.question_difficulty} • ${item.target_audience}`}
+                                    desc={`${item.total} Questions • ${item.question_difficulty}`}
+                                    subject={item.subject}
+                                    topic={item.topic}
+                                    questionType={item.questions[0]?.type || ""}
+
                                 />
                             ))
                         }

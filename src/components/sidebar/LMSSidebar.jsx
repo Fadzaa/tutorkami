@@ -25,6 +25,8 @@ export function LMSSidebar() {
 
     })
 
+    console.log(data)
+
 
     const handleToCreate = () => {
         navigate("/tools/generative-lms/create")
@@ -45,12 +47,15 @@ export function LMSSidebar() {
                             data?.data.length !== 0 && (isLoading ? <ListSkeleton/> : data.data.map((item) => (
                                 <ListSidebarCard
                                     key={item.id}
-                                    title={item.subject}
+                                    subject={item.subject}
+                                    topic={item.topic}
                                     id={item.id}
                                     date={format(item.date, "Y-M-dd")}
                                     type={item.type}
                                     subId={item.subject_detail_lms.lms.topic[0].sub_topic[0].id}
                                     desc={`${item.subject_detail_lms.difficulty} • ${item.subject_detail_lms.activity_type}`}
+                                    totalSolve={item.subject_detail_lms.lms.topic.map((item) => item.sub_topic.filter((sub) => sub.solved === true).length)}
+                                    length={item.subject_detail_lms.lms.topic.map((item) => item.sub_topic.length)}
                                 />
                             )))
                         }

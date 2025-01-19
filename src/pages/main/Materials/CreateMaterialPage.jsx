@@ -21,6 +21,10 @@ import debounce from "lodash.debounce";
 import {suggestionAPI} from "@/api/suggestion.js";
 import {useToast} from "@/hooks/use-toast.js";
 import {langHandler} from "@/lib/langHandler.js";
+import {CommonFormItem} from "@/components/form/CommonFormItem.jsx";
+import {CommonSelectItem} from "@/components/form/CommonSelectItem.jsx";
+import {useTranslation} from "react-i18next";
+import {useState} from "react";
 
 const FormSchema = z.object({
     subject: z
@@ -28,23 +32,19 @@ const FormSchema = z.object({
     topic: z
         .string(),
     prior_knowledge: z
-        .string().default("The user has a basic understanding of plant biology, including concepts like cells and energy, but is unfamiliar with the details of photosynthesis"),
+        .string(),
     content_depth: z
         .string(),
     output_format: z
-        .string(),
-    style_customization: z
-        .string(),
-    proficiency_level: z
-        .string(),
-    length: z
-        .string(),
+        .string()
 })
 
 
 
 
 export function CreateMaterialPage() {
+    const {t} = useTranslation()
+    const [step, setStep] = useState(1)
 
     const navigate = useNavigate()
     const {toast} = useToast()
@@ -75,13 +75,129 @@ export function CreateMaterialPage() {
                 description: "Failed create material.",
             })
             console.log("onError: " + error)
+            console.log(error)
         },
     })
 
-    const onSubmit = (data) => mutate({...data, language: langHandler.get() === "id" ? "Indonesian" : "English"})
+    const onSubmit = (data) => mutate(
+        {...data,
+            language: langHandler.get() === "id" ? "Indonesian" : "English",
+            proficiency_level: "Intermediate Level",
+            style_customization : "Professional Style",
+            length: "Long"
+        })
 
     const handleChange = (field, value) => field.onChange(value?.value)
-    return (<div className="h-[90vh] overflow-auto cs flex">
+
+    const explanationFormat = {
+        "Mixed": {
+            header: t('explanation_mixed_format'),
+            descriptions: [
+                t('explanation_mixed_format_desc1'),
+                t('explanation_mixed_format_desc2')
+            ]
+        },
+        "Bullet List": {
+            header: t('explanation_list_format'),
+            descriptions: [
+                t('explanation_list_format_desc1'),
+                t('explanation_list_format_desc2')
+            ]
+        },
+        "Paragraph": {
+            header: t('explanation_paragraph_format'),
+            descriptions: [
+                t('explanation_paragraph_format_desc1'),
+                t('explanation_paragraph_format_desc2')
+            ]
+        },
+        "Custom": {
+            header: t('explanation_custom_format'),
+            descriptions: [
+                t('explanation_custom_format_desc1'),
+                t('explanation_custom_format_desc2')
+            ]
+        }
+    };
+
+    const optionFormat = [
+        "Mixed",
+        "Bullet List",
+        "Paragraph",
+        "Custom"
+    ]
+
+    const explanationDetailed = {
+        Detailed: {
+            header: t('explanation_content_detailed'),
+            descriptions: [
+                t('explanation_content_detailed_desc1'),
+                t('explanation_content_detailed_desc2')
+            ]
+        },
+        Concise: {
+            header: t('explanation_content_concise'),
+            descriptions: [
+                t('explanation_content_concise_desc1'),
+                t('explanation_content_concise_desc2')
+            ]
+        }
+    };
+
+    const optionDetailed = [
+        "Detailed",
+        "Concise",
+
+    ]
+
+    const explanationProficiencyUser = {
+        "Zero Knowledge": {
+            "header": t('explanation_zero_knowledge'),
+            "descriptions": [
+                t('explanation_zero_knowledge_desc1'),
+                t('explanation_zero_knowledge_desc2')
+            ]
+        },
+        "Basic Understanding": {
+            "header": t('explanation_basic_understanding'),
+            "descriptions": [
+                t('explanation_basic_understanding_desc1'),
+                t('explanation_basic_understanding_desc2')
+            ]
+        },
+        "Intermediate Knowledge": {
+            "header": t('explanation_intermediate_knowledge'),
+            "descriptions": [
+                t('explanation_intermediate_knowledge_desc1'),
+                t('explanation_intermediate_knowledge_desc2')
+            ]
+        },
+        "Expert Knowledge": {
+            "header": t('explanation_expert_knowledge'),
+            "descriptions": [
+                t('explanation_expert_knowledge_desc1'),
+                t('explanation_expert_knowledge_desc2')
+            ]
+        },
+        "Let Me Explain Myself": {
+            "header": t('explanation_explain_myself'),
+            "descriptions": [
+                t('explanation_explain_myself_desc1'),
+                t('explanation_explain_myself_desc2')
+            ]
+        }
+    }
+
+    const optionProficiencyUser = [
+        "Zero Knowledge",
+        "Basic Understanding",
+        "Intermediate Knowledge",
+        "Expert Knowledge",
+        "Let Me Explain Myself"
+    ]
+
+
+    return (<div className="h-[90vh] overflow-hidden cs flex">
             <MaterialSidebar/>
 
             <div className="absolute w-full h-full lg:hidden">
@@ -99,177 +215,298 @@ export function CreateMaterialPage() {
                 </LabelTitleContent>
 
                 <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-                        <FormField
-                            control={form.control}
-                            name="subject"
-                            render={({field}) => (<FormItem>
-                                    <FormLabel>What Subject you interested in?</FormLabel>
-                                    <FormControl>
-                                        <Input placeholder="Mathematic" {...field} />
-                                    </FormControl>
-                                    <FormMessage/>
-                                </FormItem>
+                    <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col h-full pb-4">
+                        <div className={`${step === 1 ? "flex flex-col gap-8" : "hidden"}`}>
+                            <FormField
+                                control={form.control}
+                                name="subject"
+                                render={({field}) => (
+                                    <CommonFormItem
+                                        field={field}
+                                        label={t("create_subject_head")}
+                                        description={t("create_subject_desc")}
+                                        placeholder={"Add subject you want to focus on"}
+                                        suggestion={
+                                            [
+                                                "Math",
+                                                "Biology",
+                                                "English",
+                                                "History",
+                                                "Programming"
+                                            ]
+                                        }
+                                    />
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="topic"
+                                render={({field}) => (
+                                    <CommonFormItem
+                                        field={field}
+                                        label={t("create_topic_head")}
+                                        description={t("create_topic_desc")}
+                                        placeholder={"Add topic you want to focus on"}
+                                        suggestion={
+                                            [
+                                                "Math",
+                                                "Biology",
+                                                "English",
+                                                "History",
+                                                "Programming"
+                                            ]
+                                        }
+                                    />
 
-                            )}
-                        />
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="prior_knowledge"
+                                render={({field}) => (
+                                    <CommonSelectItem
+                                        field={field}
+                                        label={t("create_proficiency_head")}
+                                        description={t("create_proficiency_desc")}
+                                        placeholder={optionProficiencyUser[0]}
+                                        explanation={explanationProficiencyUser}
+                                        options={optionProficiencyUser}
+                                    />
 
-                        <FormField
-                            control={form.control}
-                            name="topic"
+                                )}
+                            />
+                        </div>
+                        <div className={`${step === 2 ? "flex flex-col gap-8" : "hidden"}`}>
+                            <FormField
+                                control={form.control}
+                                name="output_format"
+                                render={({field}) => (
+                                    <CommonSelectItem
+                                        field={field}
+                                        label={t("create_format_material_head")}
+                                        description={t("create_format_material_desc")}
+                                        placeholder={optionFormat[0]}
+                                        explanation={explanationFormat}
+                                        options={optionFormat}
+                                    />
 
-                            render={({field}) => (<FormItem>
-                                <FormLabel>Topic</FormLabel>
-                                <FormControl>
-                                    <AsyncCreatableSelect allowCreateWhileLoading={true}
-                                                          onChange={(value) => handleChange(field, value)} cacheOptions
-                                                          defaultOptions
-                                                          loadOptions={loadSuggestions}/>
-                                </FormControl>
-                                <FormMessage/>
-                            </FormItem>)}
-                        />
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="content_depth"
+                                render={({field}) => (
+                                    <CommonSelectItem
+                                        field={field}
+                                        label={t("create_detail_material_head")}
+                                        description={t("create_detail_material_desc")}
+                                        placeholder={optionDetailed[0]}
+                                        explanation={explanationDetailed}
+                                        options={optionDetailed}
+                                    />
 
-                        <FormField
-                            control={form.control}
-                            name="prior_knowledge"
-                            render={({field}) => (<FormItem>
-                                    <FormLabel>Prior Knowledge</FormLabel>
-                                    <FormControl>
-                                        <Input  placeholder="The user has a basic understanding of plant biology, including concepts like cells and energy, but is unfamiliar with the details of photosynthesis." {...field} />
-                                    </FormControl>
-                                    <FormMessage/>
-                                </FormItem>
+                                )}
+                            />
 
-                            )}
-                        />
+                        </div>
 
-                        <FormField
-                            control={form.control}
-                            name="content_depth"
-                            render={({field}) => (<FormItem>
-                                    <FormLabel>Content Depth</FormLabel>
-                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                        <FormControl>
-                                            <SelectTrigger>
-                                                <SelectValue placeholder="Content Depth"/>
-                                            </SelectTrigger>
-                                        </FormControl>
-                                        <SelectContent>
-                                            <SelectItem value="Concise">Concise</SelectItem>
-                                            <SelectItem value="Detailed">Detailed</SelectItem>
-                                        </SelectContent>
-                                    </Select>
+                        <div className="flex-grow"></div>
+                        {
+                            step === 1 ?
+                                (
+                                    <Button onClick={() => setStep(step + 1)} className="w-full">
+                                        Next Step
+                                    </Button>
+                                )
+                                :
+                                (
+                                    <div className="flex gap-5">
+                                        {
+                                            step === 2 &&
+                                            <Button
+                                                onClick={() => setStep(step - 1)}
+                                                className="w-full">
+                                                Previous Step
+                                            </Button>
+                                        }
+                                        <Button className="w-full" type="submit">
+                                            Generate Material
+                                        </Button>
 
-                                    <FormMessage/>
-                                </FormItem>
+                                    </div>
+                                )
+                        }
 
-                            )}
-                        />
+                        {/*<FormField*/}
+                        {/*    control={form.control}*/}
+                        {/*    name="subject"*/}
+                        {/*    render={({field}) => (<FormItem>*/}
+                        {/*            <FormLabel>What Subject you interested in?</FormLabel>*/}
+                        {/*            <FormControl>*/}
+                        {/*                <Input placeholder="Mathematic" {...field} />*/}
+                        {/*            </FormControl>*/}
+                        {/*            <FormMessage/>*/}
+                        {/*        </FormItem>*/}
 
-                        <FormField
-                            control={form.control}
-                            name="output_format"
-                            render={({field}) => (<FormItem>
-                                    <FormLabel>Output Format</FormLabel>
-                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                        <FormControl>
-                                            <SelectTrigger>
-                                                <SelectValue placeholder="Output Format"/>
-                                            </SelectTrigger>
-                                        </FormControl>
-                                        <SelectContent>
-                                            <SelectItem value="Table">Table</SelectItem>
-                                            <SelectItem value="List">List</SelectItem>
-                                            <SelectItem value="Short Description">Short Description</SelectItem>
-                                            <SelectItem value="Paragraph">Paragraph</SelectItem>
-                                            <SelectItem value="Custom">Custom</SelectItem>
-                                        </SelectContent>
-                                    </Select>
+                        {/*    )}*/}
+                        {/*/>*/}
 
-                                    <FormMessage/>
-                                </FormItem>
+                        {/*<FormField*/}
+                        {/*    control={form.control}*/}
+                        {/*    name="topic"*/}
 
-                            )}
-                        />
+                        {/*    render={({field}) => (<FormItem>*/}
+                        {/*        <FormLabel>Topic</FormLabel>*/}
+                        {/*        <FormControl>*/}
+                        {/*            <AsyncCreatableSelect allowCreateWhileLoading={true}*/}
+                        {/*                                  onChange={(value) => handleChange(field, value)} cacheOptions*/}
+                        {/*                                  defaultOptions*/}
+                        {/*                                  loadOptions={loadSuggestions}/>*/}
+                        {/*        </FormControl>*/}
+                        {/*        <FormMessage/>*/}
+                        {/*    </FormItem>)}*/}
+                        {/*/>*/}
 
-                        <FormField
-                            control={form.control}
-                            name="style_customization"
-                            render={({field}) => (<FormItem>
-                                    <FormLabel>Style Customization</FormLabel>
-                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                        <FormControl>
-                                            <SelectTrigger>
-                                                <SelectValue placeholder="Style Customization"/>
-                                            </SelectTrigger>
-                                        </FormControl>
-                                        <SelectContent>
-                                            <SelectItem value="Matching User Style">Matching User Style</SelectItem>
-                                            <SelectItem value="More Human-like">More Human-like</SelectItem>
-                                            <SelectItem value="Easier Language">Easier Language</SelectItem>
-                                            <SelectItem value="Professional Style">Professional Style</SelectItem>
-                                        </SelectContent>
-                                    </Select>
+                        {/*<FormField*/}
+                        {/*    control={form.control}*/}
+                        {/*    name="prior_knowledge"*/}
+                        {/*    render={({field}) => (<FormItem>*/}
+                        {/*            <FormLabel>Prior Knowledge</FormLabel>*/}
+                        {/*            <FormControl>*/}
+                        {/*                <Input  placeholder="The user has a basic understanding of plant biology, including concepts like cells and energy, but is unfamiliar with the details of photosynthesis." {...field} />*/}
+                        {/*            </FormControl>*/}
+                        {/*            <FormMessage/>*/}
+                        {/*        </FormItem>*/}
 
-                                    <FormMessage/>
-                                </FormItem>
+                        {/*    )}*/}
+                        {/*/>*/}
 
-                            )}
-                        />
+                        {/*<FormField*/}
+                        {/*    control={form.control}*/}
+                        {/*    name="content_depth"*/}
+                        {/*    render={({field}) => (<FormItem>*/}
+                        {/*            <FormLabel>Content Depth</FormLabel>*/}
+                        {/*            <Select onValueChange={field.onChange} defaultValue={field.value}>*/}
+                        {/*                <FormControl>*/}
+                        {/*                    <SelectTrigger>*/}
+                        {/*                        <SelectValue placeholder="Content Depth"/>*/}
+                        {/*                    </SelectTrigger>*/}
+                        {/*                </FormControl>*/}
+                        {/*                <SelectContent>*/}
+                        {/*                    <SelectItem value="Concise">Concise</SelectItem>*/}
+                        {/*                    <SelectItem value="Detailed">Detailed</SelectItem>*/}
+                        {/*                </SelectContent>*/}
+                        {/*            </Select>*/}
 
-                        <FormField
-                            control={form.control}
-                            name="proficiency_level"
-                            render={({field}) => (<FormItem>
-                                    <FormLabel>Proficiency Level</FormLabel>
-                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                        <FormControl>
-                                            <SelectTrigger>
-                                                <SelectValue placeholder="Proficiency Level"/>
-                                            </SelectTrigger>
-                                        </FormControl>
-                                        <SelectContent>
-                                            <SelectItem value="Beginner-Friendly">Beginner-Friendly</SelectItem>
-                                            <SelectItem value="Intermediate Level">Intermediate Level</SelectItem>
-                                            <SelectItem value="Expert Level">Expert Level</SelectItem>
-                                        </SelectContent>
-                                    </Select>
+                        {/*            <FormMessage/>*/}
+                        {/*        </FormItem>*/}
 
-                                    <FormMessage/>
-                                </FormItem>
+                        {/*    )}*/}
+                        {/*/>*/}
 
-                            )}
-                        />
+                        {/*<FormField*/}
+                        {/*    control={form.control}*/}
+                        {/*    name="output_format"*/}
+                        {/*    render={({field}) => (<FormItem>*/}
+                        {/*            <FormLabel>Output Format</FormLabel>*/}
+                        {/*            <Select onValueChange={field.onChange} defaultValue={field.value}>*/}
+                        {/*                <FormControl>*/}
+                        {/*                    <SelectTrigger>*/}
+                        {/*                        <SelectValue placeholder="Output Format"/>*/}
+                        {/*                    </SelectTrigger>*/}
+                        {/*                </FormControl>*/}
+                        {/*                <SelectContent>*/}
+                        {/*                    <SelectItem value="Table">Table</SelectItem>*/}
+                        {/*                    <SelectItem value="List">List</SelectItem>*/}
+                        {/*                    <SelectItem value="Short Description">Short Description</SelectItem>*/}
+                        {/*                    <SelectItem value="Paragraph">Paragraph</SelectItem>*/}
+                        {/*                    <SelectItem value="Custom">Custom</SelectItem>*/}
+                        {/*                </SelectContent>*/}
+                        {/*            </Select>*/}
 
-                        <FormField
-                            control={form.control}
-                            name="length"
-                            render={({field}) => (<FormItem>
-                                    <FormLabel>Material Length</FormLabel>
-                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                        <FormControl>
-                                            <SelectTrigger>
-                                                <SelectValue placeholder="Material Length"/>
-                                            </SelectTrigger>
-                                        </FormControl>
-                                        <SelectContent>
-                                            <SelectItem value="Ultra-Short">Ultra-Short</SelectItem>
-                                            <SelectItem value="Short">Short</SelectItem>
-                                            <SelectItem value="Medium">Medium</SelectItem>
-                                            <SelectItem value="Long">Long</SelectItem>
-                                        </SelectContent>
-                                    </Select>
+                        {/*            <FormMessage/>*/}
+                        {/*        </FormItem>*/}
 
-                                    <FormMessage/>
-                                </FormItem>
+                        {/*    )}*/}
+                        {/*/>*/}
 
-                            )}
-                        />
+                        {/*<FormField*/}
+                        {/*    control={form.control}*/}
+                        {/*    name="style_customization"*/}
+                        {/*    render={({field}) => (<FormItem>*/}
+                        {/*            <FormLabel>Style Customization</FormLabel>*/}
+                        {/*            <Select onValueChange={field.onChange} defaultValue={field.value}>*/}
+                        {/*                <FormControl>*/}
+                        {/*                    <SelectTrigger>*/}
+                        {/*                        <SelectValue placeholder="Style Customization"/>*/}
+                        {/*                    </SelectTrigger>*/}
+                        {/*                </FormControl>*/}
+                        {/*                <SelectContent>*/}
+                        {/*                    <SelectItem value="Matching User Style">Matching User Style</SelectItem>*/}
+                        {/*                    <SelectItem value="More Human-like">More Human-like</SelectItem>*/}
+                        {/*                    <SelectItem value="Easier Language">Easier Language</SelectItem>*/}
+                        {/*                    <SelectItem value="Professional Style">Professional Style</SelectItem>*/}
+                        {/*                </SelectContent>*/}
+                        {/*            </Select>*/}
 
-                        <Button type="submit">
-                            Submit
-                        </Button>
+                        {/*            <FormMessage/>*/}
+                        {/*        </FormItem>*/}
+
+                        {/*    )}*/}
+                        {/*/>*/}
+
+                        {/*<FormField*/}
+                        {/*    control={form.control}*/}
+                        {/*    name="proficiency_level"*/}
+                        {/*    render={({field}) => (<FormItem>*/}
+                        {/*            <FormLabel>Proficiency Level</FormLabel>*/}
+                        {/*            <Select onValueChange={field.onChange} defaultValue={field.value}>*/}
+                        {/*                <FormControl>*/}
+                        {/*                    <SelectTrigger>*/}
+                        {/*                        <SelectValue placeholder="Proficiency Level"/>*/}
+                        {/*                    </SelectTrigger>*/}
+                        {/*                </FormControl>*/}
+                        {/*                <SelectContent>*/}
+                        {/*                    <SelectItem value="Beginner-Friendly">Beginner-Friendly</SelectItem>*/}
+                        {/*                    <SelectItem value="Intermediate Level">Intermediate Level</SelectItem>*/}
+                        {/*                    <SelectItem value="Expert Level">Expert Level</SelectItem>*/}
+                        {/*                </SelectContent>*/}
+                        {/*            </Select>*/}
+
+                        {/*            <FormMessage/>*/}
+                        {/*        </FormItem>*/}
+
+                        {/*    )}*/}
+                        {/*/>*/}
+
+                        {/*<FormField*/}
+                        {/*    control={form.control}*/}
+                        {/*    name="length"*/}
+                        {/*    render={({field}) => (<FormItem>*/}
+                        {/*            <FormLabel>Material Length</FormLabel>*/}
+                        {/*            <Select onValueChange={field.onChange} defaultValue={field.value}>*/}
+                        {/*                <FormControl>*/}
+                        {/*                    <SelectTrigger>*/}
+                        {/*                        <SelectValue placeholder="Material Length"/>*/}
+                        {/*                    </SelectTrigger>*/}
+                        {/*                </FormControl>*/}
+                        {/*                <SelectContent>*/}
+                        {/*                    <SelectItem value="Ultra-Short">Ultra-Short</SelectItem>*/}
+                        {/*                    <SelectItem value="Short">Short</SelectItem>*/}
+                        {/*                    <SelectItem value="Medium">Medium</SelectItem>*/}
+                        {/*                    <SelectItem value="Long">Long</SelectItem>*/}
+                        {/*                </SelectContent>*/}
+                        {/*            </Select>*/}
+
+                        {/*            <FormMessage/>*/}
+                        {/*        </FormItem>*/}
+
+                        {/*    )}*/}
+                        {/*/>*/}
+
+                        {/*<Button type="submit">*/}
+                        {/*    Submit*/}
+                        {/*</Button>*/}
                     </form>
                 </Form>
                 {

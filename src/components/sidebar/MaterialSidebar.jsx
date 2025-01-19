@@ -20,6 +20,7 @@ export function MaterialSidebar() {
 
     })
 
+    console.log(data)
 
     const handleToCreate = () => {
         navigate("/tools/generative-material/create")
@@ -43,10 +44,12 @@ export function MaterialSidebar() {
                                 <ListSidebarCard
                                     key={item}
                                     title={item.subject}
+                                    topic={item.topic}
+                                    subject={item.subject}
                                     id={item.id}
                                     date={format(item.date, "Y-M-dd")}
                                     type={item.type}
-                                    desc={`${item.proficiency_level} • ${item.style_customization} • ${item.output_format}`}
+                                    desc={`${item.output_format} • ${item.proficiency_level} • ${item.style_customization} • `}
                                 />
                             ))
                         }

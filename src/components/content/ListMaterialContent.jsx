@@ -16,6 +16,8 @@ import {regenerateAPI} from "@/api/regenerate.js";
 import MaterialModal from "@/components/modals/MaterialModal.jsx";
 import useMaterialModal from "@/hooks/use-material-modal.js";
 import {useToast} from "@/hooks/use-toast.js";
+import useMaterialGenerateQuizModal from "@/hooks/use-material-generate-quiz-modal.js";
+import GenerateQuizModal from "@/components/modals/GenerateQuizModal.jsx";
 
 export function ListMaterialContent({id}) {
 
@@ -25,6 +27,7 @@ export function ListMaterialContent({id}) {
     const navigate = useNavigate()
     const queryClient = useQueryClient();
     const modal = useMaterialModal();
+    const generateQuizModal = useMaterialGenerateQuizModal()
     const { toast } = useToast()
     const {data, isFetching, refetch} = useQuery({
         queryKey: ["getMaterialID"],
@@ -33,6 +36,7 @@ export function ListMaterialContent({id}) {
         refetchOnWindowFocus: false,
     });
 
+    console.log(data)
 
     const {mutate, isPending,} = useMutation({
         mutationKey: ["updateMaterial"],
@@ -196,12 +200,13 @@ export function ListMaterialContent({id}) {
                         </div>
                         <div
                             className="h-[100px] overflow-hidden flex items-center justify-between gap-4 bg-white border-t-2 border-accent p-4">
-                            <Button onClick={() => navigate("/tools/generative-question")}
+                            <Button onClick={() => generateQuizModal.onOpen()}
                                     className="w-full">{"Generate a Quiz"}</Button>
                             <Button onClick={() => modal.onOpen()} className="w-full">{regenerateLoading ?
                                 <Loading/> : "Regenerate"}</Button>
                         </div>
                         <Suspense>
+                            <GenerateQuizModal subject={data?.subject_list.subject} topic={data?.subject_list.topic}/>
                             <MaterialModal regenerate={regenerate} regenerateLoading={regenerateLoading}/>
                         </Suspense>
                     </>

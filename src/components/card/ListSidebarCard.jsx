@@ -11,10 +11,23 @@ import {Button} from "@/components/ui/button.jsx";
 import {useForm} from "react-hook-form";
 import {FaRegTrashAlt} from "react-icons/fa";
 import {commonAPI} from "@/api/common.js";
+import ProgressCircle from "@/components/ui/progress-circle.jsx";
 
 export function ListSidebarCard({
-                                     title, date, desc, isSolved, type, id, storage, subId
-                                 }) {
+                                    title,
+                                    date,
+                                    desc,
+                                    isSolved,
+                                    type,
+                                    id,
+                                    storage,
+                                    subId,
+                                    subject,
+                                    topic,
+                                    length,
+                                    totalSolve,
+                                    questionType
+                                }) {
 
 
     const form = useForm()
@@ -30,32 +43,62 @@ export function ListSidebarCard({
     const handleToDetail = (id) => type === "LMS" ? navigate(`/tools/generative-${type.toString().toLowerCase()}/detail/${id}/${subId}`) : navigate(`/tools/generative-${type.toString().toLowerCase()}/detail/${id}`);
     const onSubmit = (data) => mutate(data)
 
-    return (<div
-        className={cn(
-            "flex w-full p-4 ps-0 gap-4 rounded-lg hover:bg-accent cursor-pointer",
-            pathname.toString().includes(id) ? "bg-accent" : "", storage ? 'bg-accent' : '')
-        }
-        onClick={() => handleToDetail(id)}>
 
-        <hr className="h-auto w-[1px] bg-black"/>
+    return (
+        <div
+            className={cn(
+                "group/item flex w-full p-4 ps-0 gap-4 rounded-lg cursor-pointer hover:bg-accent",
+                pathname.toString().includes(id) ? "bg-accent" : "", storage ? 'bg-accent' : '')
+            }
+            onClick={() => handleToDetail(id)}>
+            <div className={cn(
+                "h-auto w-[1px] bg-black group-hover/item:ms-4",
+                pathname.toString().includes(id) ? "ms-4" : "", storage ? 'ms-4' : '')}></div>
 
             <div className="w-full flex flex-col justify-between gap-3">
 
                 <section className={'flex flex-col gap-3'}>
 
                     <div className={'flex justify-between'}>
-                        <p className="text-xl lg:text-base">{desc}</p>
+                        <p className="text-xl lg:text-sm font-medium ">{subject}</p>
 
-                        <DeleteDropdown/>
+                        {/*<DeleteDropdown/>*/}
                     </div>
 
-                    <h1 className="text-base lg:text-lg font-semibold">{title}</h1>
+                    <h1 className="text-base lg:text-xl font-semibold">{topic}</h1>
                 </section>
 
-                <section className={cn("flex justify-between",)}>
-                    <strong className="text-sm lg:text-base">{isSolved ? "Solved" : type}</strong>
+                <section className={cn("flex justify-between items-center",)}>
+                    {/*<p className="font-light lg:text-[10px]">{isSolved ? "Solved" : desc}</p>*/}
+                    <p className="font-light lg:text-[10px]">{desc}</p>
 
-                    <p>{date}</p>
+                    {/*<p>{date}</p>*/}
+                    {type === "Roadmap" && (
+                        <ProgressCircle
+                            width={"w-6 lg:w-8"}
+                            height={"h-6 lg:h-8"}
+                            progress={totalSolve / length * 100}
+                            textProgress={`${totalSolve} /  ${length}`}
+                            text={"text-[5px] lg:text-[6px]"}
+                        />
+                    )}
+
+                    {type === "LMS" && (
+                        <ProgressCircle
+                            width={"w-6 lg:w-8"}
+                            height={"h-6 lg:h-8"}
+                            progress={totalSolve}
+                            textProgress={`${totalSolve}`}
+                            text={"text-[5px] lg:text-[6px]"}
+                        />
+                    )}
+
+
+                    {type === "Question" && (
+                        <p>{questionType}</p>
+                    )
+
+                    }
                 </section>
 
 
@@ -100,7 +143,6 @@ export function ListSidebarCard({
 }
 
 
-
 ListSidebarCard.propTypes = {
     title: PropTypes.string,
     date: PropTypes.string,
@@ -112,3 +154,4 @@ ListSidebarCard.propTypes = {
     storage: PropTypes.bool,
     handleEnable: PropTypes.func
 }
+

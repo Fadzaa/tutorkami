@@ -22,8 +22,9 @@ export function RoadmapSidebar() {
         queryFn: async () => {
             return await roadmapAPI.getRoadmap()
         },
-
     })
+
+    console.log(data)
 
 
     const handleToCreate = () => {
@@ -48,11 +49,15 @@ export function RoadmapSidebar() {
                                 <ListSidebarCard
                                     key={item}
                                     id={item.id}
-                                    title={item.subject}
+                                    title={item.topic}
+                                    topic={item.topic}
                                     type={item.type}
+                                    subject={item.subject}
                                     isSolved={item.is_solved}
                                     date={format(item.date, "Y-M-dd")}
-                                    desc={`${item.subject} • ${item.subject_detail_roadmap.proficiency_level} • ${item.subject_detail_roadmap.timeline}`}
+                                    desc={`${item.subject_detail_roadmap.user_proficiency_level} • ${item.subject_detail_roadmap.proficiency_level} • ${item.subject_detail_roadmap.timeline}`}
+                                    totalSolve={item.subject_detail_roadmap.roadmap.filter((item) => item.solved === 1).length}
+                                    length={item.subject_detail_roadmap.roadmap.length}
                                 />
                             ))
                         }

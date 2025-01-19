@@ -65,7 +65,6 @@ export function CreateMaterialPage() {
                 title: "Create Material Success",
                 description: "You have successfully create material.",
             })
-            console.log("halo:" + response.data.data.id)
             navigate("/tools/generative-material/detail/" + response.data.data.id);
         },
         onError: (error) => {

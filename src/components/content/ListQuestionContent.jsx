@@ -161,7 +161,7 @@ export function ListQuestionContent({id}) {
         mutationKey: ["update"], mutationFn: async (body) => await questionAPI.updateQuestion(id),
         onSuccess: () => {
             if (data?.data != null) {
-                setSeconds(10)
+                setSeconds(data?.data.question_detail.time_limit * 60)
             }
             modalTime.onClose()
             refetch()
@@ -177,21 +177,24 @@ export function ListQuestionContent({id}) {
 
     useEffect(() => {
         if (data?.data != null) {
+
             if (data?.data.question_detail.is_time_limit == true) {
                 modalTime.onOpen()
             } else {
-                setSeconds(10)
+                setSeconds(data?.data.question_detail.time_limit * 60)
             }
 
         }
+        return () => {
+            setSeconds(1);
+            modalTime.onClose()
+        };
     }, [data]);
 
 
     useEffect(() => {
 
         if (seconds <= 0) {
-            // setQuestions([])
-
             modalTime.onOpen()
             return;
         }

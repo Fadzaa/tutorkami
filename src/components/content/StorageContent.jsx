@@ -15,6 +15,8 @@ import {useEffect, useState} from "react";
 export function StorageContent({data,prev_page_url,next_page_url,last_page,current_page,handlePageChange}) {
     const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
+    console.log(data)
+
     const lmsTotalSolved = (item) => {
         let solved = 0;
         item?.subject_detail_lms?.lms?.topic?.forEach((item) => item.sub_topic.forEach((sub) => {
@@ -59,9 +61,9 @@ export function StorageContent({data,prev_page_url,next_page_url,last_page,curre
                                 id={item.id}
                                 title={item.subject}
                                 type={item.type}
-                                isSolved={item.is_solved}
+                                isSolved={item.subject_detail_question.is_solved}
                                 date={format(item.date, "Y-M-dd")}
-                                desc={`${item.questions?.[0]?.type} • ${item.total} Questions • ${item.question_difficulty}`}
+                                desc={`${item.subject_detail_question.question?.[0]?.type} • ${item.subject_detail_question.total} Questions • ${item.subject_detail_question.question_difficulty}`}
                                 subject={item.subject}
                                 topic={item.topic}
                             />
@@ -74,7 +76,7 @@ export function StorageContent({data,prev_page_url,next_page_url,last_page,curre
                                 id={item.id}
                                 date={format(item.date, "Y-M-dd")}
                                 type={item.type}
-                                desc={`${item.output_format} • ${item.proficiency_level} • ${item.style_customization} • `}
+                                desc={`${item.subject_detail_material.output_format} • ${item.subject_detail_material.proficiency_level} • ${item.subject_detail_material.style_customization} • `}
                             />
                         ) : item.type === 'Roadmap' ? (
                             <ListSidebarCard

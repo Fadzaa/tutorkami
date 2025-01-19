@@ -15,7 +15,7 @@ const Input = React.forwardRef(({ className,rightAddon,leftAddon, type, ...props
               <input
                   type={type}
                   className={cn("file:border-0 file:mt-5 " +
-                      " file:bg-transparent file:text-sm file:font-medium file:cursor-pointer text-sm h-full w-full bg-transparent placeholder:text-[15px] outline-none",)}
+                      " file:bg-transparent file:text-sm file:font-medium file:cursor-pointer text-sm h-full w-full bg-transparent placeholder:text-xs placeholder:text-[#94A3B8] outline-none",)}
                   ref={ref}
                   {...props}
               />

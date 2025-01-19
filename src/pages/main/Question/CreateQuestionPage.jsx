@@ -25,6 +25,10 @@ import debounce from 'lodash.debounce';
 import {suggestionAPI} from "@/api/suggestion.js";
 import {useToast} from "@/hooks/use-toast.js";
 import {langHandler} from "@/lib/langHandler.js";
+import {useEffect, useState} from "react";
+import {CommonFormItem} from "@/components/form/CommonFormItem.jsx";
+import {CommonSelectItem} from "@/components/form/CommonSelectItem.jsx";
+import {useTranslation} from "react-i18next";
 
 const FormSchema = z.object({
     subject: z
@@ -49,7 +53,8 @@ const FormSchema = z.object({
 })
 
 export function CreateQuestionPage() {
-
+    const {t} = useTranslation()
+    const [step, setStep] = useState(1)
 
     //zod validation
     const form = useForm({
@@ -81,17 +86,176 @@ export function CreateQuestionPage() {
                 description: "Failed create question.",
             })
             console.log("onError: " + error)
+            console.log(error)
         }
     })
 
 
-    const onSubmit = (data) => mutate({...data,language: langHandler.get() === "id" ? "Indonesian" : "English"})
+    const onSubmit = (data) => {
+        console.log(data)
+        mutate({
+            ...data,
+            language: langHandler.get() === "id" ? "Indonesian" : "English",
+        })
+    }
 
-    const handleChange = (field,value) => field.onChange(value?.value)
+    const explanationAudience = {
+        "General": {
+            "header": t('explanation_zero_knowledge'),
+            "descriptions": [
+                t('explanation_zero_knowledge_desc1'),
+                t('explanation_zero_knowledge_desc2')
+            ]
+        },
+        "Basic Understanding": {
+            "header": t('explanation_basic_understanding'),
+            "descriptions": [
+                t('explanation_basic_understanding_desc1'),
+                t('explanation_basic_understanding_desc2')
+            ]
+        },
+        "Intermediate Knowledge": {
+            "header": t('explanation_intermediate_knowledge'),
+            "descriptions": [
+                t('explanation_intermediate_knowledge_desc1'),
+                t('explanation_intermediate_knowledge_desc2')
+            ]
+        },
+        "Expert Knowledge": {
+            "header": t('explanation_expert_knowledge'),
+            "descriptions": [
+                t('explanation_expert_knowledge_desc1'),
+                t('explanation_expert_knowledge_desc2')
+            ]
+        },
+        "Let Me Explain Myself": {
+            "header": t('explanation_explain_myself'),
+            "descriptions": [
+                t('explanation_explain_myself_desc1'),
+                t('explanation_explain_myself_desc2')
+            ]
+        }
+    }
+
+    const optionAudience = [
+        "General",
+        "High School",
+        "College",
+        "Undergraduate",
+        "Professional",
+    ]
+
+    const optionTotalQuestion = [
+        "5",
+        "10",
+        "15",
+        "30"
+    ]
+
+    const explanationQuestionType = {
+        "Multiple Choice": {
+            "header": t('explanation_mcq'),
+            "descriptions": [
+                t('explanation_mcq_desc1'),
+                t('explanation_mcq_desc2'),
+                t('explanation_mcq_desc3')
+            ]
+        },
+        "Fill-in-the-Blank": {
+            "header": t('explanation_fill_blank'),
+            "descriptions": [
+                t('explanation_fill_blank_desc1'),
+                t('explanation_fill_blank_desc2'),
+                t('explanation_fill_blank_desc3')
+            ]
+        },
+        "True/False": {
+            "header": t('explanation_truefalse'),
+            "descriptions": [
+                t('explanation_truefalse_desc1'),
+                t('explanation_truefalse_desc2'),
+                t('explanation_truefalse_desc3')
+            ]
+        },
+        "Short Answer": {
+            "header": t('explanation_short_answer'),
+            "descriptions": [
+                t('explanation_short_answer_desc1'),
+                t('explanation_short_answer_desc2'),
+                t('explanation_short_answer_desc3')
+            ]
+        }
+    }
+
+    const optionQuestionType = [
+        "Multiple Choice",
+        "True/False",
+        "Fill-in-the-Blank",
+        "Short Answer"
+    ]
+
+    const explanationDifficulty = {
+        "Mixed": {
+            "header": t('explanation_mixed_difficulty'),
+            "descriptions": [
+                t('explanation_mixed_difficulty_desc1'),
+                t('explanation_mixed_difficulty_desc2')
+            ]
+        },
+        "Progressive": {
+            "header": t('explanation_progressive_difficulty'),
+            "descriptions": [
+                t('explanation_progressive_difficulty_desc1'),
+                t('explanation_progressive_difficulty_desc2')
+            ]
+        },
+        "Beginner": {
+            "header": t('explanation_beginner_difficulty'),
+            "descriptions": [
+                t('explanation_beginner_difficulty_desc1'),
+                t('explanation_beginner_difficulty_desc2')
+            ]
+        },
+        "Intermediate": {
+            "header": t('explanation_intermediate_difficulty'),
+            "descriptions": [
+                t('explanation_intermediate_difficulty_desc1'),
+                t('explanation_intermediate_difficulty_desc2')
+            ]
+        },
+        "Expert": {
+            "header": t('explanation_expert_difficulty'),
+            "descriptions": [
+                t('explanation_expert_difficulty_desc1'),
+                t('explanation_expert_difficulty_desc2')
+            ]
+        }
+    }
+
+    const optionDifficulty = [
+        "Mixed",
+        "Progressive",
+        "Beginner",
+        "Intermediate",
+        "Expert",
+    ]
+
+    const optionTimeLimit = [
+        "0",
+        "15",
+        "30",
+        "45",
+        "Custom"
+    ]
+
+    const optionIncludes = [
+        "Yes",
+        "No"
+    ]
 
     return (
 
-        <div className="h-[90vh] overflow-auto cs flex">
+        <div className="h-[90vh] overflow-hidden flex">
             <QuestionSidebar/>
 
             <div className="absolute w-full h-full lg:hidden">
@@ -110,187 +274,207 @@ export function CreateQuestionPage() {
                 </LabelTitleContent>
 
                 <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+                    <form className="flex flex-col h-full pb-4">
+                        <div className={`${step === 1 ? "flex flex-col gap-8" : "hidden"}`}>
+                            <FormField
+                                control={form.control}
+                                name="subject"
+                                render={({field}) => (
+                                    <CommonFormItem
+                                        field={field}
+                                        label={t("create_subject_head")}
+                                        description={t("create_subject_desc")}
+                                        placeholder={"Add subject you want to focus on"}
+                                        suggestion={
+                                            [
+                                                "Math",
+                                                "Biology",
+                                                "English",
+                                                "History",
+                                                "Programming"
+                                            ]
+                                        }
+                                    />
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="topic"
+                                render={({field}) => (
+                                    <CommonFormItem
+                                        field={field}
+                                        label={t("create_topic_head")}
+                                        description={t("create_topic_desc")}
+                                        placeholder={"Add topic you want to focus on"}
+                                        suggestion={
+                                            [
+                                                "Math",
+                                                "Biology",
+                                                "English",
+                                                "History",
+                                                "Programming"
+                                            ]
+                                        }
+                                    />
+
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="target_audience"
+                                render={({field}) => (
+                                    <CommonSelectItem
+                                        field={field}
+                                        label={t("create_audience_head")}
+                                        description={t("create_audience_desc")}
+                                        placeholder={optionAudience[0]}
+                                        explanation={explanationAudience}
+                                        options={optionAudience}
+                                    />
+
+                                )}
+                            />
+                        </div>
+                        <div className={`${step === 2 ? "flex flex-col gap-8" : "hidden"}`}>
+                            <FormField
+                                control={form.control}
+                                name="total"
+                                render={({field}) => (
+                                    <CommonSelectItem
+                                        field={field}
+                                        label={t("create_total_question_head")}
+                                        description={t("create_total_question_desc")}
+                                        placeholder={optionTotalQuestion[0]}
+                                        explanation={null}
+                                        options={optionTotalQuestion}
+                                    />
+
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="type"
+                                render={({field}) => (
+                                    <CommonSelectItem
+                                        field={field}
+                                        label={t("create_question_type_head")}
+                                        description={t("create_question_type_desc")}
+                                        placeholder={optionQuestionType[0]}
+                                        explanation={explanationQuestionType}
+                                        options={optionQuestionType}
+                                    />
+
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="question_difficulty"
+                                render={({field}) => (
+                                    <CommonSelectItem
+                                        field={field}
+                                        label={t("create_difficulty_head")}
+                                        description={t("create_difficulty_desc")}
+                                        placeholder={optionDifficulty[0]}
+                                        explanation={explanationDifficulty}
+                                        options={optionDifficulty}
+                                    />
+
+                                )}
+                            />
+                        </div>
+                        <div className={`${step === 3 ? "flex flex-col gap-8" : "hidden"}`}>
+                            <FormField
+                                control={form.control}
+                                name="time_limit"
+                                render={({field}) => (
+                                    <CommonSelectItem
+                                        field={field}
+                                        label={t("create_timelimit_head")}
+                                        description={t("create_timelimit_desc")}
+                                        placeholder={optionTimeLimit[0]}
+                                        explanation={null}
+                                        options={optionTimeLimit}
+                                    />
+
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="include_answer"
+                                render={({field}) => (
+                                    <CommonSelectItem
+                                        field={field}
+                                        label={t("create_inclanswers_head")}
+                                        description={t("create_inclanswers_desc")}
+                                        placeholder={optionIncludes[0]}
+                                        explanation={null}
+                                        options={optionIncludes}
+                                    />
+
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="explanations"
+                                render={({field}) => (
+                                    <CommonSelectItem
+                                        field={field}
+                                        label={t("create_inclexplanation_head")}
+                                        description={t("create_inclexplanation_desc")}
+                                        placeholder={optionIncludes[0]}
+                                        explanation={null}
+                                        options={optionIncludes}
+                                    />
+
+                                )}
+                            />
+                        </div>
 
 
-                        <FormField
-                            control={form.control}
-                            name="subject"
-                            render={({field}) => (<FormItem>
-                                    <FormLabel>Subject</FormLabel>
-                                    <FormControl>
-                                        <Input placeholder="Mathematic" {...field} />
-                                    </FormControl>
-                                    <FormMessage/>
-                                </FormItem>
+                        <div className="flex-grow"></div>
 
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="topic"
-
-                            render={({field}) => (<FormItem>
-                                <FormLabel>Total Questions</FormLabel>
-                                <FormControl>
-                                    <AsyncCreatableSelect allowCreateWhileLoading={true} onChange={(value)=> handleChange(field,value)}   cacheOptions defaultOptions
-                                                           loadOptions={loadSuggestions}/>
-                                </FormControl>
-                                <FormMessage/>
-                            </FormItem>)}
-                        />
-
-                        <FormField
-                            control={form.control}
-                            name="total"
-
-                            render={({field}) => (<FormItem>
-                                <FormLabel>Time Questions</FormLabel>
-                                <FormControl>
-                                    <Input type={'number'} placeholder="Total Question" {...field} />
-                                </FormControl>
-                                <FormMessage/>
-                            </FormItem>)}
-                        />
-
-                        <FormField
-                            control={form.control}
-                            name="time_limit"
-
-                            render={({field}) => (<FormItem>
-                                <FormLabel>Total Questions</FormLabel>
-                                <FormControl>
-                                    <Input type={'number'} placeholder="Time Limit" {...field} />
-                                </FormControl>
-                                <FormMessage/>
-                            </FormItem>)}
-                        />
+                        {
+                            step === 1 ? (
+                                <Button
+                                    type="button"
+                                    onClick={() => setStep(step + 1)} className="w-full">
+                                    Next Step
+                                </Button>
+                            ) : (
+                                <div className="flex gap-5">
+                                    {step > 1 && (
+                                        <Button
+                                            type="button"
+                                            onClick={() => setStep(step - 1)}
+                                            className="w-full"
+                                        >
+                                            Previous Step
+                                        </Button>
+                                    )}
+                                    {step < 3 ? (
+                                        <Button
+                                            type="button"
+                                            onClick={() => setStep(step + 1)}
+                                            className="w-full"
+                                        >
+                                            Next Step
+                                        </Button>
+                                    ) : (
+                                        <Button
+                                            type="button"
+                                            onClick={
+                                                form.handleSubmit(onSubmit)
+                                            }
+                                            className="w-full"
+                                        >
+                                            Submit
+                                        </Button>
+                                    )}
+                                </div>
+                            )
+                        }
 
 
-                        <FormField
-                            control={form.control}
-                            name="type"
-                            render={({field}) => (<FormItem>
-                                    <FormLabel>Question Type</FormLabel>
-                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                        <FormControl>
-                                            <SelectTrigger>
-                                                <SelectValue placeholder="Question Type"/>
-                                            </SelectTrigger>
-                                        </FormControl>
-                                        <SelectContent>
-                                            <SelectItem value="Multiple Choice">Multiple Choice</SelectItem>
-                                            <SelectItem value="Fill-in-the-Blank">Fill In The Blank</SelectItem>
-                                            <SelectItem value="True/False">True-False</SelectItem>
-                                            <SelectItem value="Short Answer">Short Answer</SelectItem>
-                                            <SelectItem value="Mixed">Mixed</SelectItem>
-                                        </SelectContent>
-                                    </Select>
-
-                                    <FormMessage/>
-                                </FormItem>
-
-                            )}
-                        />
-
-                        <FormField
-                            control={form.control}
-                            name="question_difficulty"
-                            render={({field}) => (<FormItem>
-                                    <FormLabel>Difficult</FormLabel>
-                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                        <FormControl>
-                                            <SelectTrigger>
-                                                <SelectValue placeholder="Question Difficult"/>
-                                            </SelectTrigger>
-                                        </FormControl>
-                                        <SelectContent>
-                                            <SelectItem value="Mixed">Mixed</SelectItem>
-                                            <SelectItem value="Single">Single</SelectItem>
-                                            <SelectItem value="Progressive">Progressive</SelectItem>
-                                        </SelectContent>
-                                    </Select>
-
-                                    <FormMessage/>
-                                </FormItem>
-
-                            )}
-                        />
-
-                        <FormField
-                            control={form.control}
-                            name="target_audience"
-                            render={({field}) => (<FormItem>
-                                    <FormLabel>Target Audience</FormLabel>
-                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                        <FormControl>
-                                            <SelectTrigger>
-                                                <SelectValue placeholder="Target Audience"/>
-                                            </SelectTrigger>
-                                        </FormControl>
-                                        <SelectContent>
-                                            <SelectItem value="High School">High School</SelectItem>
-                                            <SelectItem value="College Student">College Student</SelectItem>
-                                            <SelectItem value="Undergraduate">Undergraduate</SelectItem>
-                                            <SelectItem value="General">General</SelectItem>
-                                            <SelectItem value="Professional">Professional</SelectItem>
-                                        </SelectContent>
-                                    </Select>
-
-                                    <FormMessage/>
-                                </FormItem>
-
-                            )}
-                        />
-
-                        <FormField
-                            control={form.control}
-                            name="include_answer"
-                            render={({field}) => (<FormItem>
-                                    <FormLabel>Include Answer</FormLabel>
-                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                        <FormControl>
-                                            <SelectTrigger>
-                                                <SelectValue placeholder="Include Answer"/>
-                                            </SelectTrigger>
-                                        </FormControl>
-                                        <SelectContent>
-                                            <SelectItem value="Yes">Yes</SelectItem>
-                                            <SelectItem value="No">No</SelectItem>
-                                        </SelectContent>
-                                    </Select>
-
-                                    <FormMessage/>
-                                </FormItem>
-
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="explanations"
-                            render={({field}) => (<FormItem>
-                                    <FormLabel>Include Explanations</FormLabel>
-                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                        <FormControl>
-                                            <SelectTrigger>
-                                                <SelectValue placeholder="Include Explanations"/>
-                                            </SelectTrigger>
-                                        </FormControl>
-                                        <SelectContent>
-                                            <SelectItem value="Yes">Yes</SelectItem>
-                                            <SelectItem value="No">No</SelectItem>
-                                        </SelectContent>
-                                    </Select>
-
-                                    <FormMessage/>
-                                </FormItem>
-
-                            )}
-                        />
-
-                        <Button type="submit">
-                            Submit
-                        </Button>
                     </form>
                 </Form>
 

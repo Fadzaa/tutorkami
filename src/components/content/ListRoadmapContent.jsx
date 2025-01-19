@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import {useEffect, useState} from "react";
+import {Suspense, useEffect, useState} from "react";
 import {useMutation, useQuery} from "@tanstack/react-query";
 import {SheetContent, SheetDescription, SheetHeader, Sheet, SheetTitle, SheetTrigger} from "@/components/ui/sheet.jsx";
 import {HeaderContent} from "@/components/ui/header-content.jsx";
@@ -19,6 +19,17 @@ import {toast} from "@/hooks/use-toast.js";
 import {Button} from "@/components/ui/button.jsx";
 import RoadmapEditModal from "@/components/modals/RoadmapEditModal.jsx";
 import useRoadmapsUpdateModal from "@/hooks/use-roadmap-update-modal.js";
+import {Loading} from "@/components/loading/Loading.jsx";
+import {regenerateAPI} from "@/api/regenerate.js";
+import MaterialModal from "@/components/modals/MaterialModal.jsx";
+import RoadmapModal from "@/components/modals/RoadmapModal.jsx";
+import useRoadmapRegenerateModal from "@/hooks/use-roadmap-regenerate-modal.js";
+import useMaterialGenerateQuizModal from "@/hooks/use-material-generate-quiz-modal.js";
+import generateQuizModal from "@/components/modals/GenerateQuizModal.jsx";
+import GenerateQuizModal from "@/components/modals/GenerateQuizModal.jsx";
+import GenerateMaterialModal from "@/components/modals/GenerateMaterialModal.jsx";
+import useGenerateMaterialModal from "@/hooks/use-generate-material-modal.js";
+import {questionAPI} from "@/api/question.js";
 
 export function ListRoadmapContent({id}) {
 
@@ -29,6 +40,9 @@ export function ListRoadmapContent({id}) {
     const [hoverId, setHoverId] = useState(0);
     const roadmapsModal = useRoadmapsModal();
     const roadmapsUpdateModal = useRoadmapsUpdateModal();
+    const roadmapRegenerateModal = useRoadmapRegenerateModal();
+    const quizGenerateModal = useMaterialGenerateQuizModal()
+    const generateMaterialModal = useGenerateMaterialModal()
     const hoverAnimation = {
         hidden: { opacity: 0, y: -20 },
         visible: {
@@ -111,6 +125,29 @@ export function ListRoadmapContent({id}) {
         },
     })
 
+    const {mutate: regenerate, isPending: regenerateLoading} = useMutation({
+        mutationKey: ["regenerateMaterial"],
+        mutationFn: async (body) => await regenerateAPI.regenerateMaterial(body, id),
+        onSuccess: () => {
+            toast({
+                title: "Regenerate Material",
+                description:  "Regenerate Material Successfully",
+            })
+            setSave(false)
+            refetch()
+            queryClient.invalidateQueries(['getMaterial']);
+
+        },
+        onMutate: () => setSave(false),
+        onError: (error) => {
+            toast({
+                variant: "destructive",
+                title: "Regenerate Failed",
+                description: "Failed regenerated questions.",
+            })
+            console.log("onError: " + error)
+        }
+    })
 
     useEffect(() => {
         if (enable && id) {
@@ -199,6 +236,7 @@ export function ListRoadmapContent({id}) {
                                                                     }
                                                                     <AnimatePresence>
                                                                         <motion.div onClick={(event) => {
+                                                                            quizGenerateModal.onOpen()
                                                                             event.stopPropagation();
                                                                         }} variants={hoverAnimation}
                                                                                     initial="hidden"
@@ -209,6 +247,7 @@ export function ListRoadmapContent({id}) {
                                                                     </AnimatePresence>
                                                                     <AnimatePresence>
                                                                         <motion.div onClick={(event) => {
+                                                                            generateMaterialModal.onOpen()
                                                                             event.stopPropagation();
                                                                         }} variants={hoverAnimation}
                                                                                     initial="hidden"
@@ -292,10 +331,25 @@ export function ListRoadmapContent({id}) {
 
 
             {(isLoading || isFetching) || isPending || isPending2 || isPending3 || data?.data != null && (
-                <FooterContent url={"/tes"}/>
+                <>
+                    <div
+                        className="h-[100px] overflow-hidden flex items-center justify-between gap-4 bg-white border-t-2 border-accent p-4">
+                        <Button onClick={() => navigate("/tools/generative-question")}
+                                className="w-full">{"Generate a Quiz"}</Button>
+                        <Button onClick={() => roadmapRegenerateModal.onOpen()} className="w-full">{regenerateLoading ?
+                            <Loading/> : "Regenerate"}</Button>
+                    </div>
+
+                    <Suspense>
+                        <RoadmapModal regenerate={regenerate} regenerateLoading={regenerateLoading}/>
+                        <GenerateQuizModal topic={data?.data?.topic} subject={data?.data?.subject}/>
+                        <GenerateMaterialModal topic={data?.data?.topic} subject={data?.data?.subject}/>
+                    </Suspense>
+                </>
             )}
 
-            { isPending ||isPending2 || isPending3 ? <LoadingGeneratingContent isPending={isPending || isPending2 || isPending3} type={"roadmap"}/> : <></>}
+            {isPending || isPending2 || isPending3 ?
+                <LoadingGeneratingContent isPending={isPending || isPending2 || isPending3} type={"roadmap"}/> : <></>}
 
 
         </div>

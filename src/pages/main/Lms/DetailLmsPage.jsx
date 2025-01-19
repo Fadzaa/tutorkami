@@ -57,6 +57,7 @@ export function DetailLmsPage() {
             if (index[0] !== undefined) {
                 navigate(`/tools/generative-lms/detail/${id}/${data.lms.topic[index[0]].sub_topic[0].id}`)
             }
+            refetch()
         }
     };
 

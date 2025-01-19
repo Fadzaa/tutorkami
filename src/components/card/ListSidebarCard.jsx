@@ -70,7 +70,7 @@ export function ListSidebarCard({
 
                 <section className={cn("flex justify-between items-center",)}>
                     <p className="font-light lg:text-sm">{desc}</p>
-                    <p className="font-bold lg:text-">{type === "Question" ? "Solved" : ""}</p>
+                    <p className="font-bold lg:text-">{type === "Question" && isSolved ? "Solved" : ""}</p>
 
                     {/*<p>{date}</p>*/}
                     {type === "Roadmap" && (
@@ -90,7 +90,7 @@ export function ListSidebarCard({
                                 width={"w-6 lg:w-8"}
                                 height={"h-6 lg:h-8"}
                                 progress={totalSolve / length * 100}
-                                textProgress={`${totalSolve} /  ${length}`}
+                                textProgress={`${totalSolve === length ? "Done" : `${totalSolve} /  ${length}`}`}
                                 text={"text-[5px] lg:text-[6px]"}
                             />
                         </>

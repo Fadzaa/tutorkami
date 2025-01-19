@@ -14,7 +14,6 @@ import {useEffect, useState} from "react";
 
 export function StorageContent({data,prev_page_url,next_page_url,last_page,current_page,handlePageChange}) {
     const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-
     const lmsTotalSolved = (item) => {
         let solved = 0;
         item?.subject_detail_lms?.lms?.topic?.forEach((item) => item.sub_topic.forEach((sub) => {
@@ -59,9 +58,9 @@ export function StorageContent({data,prev_page_url,next_page_url,last_page,curre
                                 id={item.id}
                                 title={item.subject}
                                 type={item.type}
-                                isSolved={item.is_solved}
+                                isSolved={item.subject_detail_question.is_solved}
                                 date={format(item.date, "Y-M-dd")}
-                                desc={`${item.questions?.[0]?.type} • ${item.total} Questions • ${item.question_difficulty}`}
+                                desc={`${item.subject_detail_question.question?.[0]?.type} • ${item.subject_detail_question.total} Questions • ${item.subject_detail_question.question_difficulty}`}
                                 subject={item.subject}
                                 topic={item.topic}
                             />

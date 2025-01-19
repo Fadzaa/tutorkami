@@ -28,7 +28,7 @@ export function FallbackEmptyContent({type}) {
     const {icon, title, description} = typeContent[type]
 
     return (
-        <div className="h-full w-full flex flex-col justify-center items-center gap-3">
+        <div className=" h-[78%] w-full flex flex-col justify-center items-center gap-3">
             <img src={icon} alt="Icon Empty"/>
             <h1 className="font-semibold text-lg text-primary text-center">{title}</h1>
             <p className="font-light text-sm text-[#9A9A9A] text-center">{description}</p>

@@ -80,6 +80,7 @@ export function ListRoadmapContent({id}) {
                 title: "Create Roadmap Success",
                 description: "You have successfully create roadmap.",
             })
+            queryClient.invalidateQueries(['getRoadmap']);
             refetch();
         },
         onError: (error) => {
@@ -98,6 +99,7 @@ export function ListRoadmapContent({id}) {
                 title: "Create Roadmap Success",
                 description: "You have successfully create roadmap.",
             })
+            queryClient.invalidateQueries(['getRoadmap']);
             refetch();
         },
         onError: (error) => {
@@ -137,6 +139,7 @@ export function ListRoadmapContent({id}) {
                 title: "Create Roadmap Success",
                 description: "You have successfully create roadmap.",
             })
+            queryClient.invalidateQueries(['getRoadmap']);
             refetch();
         },
         onError: (error) => {
@@ -156,6 +159,7 @@ export function ListRoadmapContent({id}) {
                 title: "Regenerate Material",
                 description:  "Regenerate Material Successfully",
             })
+            queryClient.invalidateQueries(['getRoadmap']);
             refetch()
 
         },

@@ -15,11 +15,26 @@ import {useEffect, useState} from "react";
 export function StorageContent({data,prev_page_url,next_page_url,last_page,current_page,handlePageChange}) {
     const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
+    const lmsTotalSolved = (item) => {
+        let solved = 0;
+        item?.subject_detail_lms?.lms?.topic?.forEach((item) => item.sub_topic.forEach((sub) => {
+            if (sub.solved) {
+                solved++;
+            }
+        }))
+        return solved;
+    }
 
+    const lmsLength = (item) => {
+        let length = 0;
+        item?.subject_detail_lms?.lms?.topic?.forEach((item) =>
+            length = length + item.sub_topic.length
+        )
+        return length;
+    }
 
     return (
         <>
-
             <div className="lg:grid gap-3 p-4 lg:grid-cols-4">
                 {
                     data.map((item) => (
@@ -34,6 +49,8 @@ export function StorageContent({data,prev_page_url,next_page_url,last_page,curre
                                 subId={item.subject_detail_lms?.lms?.topic?.[0]?.sub_topic?.[0]?.id}
                                 desc={`${item.subject_detail_lms.difficulty} • ${item.subject_detail_lms.activity_type}`}
                                 isSolved={true}
+                                totalSolve={lmsTotalSolved(item).toString()}
+                                length={lmsLength(item).toString()}
 
                             />
                         ) : item.type === 'Question' ? (
@@ -57,7 +74,7 @@ export function StorageContent({data,prev_page_url,next_page_url,last_page,curre
                                 id={item.id}
                                 date={format(item.date, "Y-M-dd")}
                                 type={item.type}
-                                desc={`${item.output_format} • ${item.proficiency_level} • ${item.style_customization} • `}
+                                desc={`${item.subject_detail_material.output_format} • ${item.subject_detail_material.proficiency_level} • ${item.subject_detail_material.style_customization} • `}
                             />
                         ) : item.type === 'Roadmap' ? (
                             <ListSidebarCard
@@ -74,7 +91,7 @@ export function StorageContent({data,prev_page_url,next_page_url,last_page,curre
                                 length={item.subject_detail_roadmap.roadmap.length}
                             />
                         ) : <div>empty</div>
-                            ))
+                    ))
 
                 }
             </div>

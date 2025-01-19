@@ -37,7 +37,6 @@ export function ListSidebarCard({
     const {mutate} = useMutation({
         mutationFn: async (id) => await commonAPI.deleteSidebarUniversal(`${type.toString().toLowerCase()}/${id}`),
         onSuccess: () => navigate(`/tools/generative-${type.toString().toLowerCase()}/`),
-        onError: (error) => console.log("onError :" + error)
     })
 
     const handleToDetail = (id) => type === "LMS" ? navigate(`/tools/generative-${type.toString().toLowerCase()}/detail/${id}/${subId}`) : navigate(`/tools/generative-${type.toString().toLowerCase()}/detail/${id}`);

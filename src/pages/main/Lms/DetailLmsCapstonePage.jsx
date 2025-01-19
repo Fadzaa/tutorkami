@@ -26,7 +26,6 @@ export function DetailLmsCapstonePage() {
 
     useEffect(() => {
         if (data !== undefined) {
-            console.log(data)
             setTotal(0);
             setCompleted(0);
             data?.lms.topic.map((item) => {

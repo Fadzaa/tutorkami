@@ -55,7 +55,6 @@ export function ListMaterialContent({id}) {
                 title: "Update Material Failed",
                 description: "Failed update material",
             })
-            console.log("onError: " + error)
 
         }
     })
@@ -80,7 +79,6 @@ export function ListMaterialContent({id}) {
                 title: "Regenerate Failed",
                 description: "Failed regenerated questions.",
             })
-            console.log("onError: " + error)
         }
     })
 

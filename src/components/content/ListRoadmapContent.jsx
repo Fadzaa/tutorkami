@@ -169,7 +169,6 @@ export function ListRoadmapContent({id}) {
                 title: "Regenerate Failed",
                 description: "Failed regenerated questions.",
             })
-            console.log("onError: " + error)
         }
     })
 

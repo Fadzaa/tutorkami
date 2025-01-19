@@ -118,7 +118,7 @@ export function CreateLmsPage() {
                 </LabelTitleContent>
 
                 <Form {...form}>
-                    <form className="flex flex-col h-full pb-4 gap-8">
+                    <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col h-full pb-4 gap-8">
                         <FormField
                             control={form.control}
                             name="subject"

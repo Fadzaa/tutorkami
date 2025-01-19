@@ -72,15 +72,12 @@ const GenerateQuizModal = ({subject, topic}) => {
                 title: "Create Question Failed",
                 description: "Failed create question.",
             })
-            console.log("onError: " + error)
-            console.log(error)
         }
     })
 
 
     const onSubmit = () => {
         const formData = form.getValues();
-        console.log(formData)
         mutate({
             ...formData,
             subject: subject,
@@ -88,15 +85,6 @@ const GenerateQuizModal = ({subject, topic}) => {
             language: langHandler.get() === "id" ? "Indonesian" : "English",
         })
 
-        console.log("CHECK THE MUTATED SENT DATA")
-        console.log(
-            {
-                ...formData,
-                subject: subject,
-                topic: topic,
-                language: langHandler.get() === "id" ? "Indonesian" : "English",
-            }
-        )
     }
 
     const optionQuestionType = [

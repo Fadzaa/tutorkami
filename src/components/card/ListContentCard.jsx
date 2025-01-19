@@ -37,7 +37,6 @@ export function ListContentCard({
                             <div className="h-auto w-[1px] bg-black"></div>
                             <div className="pt-2 pl-4 w-full">
                                 {subTopic.map((item, index) => {
-                                    console.log(item)
                                     return (
                                         <ListContentDetailCard title={item.sub_topic} isSolved={item.solved}
                                                                subTopicContent={item.sub_topic_content} handle={handle}

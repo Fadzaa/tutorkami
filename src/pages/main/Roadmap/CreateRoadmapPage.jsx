@@ -73,7 +73,6 @@ export function CreateRoadmapPage() {
         },
 
         onError: (error) => {
-            console.log(error)
         },
 
         onMutate: async () => {

@@ -6,7 +6,7 @@ import {Loading} from "@/components/loading/Loading.jsx";
 
 
 const Modal = ({
-
+    isEasyInOut,
                    isOpen,
                    onClose,
                    onSubmit,
@@ -40,7 +40,6 @@ const Modal = ({
         if (disabled) {
             return;
         }
-
         onSubmit();
 
     }, [disabled, onSubmit]);
@@ -83,8 +82,15 @@ const Modal = ({
                         className={`
                 translate
                 duration-300
-                h-full
-                ${showModal ? 'translate-y-0' : 'translate-y-full'}
+                h-full  
+                ${showModal
+                            ? isEasyInOut
+                                ? 'scale-100'
+                                : 'translate-y-0'
+                            : isEasyInOut
+                                ? 'scale-0'
+                                : 'translate-y-full'
+                        }
                 ${showModal ? 'opacity-100' : 'opacity-0'}
             `}>
 
@@ -130,6 +136,7 @@ const Modal = ({
                                 </div>
 
                                 <button
+                                    type="button"
                                     onClick={handleClose}
                                     className="
                             p-1
@@ -162,8 +169,8 @@ const Modal = ({
                                     <Button
                                         className={'w-full'}
                                         disabled={disabled}
-                                        onClick={handleSubmit}>
-
+                                        onClick={handleSubmit}
+                                        type="button">
                                         {
                                             regenerateLoading === true ?<Loading/>: actionLabel
                                         }
@@ -181,6 +188,7 @@ const Modal = ({
 Modal.propTypes = {
     progress: PropTypes.number,
     isOpen: PropTypes.bool,
+    isEasyInOut: PropTypes.bool,
     title: PropTypes.string,
     body: PropTypes.element,
     footer: PropTypes.element,

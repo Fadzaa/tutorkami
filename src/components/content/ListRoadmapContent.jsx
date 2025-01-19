@@ -1,22 +1,52 @@
 import PropTypes from "prop-types";
 import {useEffect, useState} from "react";
-import {useQuery} from "@tanstack/react-query";
+import {useMutation, useQuery} from "@tanstack/react-query";
 import {SheetContent, SheetDescription, SheetHeader, Sheet, SheetTitle, SheetTrigger} from "@/components/ui/sheet.jsx";
 import {HeaderContent} from "@/components/ui/header-content.jsx";
 import {FooterContent} from "@/components/ui/footer-content.jsx";
 import check from "/public/check.svg";
+import add from "/public/add.svg";
 import checked from "/public/checked.svg";
 import {cn} from "@/lib/utils.js";
 import {ContentDistance} from "@/components/ui/content-distance.jsx";
 import {roadmapAPI} from "@/api/roadmap.js";
 import {ContentRoadmapSkeleton} from "@/components/skeleton/ContentRoadmapSkeleton.jsx";
+import {AnimatePresence,motion} from "framer-motion";
+import useRoadmapsModal from "@/hooks/use-roadmap-modal.js";
+import RoadmapAddModal from "@/components/modals/RoadmapAddModal.jsx";
+import {LoadingGeneratingContent} from "@/components/loading/LoadingGeneratingContent.jsx";
+import {toast} from "@/hooks/use-toast.js";
+import {Button} from "@/components/ui/button.jsx";
+import RoadmapEditModal from "@/components/modals/RoadmapEditModal.jsx";
+import useRoadmapsUpdateModal from "@/hooks/use-roadmap-update-modal.js";
 
 export function ListRoadmapContent({id}) {
 
     const [enable, setEnable] = useState(false);
     const [hover, setHover] = useState(false);
+    const [modalId, setModalId] = useState(0);
     const [hoverCompleted, setHoverCompleted] = useState(false);
     const [hoverId, setHoverId] = useState(0);
+    const roadmapsModal = useRoadmapsModal();
+    const roadmapsUpdateModal = useRoadmapsUpdateModal();
+    const hoverAnimation = {
+        hidden: { opacity: 0, y: -20 },
+        visible: {
+            opacity: 1,
+            y: 0,
+            transition: {
+                duration: 0.3,
+                ease: "easeInOut"
+            }
+        },
+        exit: {
+            opacity: 0,
+            transition: {
+                duration: 0.3,
+                ease: "easeInOut"
+            }
+        },
+    };
 
     const {isLoading, data, isFetching, refetch} = useQuery({
         queryKey: ["getRoadmapID"],
@@ -26,6 +56,61 @@ export function ListRoadmapContent({id}) {
         enabled: enable,
         refetchOnWindowFocus: false,
     });
+
+    const {mutate, isPending,} = useMutation({
+        mutationFn: async (body) => await roadmapAPI.updateRoadmap(body,data?.data?.subject_detail_roadmap?.id),
+        onSuccess: (response) => {
+            toast({
+                title: "Create Roadmap Success",
+                description: "You have successfully create roadmap.",
+            })
+            refetch();
+        },
+        onError: (error) => {
+            toast({
+                variant: "destructive",
+                title: "Create Roadmap Failed",
+                description: "Failed create roadmap.",
+            })
+        },
+    })
+
+    const {mutate : mutate3, isPending: isPending3,} = useMutation({
+        mutationFn: async ({ body, id }) => await roadmapAPI.updateRoadmap(body,id),
+        onSuccess: (response) => {
+            toast({
+                title: "Create Roadmap Success",
+                description: "You have successfully create roadmap.",
+            })
+            refetch();
+        },
+        onError: (error) => {
+            toast({
+                variant: "destructive",
+                title: "Create Roadmap Failed",
+                description: "Failed create roadmap.",
+            })
+        },
+    })
+
+    const {mutate: mutate2, isPending: isPending2,} = useMutation({
+        mutationFn: async (body) => await roadmapAPI.updateRoadmap(body,data?.data?.subject_detail_roadmap?.id),
+        onSuccess: (response) => {
+            toast({
+                title: "Create Roadmap Success",
+                description: "You have successfully create roadmap.",
+            })
+            refetch();
+        },
+        onError: (error) => {
+            toast({
+                variant: "destructive",
+                title: "Create Roadmap Failed",
+                description: "Failed create roadmap.",
+            })
+        },
+    })
+
 
     useEffect(() => {
         if (enable && id) {
@@ -40,23 +125,30 @@ export function ListRoadmapContent({id}) {
 
             <div className={cn(
                 "flex-1 pb-5 cs overflow-y-auto",
-                isLoading || isFetching ? "flex items-center" : ""
+                (isLoading || isFetching) || isPending || isPending2 || isPending3 ? "flex items-center" : ""
             )}>
-                {isLoading || isFetching ? (
+                {(isLoading || isFetching) || isPending || isPending2 || isPending3 ? (
                     <ContentRoadmapSkeleton/>
                 ) : (
                     data?.data != null && (
-
                         <ContentDistance>
-
+                            <RoadmapAddModal update={mutate} update2={mutate2}/>
                             <HeaderContent
                                 title={data?.data.subject}
                                 type={data?.data.type}
                                 date={data?.data.date}
-                                desc={data?.data.topic}
+                                text={"text-xs"}
+                                progress={data?.data?.subject_detail_roadmap?.roadmap?.filter((i) => i.solved === 1).length / data?.data?.subject_detail_roadmap?.roadmap?.length}
+                                progressText={`${data?.data?.subject_detail_roadmap?.roadmap?.filter((i) => i.solved === 1).length} / ${data?.data?.subject_detail_roadmap?.roadmap?.length}`}
+                                desc={`${data?.data?.topic} • ${data?.data?.subject_detail_roadmap?.user_proficiency_level} • ${data?.data?.subject_detail_roadmap?.timeline}`}
                             />
                             {data?.data.subject_detail_roadmap.roadmap.map((item, i) => (
                                 <Sheet key={item.id}>
+                                    {
+                                        modalId === item.id && (
+                                            <RoadmapEditModal update={mutate3} data={item} id={item.id} />
+                                        )
+                                    }
                                     <SheetTrigger>
                                         <div onMouseEnter={() => {
                                             setHoverId(item.id)
@@ -70,46 +162,65 @@ export function ListRoadmapContent({id}) {
                                                 <div className="flex flex-col items-start gap-3">
                                                     <h1 className="text-sm lg:text-base text-start font-semibold">{`${i + 1}. ${item.title}`}</h1>
                                                     <p className="text-xs lg:text-base text-start lg:text-center">{item.desc}</p>
-                                                    {
-                                                        (hover && (hoverId === item.id)) &&(
-                                                            <div className={`relative flex gap-3`}>
-                                                                {
-                                                                    item.solved === 0 && (
-                                                                        <div onMouseEnter={(event) => {
-                                                                        event.stopPropagation();
-                                                                        setHoverCompleted(true)
-                                                                    }} onMouseLeave={(event) => {
-                                                                        event.stopPropagation();
-                                                                        setHoverCompleted(false)
-                                                                    }} onClick={(event) => {
-                                                                        event.stopPropagation();
-                                                                        roadmapAPI.solvedRoadmapID(item.id).then(() => {
-                                                                            refetch();
-                                                                        })
-                                                                    }} className={`border hover:bg-[#1E293B] flex gap-2 hover:text-white border-1 border-[#1E293B] rounded-3xl py-0.5 px-3`}>
-                                                                        {
-                                                                            hoverCompleted && (<img src={check} alt=""/>)
-                                                                        }
-                                                                        Marked as Complete
-                                                                    </div>
-                                                                    )
-                                                                }
-                                                                {
-                                                                    item.solved === 0 && (<div className="h-auto my-1 w-[1px] bg-black"></div>)
-                                                                }
-                                                                <div onClick={(event) => {
-                                                                    event.stopPropagation();
-                                                                }} className={`border hover:bg-[#1E293B] flex gap-2 hover:text-white border-1 border-[#1E293B] rounded-3xl py-0.5 px-3`}>
-                                                                    Generate a Quiz
-                                                                </div>
-                                                                <div onClick={(event) => {
-                                                                    event.stopPropagation();
-                                                                }} className={`border hover:bg-[#1E293B] flex gap-2 hover:text-white border-1 border-[#1E293B] rounded-3xl py-0.5 px-3`}>
-                                                                    Generate Study Materials
-                                                                </div>
-                                                            </div>
-                                                        )
-                                                    }
+                                                    <AnimatePresence>
+                                                        {
+                                                            (hover && (hoverId === item.id)) &&(
+                                                                <motion.div
+                                                                    className="relative flex gap-3 overflow-hidden"
+                                                                    layout
+                                                                    initial={{ height: 0, opacity: 0 }}
+                                                                    animate={{ height: "auto", opacity: 1 }}
+                                                                    exit={{ height: 0, opacity: 0 }}
+                                                                    transition={{ duration: 0.5 }}
+                                                                >
+                                                                    {
+                                                                        item.solved === 0 && (
+                                                                            <div onMouseEnter={(event) => {
+                                                                                event.stopPropagation();
+                                                                                setHoverCompleted(true)
+                                                                            }} onMouseLeave={(event) => {
+                                                                                event.stopPropagation();
+                                                                                setHoverCompleted(false)
+                                                                            }} onClick={(event) => {
+                                                                                event.stopPropagation();
+                                                                                roadmapAPI.solvedRoadmapID(item.id).then(() => {
+                                                                                    refetch();
+                                                                                })
+                                                                            }} className={`border hover:bg-[#1E293B] flex gap-2 hover:text-white border-1 border-[#1E293B] rounded-3xl py-0.5 px-3`}>
+                                                                                {
+                                                                                    hoverCompleted && (<img src={check} alt="" className={`w-4`}/>)
+                                                                                }
+                                                                                Marked as Complete
+                                                                            </div>
+                                                                        )
+                                                                    }
+                                                                    {
+                                                                        item.solved === 0 && (<div className="h-auto my-1 w-[1px] bg-black"></div>)
+                                                                    }
+                                                                    <AnimatePresence>
+                                                                        <motion.div onClick={(event) => {
+                                                                            event.stopPropagation();
+                                                                        }} variants={hoverAnimation}
+                                                                                    initial="hidden"
+                                                                                    animate="visible"
+                                                                                    exit="exit" className={`border hover:bg-[#1E293B] flex gap-2 hover:text-white border-1 border-[#1E293B] rounded-3xl py-0.5 px-3`}>
+                                                                            Generate a Quiz
+                                                                        </motion.div>
+                                                                    </AnimatePresence>
+                                                                    <AnimatePresence>
+                                                                        <motion.div onClick={(event) => {
+                                                                            event.stopPropagation();
+                                                                        }} variants={hoverAnimation}
+                                                                                    initial="hidden"
+                                                                                    animate="visible"
+                                                                                    exit="exit" className={`border hover:bg-[#1E293B] flex gap-2 hover:text-white border-1 border-[#1E293B] rounded-3xl py-0.5 px-3`}>
+                                                                            Generate Study Materials
+                                                                        </motion.div>
+                                                                    </AnimatePresence>
+                                                                </motion.div>
+                                                            )
+                                                        }
+                                                    </AnimatePresence>
                                                 </div>
                                             </div>
                                             {
@@ -155,20 +266,36 @@ export function ListRoadmapContent({id}) {
                                                     </div>
                                                 ))}
                                             </SheetDescription>
+                                        <SheetTrigger>
+                                            <Button
+                                                type="button"
+                                                onClick={() =>{
+                                                    roadmapsUpdateModal.onOpen();
+                                                    setModalId(item.id);
+                                                }}
+                                            >
+                                                Edit Roadmap
+                                            </Button>
+                                        </SheetTrigger>
                                         </SheetHeader>
                                     </SheetContent>
                                 </Sheet>
                             ))}
-
+                            <div onClick={() => roadmapsModal.onOpen()} className={`flex gap-3 pt-3 cursor-pointer font-medium text-[#C1C1C1]`}>
+                                <img src={add} alt="" className={`h-6`}/>
+                                Add Another Step
+                            </div>
                  </ContentDistance>
                     )
                 )}
             </div>
 
 
-            {(isLoading || isFetching) || data?.data != null && (
+            {(isLoading || isFetching) || isPending || isPending2 || isPending3 || data?.data != null && (
                 <FooterContent url={"/tes"}/>
             )}
+
+            { isPending ||isPending2 || isPending3 ? <LoadingGeneratingContent isPending={isPending || isPending2 || isPending3} type={"roadmap"}/> : <></>}
 
 
         </div>

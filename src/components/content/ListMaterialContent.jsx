@@ -140,12 +140,13 @@ export function ListMaterialContent({id}) {
                                     init={{
                                         selector: 'textarea',
                                         plugins: [
-
+                                            "autoresize",
                                             'anchor', 'autolink', 'codesample', 'lists', 'searchreplace', 'visualblocks',
                                             'checklist', 'mediaembed', 'casechange', 'export', 'formatpainter', 'pageembed', 'a11ychecker', 'permanentpen', 'powerpaste', 'advtable', 'advcode', 'editimage', 'advtemplate', 'ai', 'mentions', 'tinycomments', 'tableofcontents', 'footnotes', 'mergetags', 'autocorrect', 'typography', 'inlinecss', 'markdown'
                                         ],
                                         toolbar: ' blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap customInsertButton',
                                         menubar: '',
+                                        statusbar: false,
                                         tinycomments_mode: 'embedded',
                                         tinycomments_author: 'Author name',
                                         content_style: `

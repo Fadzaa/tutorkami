@@ -4,14 +4,13 @@ import {useQuery} from "@tanstack/react-query";
 import {Loading} from "@/components/loading/Loading.jsx";
 import {cn} from "@/lib/utils.js";
 import {ContentDistance} from "@/components/ui/content-distance.jsx";
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css'; // ES6
 import {lmsAPI} from "@/api/lms.js";
 import {marked} from "marked";
 import {InitialContent} from "@/components/content/InitialContent.jsx";
 import {HeaderContent2} from "@/components/ui/header-content-2.jsx";
 import {FooterContent2} from "@/components/ui/footer-content-2.jsx";
 import {ModalPicker} from "@/components/ui/modal-picker.jsx";
+import {Editor} from "@tinymce/tinymce-react";
 
 export function ListLmsContent({id,handle, regenerate, handleCompled, setDataPick}) {
 
@@ -95,13 +94,18 @@ export function ListLmsContent({id,handle, regenerate, handleCompled, setDataPic
                                 main_content={data.result.sub_topic}
                             />
 
-                            <ReactQuill
-                                theme="snow"
+                            <Editor
+                                apiKey='cnlivas6mxjs0iqh6d2y9xwvfsilnghkmrica2zvrafazrum'
+                                plugins={[
+                                    "autoresize"
+                                ]}
+                                init={{toolbar: false, menubar: false,
+                                    resize: false,
+                                    readonly: true,
+                                    statusbar : false,
+                                    selector: 'textarea',
+                                    skin: 'borderless'}}
                                 value={value}
-                                onChange={setValue}
-                                modules={modules}
-                                readOnly={true}
-                                placeholder="Begin typing..."
                             />
 
                         </ContentDistance>

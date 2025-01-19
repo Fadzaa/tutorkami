@@ -196,6 +196,11 @@
   "explanation_short_answer_desc2": "Bisa nunjukin pemahaman kamu dengan kata-katamu sendiri.",
   "explanation_short_answer_desc3": "Cocok untuk bahas konsep yang lebih detail dan mendalam.",
 
+  "explanation_mixed_question": "Menggabungkan berbagai format untuk penilaian yang lebih lengkap.",
+  "explanation_mixed_question_desc1": "Memadukan soal pilihan ganda, isian, benar/salah, dan jawaban singkat dalam satu set.",
+  "explanation_mixed_question_desc2": "Memberikan metode evaluasi yang beragam, cocok untuk berbagai gaya belajar.",
+  "explanation_mixed_question_desc3": "Cocok untuk memperluas pemahaman dan menguji pengetahuan dari berbagai sudut.",
+
   "explanation_beginner_difficulty": "Dirancang untuk belajar dasar dan eksplorasi awal.",
   "explanation_beginner_difficulty_desc1": "Pertanyaannya simpel dengan konsep dasar.",
   "explanation_beginner_difficulty_desc2": "Pas buat pemula yang baru belajar atau mau bangun kepercayaan diri.",

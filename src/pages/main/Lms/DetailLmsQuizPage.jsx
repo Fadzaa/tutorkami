@@ -42,9 +42,7 @@ export function DetailLmsQuizPage() {
         <div className="h-[90vh] overflow-hidden flex">
             <LMSSidebarDetail id={id} handle={handleChange} subTopicId={0} completed={completed} data={data?.lms} isLoading={isLoading} total={total}/>
             <ListLmsQuestionContent data={data?.lms?.subject_lms_quiz} lms={data?.subjectList}/>
-            {/*{*/}
-            {/*    dataPick && <ChatBotSidebar id={0} type={"Lms"} dataExist={dataPick}/>*/}
-            {/*}*/}
+            <ChatBotSidebar id={id} type={"LmsQuiz"}/>
         </div>
 
 

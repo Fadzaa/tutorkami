@@ -5,16 +5,26 @@ import {ListSidebarCard} from "@/components/card/ListSidebarCard.jsx";
 
 export function ListSidebarCardWrapper ({ item, type, userTimeZone }) {
 
-    const desc = () => {
-        if (type === "lms") {
-            return `${item.subject_detail_lms.difficulty} • ${item.subject_detail_lms.activity_type}`;
-        } else if (type === "study") {
-            return `${item.proficiency_level} • ${item.style_customization} • ${item.output_format}`;
-        } else if (type === "roadmap") {
-            return `${item.subject} • ${item.subject_detail_roadmap.proficiency_level} • ${item.subject_detail_roadmap.timeline}`;
-        } else if (type === "question") {
-            return `${item.topic} • ${item.question_difficulty} • ${item.target_audience}`;
-        }
+    const lmsTotalSolved = () => {
+        let solved = 0;
+        item.subject_detail_lms.lms.topic.forEach((item) => item.sub_topic.forEach((sub) => {
+            if (sub.solved) {
+                solved++;
+            }
+        }))
+        return solved;
+    }
+
+    const lmsLength = () => {
+        let length = 0;
+        item.subject_detail_lms.lms.topic.forEach((item) =>
+            length = length + item.sub_topic.length
+        )
+        return length;
+    }
+
+    const lmsIsSolved = () => {
+        return lmsTotalSolved() === lmsLength();
     }
 
 
@@ -29,8 +39,9 @@ export function ListSidebarCardWrapper ({ item, type, userTimeZone }) {
                 type={item.type}
                 subId={item.subject_detail_lms.lms.topic[0].sub_topic[0].id}
                 desc={`${item.subject_detail_lms.difficulty} • ${item.subject_detail_lms.activity_type}`}
-                totalSolve={item.subject_detail_lms.lms.topic.map((item) => item.sub_topic.filter((sub) => sub.solved === true).length)}
-                length={item.subject_detail_lms.lms.topic.map((item) => item.sub_topic.length)}
+                isSolved={true}
+                totalSolve={lmsTotalSolved().toString()}
+                length={lmsLength().toString()}
             />
         );
     }

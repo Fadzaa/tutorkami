@@ -21,6 +21,8 @@ export function LMSSidebar() {
 
     })
 
+    console.log("data", data)
+
 
     const handleToCreate = () => {
         navigate("/tools/generative-lms/create")

@@ -41,6 +41,7 @@ const RoadmapAddModal = ({update,update2}) => {
 
     const onSubmit = async () => {
         if (ai) {
+            console.log(formAi.getValues().goal)
             if (formAi.getValues().goal !== undefined) {
                 update({...formAi.getValues(), update_type: "AI"})
                 formAi.reset()
@@ -127,7 +128,7 @@ const RoadmapAddModal = ({update,update2}) => {
         return (
             <div className="flex-col gap-3 w-full justify-center py-2">
                 <FormField
-                    control={formManual.control}
+                    control={formAi.control}
                     name="goal"
                     render={({field}) => (<FormItem>
                             <FormLabel>What Goal you want to achieve ?</FormLabel>

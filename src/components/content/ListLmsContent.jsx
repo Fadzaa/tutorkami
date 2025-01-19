@@ -14,7 +14,6 @@ import {Editor} from "@tinymce/tinymce-react";
 export function ListLmsContent({id,handle, regenerate, handleCompled, setDataPick}) {
 
     const [enable, setEnable] = useState(false);
-    const [open, setOpen] = useState(false);
     const [length, setLength] = useState(null);
     const {isLoading, data, isFetching, refetch} = useQuery({
         queryKey: ["getLmsID",regenerate],
@@ -112,7 +111,7 @@ export function ListLmsContent({id,handle, regenerate, handleCompled, setDataPic
             </div>
 
 
-            {(isLoading || isFetching) || data?.result != null && (
+            {(isLoading || isFetching) || data?.result?.solved !== true && (
                 <FooterContent2 solved={handleSolved}/>
             )}
 

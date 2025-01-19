@@ -40,7 +40,6 @@ export function StoragePage() {
         },
     });
 
-
     useEffect(() => {
         refetch()
     }, [debounceValue, language, type, date, page]);

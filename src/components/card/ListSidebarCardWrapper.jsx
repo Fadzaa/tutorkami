@@ -88,10 +88,9 @@ export function ListSidebarCardWrapper ({ item, type, userTimeZone }) {
                 type={item.type}
                 isSolved={item.is_solved}
                 date={format(item.date, "Y-M-dd")}
-                desc={`${item.total} Questions • ${item.question_difficulty}`}
+                desc={`${item.questions[0]?.type || ""} • ${item.total} Questions • ${item.question_difficulty}`}
                 subject={item.subject}
                 topic={item.topic}
-                questionType={item.questions[0]?.type || ""}
             />
         );
     }

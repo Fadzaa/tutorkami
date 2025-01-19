@@ -3,6 +3,7 @@ import {Close} from '@mui/icons-material'
 import PropTypes from "prop-types";
 import {Button} from "@/components/ui/button.jsx";
 import {Loading} from "@/components/loading/Loading.jsx";
+import {cn} from "@/lib/utils.js";
 
 
 const Modal = ({
@@ -49,19 +50,10 @@ const Modal = ({
 
     return (<>
             <div
-                className="
-        justify-center
-        items-center
-        flex
-        overflow-x-hidden
-        overflow-y-auto
-        fixed
-        inset-0
-        z-50
-        outline-none
-        focus:outline-none
-        bg-neutral-800/70
-    ">
+                className={cn(
+                    "justify-center items-center flex overflow-x-hidden overflow-y-auto inset-0 z-50 outline-none focus:outline-none bg-neutral-800/70",
+                    actionLabel === "Coba Lagi"?"absolute":"fixed"
+                )}>
                 <div
                     className="
             relative
@@ -132,10 +124,14 @@ const Modal = ({
                                     {title}
                                 </div>
 
-                                <button
-                                    type="button"
-                                    onClick={handleClose}
-                                    className="
+
+                                {
+
+                                    actionLabel === "Coba Lagi" ?<></>:(
+                                        <button
+                                            type="button"
+                                            onClick={handleClose}
+                                            className="
                             p-1
                             border-0
                             hover:opacity-70
@@ -143,9 +139,15 @@ const Modal = ({
                             absolute
                             right-9
                         ">
-                                    <Close
-                                        className="text-gray-800 sm"/>
-                                </button>
+                                            <Close
+                                                className="text-gray-800 sm"/>
+                                        </button>
+
+
+                                    )
+                                }
+
+
                             </div>
 
 

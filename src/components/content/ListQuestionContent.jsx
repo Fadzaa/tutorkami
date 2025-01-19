@@ -15,18 +15,21 @@ import {commonAPI} from "@/api/common.js";
 import useQuestionsModal from "@/hooks/use-question-modal.js";
 import QuestionModal from "@/components/modals/QuestionModal.jsx";
 import {useToast} from "@/hooks/use-toast.js";
+import QuestionTimeModal from "@/components/modals/QuestionTimeModal.jsx";
+import useQuestionTimeStop from "@/hooks/use-question-time-stop.js";
 
 
 export function ListQuestionContent({id}) {
 
 
-        const [questions, setQuestions] = useState([]);
+    const [questions, setQuestions] = useState([]);
     const [progress, setProgress] = useState(0)
 
     const [enable, setEnable] = useState(false);
     const queryClient = useQueryClient();
 
     const modal = useQuestionsModal();
+    const modalTime = useQuestionTimeStop();
     const {isLoading, data, isFetching, refetch} = useQuery({
         queryKey: ["getQuestionID"],
         queryFn: async () => {
@@ -56,6 +59,7 @@ export function ListQuestionContent({id}) {
 
     }, [questions])
     const handleChoices = (id, answer) => {
+
 
         let questionFilter = questions.filter(question => question.id !== id);
 
@@ -137,6 +141,7 @@ export function ListQuestionContent({id}) {
             })
             setQuestions([])
             setProgress(0)
+
             refetch()
             queryClient.invalidateQueries(['getQuestion']);
 
@@ -150,12 +155,34 @@ export function ListQuestionContent({id}) {
             console.log("onError: " + error)
         }
     })
-    const [seconds, setSeconds] = useState(0);
+
+
+    const {mutate: update, isPending: updateLoading} = useMutation({
+        mutationKey: ["update"], mutationFn: async (body) => await questionAPI.updateQuestion(id),
+        onSuccess: () => {
+            if (data?.data != null) {
+                setSeconds(10)
+            }
+            modalTime.onClose()
+            refetch()
+        },
+        onError: (error) => {
+
+        }
+    })
+
+
+    const [seconds, setSeconds] = useState(1);
 
 
     useEffect(() => {
-        if(data?.data != null){
-            setSeconds(10)
+        if (data?.data != null) {
+            if (data?.data.question_detail.is_time_limit == true) {
+                modalTime.onOpen()
+            } else {
+                setSeconds(10)
+            }
+
         }
     }, [data]);
 
@@ -163,9 +190,9 @@ export function ListQuestionContent({id}) {
     useEffect(() => {
 
         if (seconds <= 0) {
+            // setQuestions([])
 
-            setQuestions([])
-
+            modalTime.onOpen()
             return;
         }
 
@@ -194,7 +221,7 @@ export function ListQuestionContent({id}) {
 
     }
 
-    const choicesCondintion = (itemParent, i, answers,qsDetail) => {
+    const choicesCondintion = (itemParent, i, answers, qsDetail) => {
 
 
         if (answers.length > 0) {
@@ -213,51 +240,51 @@ export function ListQuestionContent({id}) {
                         itemParent.type === "Fill-in-the-Blank" || itemParent.type == "Short Answer" ? '' : 'lg:grid-rows-2'
                     )}>
 
-                    {
+                        {
 
-                        itemParent.type === "Fill-in-the-Blank" || itemParent.type == "Short Answer" ?
-                            <Input disabled value={answerFilter.answer_response}
-                                   placeholder={"Type your answer here"}/>
-                            :
-
-
-                                    itemParent.choices.toString().split(',').map((item, i) => {
-
-                                            // jawaban yang di pilih
-                                            const answerchoose = answerFilter.answer_response.toString().trim().toLowerCase() === item.trim().toLowerCase()
-
-                                            // jawaban benar
-                                            const correctAnswer = itemParent.answer.toString().trim() === item.toString().trim() && answerFilter.answer_response.toString().trim() !== itemParent.answer.toString().trim()
+                            itemParent.type === "Fill-in-the-Blank" || itemParent.type == "Short Answer" ?
+                                <Input disabled value={answerFilter.answer_response}
+                                       placeholder={"Type your answer here"}/>
+                                :
 
 
-                                            return (
+                                itemParent.choices.toString().split(',').map((item, i) => {
 
-                                                <Button key={item}
-                                                        className={cn(
-                                                            'group flex   justify-start  rounded-xl w-full lg:w-96',
+                                        // jawaban yang di pilih
+                                        const answerchoose = answerFilter.answer_response.toString().trim().toLowerCase() === item.trim().toLowerCase()
 
-                                                            //answer choose
-                                                            answerchoose ? "bg-primary/90" : "bg-transparent hover:bg-transparent border-2",
-                                                            //correct answer
-                                                            correctAnswer ? "bg-[#E2E8F0] hover:bg-[#E2E8F0]" : ""
-                                                        )}>
-                                                    <p className={cn(
-                                                        "overflow-hidden ",
-                                                        answerchoose ? "text-white" : "text-primary"
-                                                    )}> {arr[i] + item}</p>
-                                                </Button>
-
-                                            )
-
-                                        }
-                                    )
+                                        // jawaban benar
+                                        const correctAnswer = itemParent.answer.toString().trim() === item.toString().trim() && answerFilter.answer_response.toString().trim() !== itemParent.answer.toString().trim()
 
 
-                    }
+                                        return (
+
+                                            <Button key={item}
+                                                    className={cn(
+                                                        'group flex   justify-start  rounded-xl w-full lg:w-96',
+
+                                                        //answer choose
+                                                        answerchoose ? "bg-primary/90" : "bg-transparent hover:bg-transparent border-2",
+                                                        //correct answer
+                                                        correctAnswer ? "bg-[#E2E8F0] hover:bg-[#E2E8F0]" : ""
+                                                    )}>
+                                                <p className={cn(
+                                                    "overflow-hidden ",
+                                                    answerchoose ? "text-white" : "text-primary"
+                                                )}> {arr[i] + item}</p>
+                                            </Button>
+
+                                        )
+
+                                    }
+                                )
+
+
+                        }
                     </div>
                     {
 
-                        (itemParent.type === "Short Answer" || itemParent.type === "Fill-in-the-Blank") && qsDetail.include_answer == "Yes" &&  qsDetail.explanations == "Yes"  && (
+                        (itemParent.type === "Short Answer" || itemParent.type === "Fill-in-the-Blank") && qsDetail.include_answer == "Yes" && qsDetail.explanations == "Yes" && (
                             <>
                                 <h2 className={'mt-7 font-bold'}>Answer: </h2>
                                 <p>{itemParent.answer}</p>
@@ -280,8 +307,8 @@ export function ListQuestionContent({id}) {
 
                     <div className={cn('mt-5 flex flex-col lg:grid  w-full lg:w-1/2 lg:grid-flow-col gap-8',
 
-                        itemParent.type === "Fill-in-the-Blank" || itemParent.type == "Short Answer" ?'':'lg:grid-rows-2'
-                        )}>
+                        itemParent.type === "Fill-in-the-Blank" || itemParent.type == "Short Answer" ? '' : 'lg:grid-rows-2'
+                    )}>
                         {
                             itemParent.type === "Fill-in-the-Blank" || itemParent.type == "Short Answer" ?
                                 <Input onChange={(e) => handleInput(e, itemParent.id)}
@@ -353,6 +380,7 @@ export function ListQuestionContent({id}) {
 
     }
 
+
     let arr = ["A. ", "B. ", "C. ", "D. "];
     return (
         <div className="flex flex-col h-full relative flex-1">
@@ -377,7 +405,7 @@ export function ListQuestionContent({id}) {
                                 desc={`${data?.data.question_detail.type} • ${data?.data.question_detail.topic} • ${data?.data.question_detail.question_difficulty} • ${data?.data.question_detail.target_audience}`}
                             />
 
-                            {data?.data.question_detail.questions.map((itemParent, i) => choicesCondintion(itemParent, i, data?.data.answer_detail,data?.data.question_detail))}
+                            {data?.data.question_detail.questions.map((itemParent, i) => choicesCondintion(itemParent, i, data?.data.answer_detail, data?.data.question_detail))}
 
                         </ContentDistance>
                     )
@@ -415,7 +443,6 @@ export function ListQuestionContent({id}) {
                         </div>
 
 
-
                         <Button onClick={() => onSubmit(data?.data.question_detail.id)} disabled={progress !== 100}
                                 className="w-full">
 
@@ -434,10 +461,20 @@ export function ListQuestionContent({id}) {
 
                     <Suspense>
                         <QuestionModal regenerate={handleRegenerate} regenerateLoading={regenerateLoading}/>
+
                     </Suspense>
                 )
 
             }
+
+            {
+
+                (isLoading || isFetching) || data?.data != null && (
+                    <QuestionTimeModal regenerate={update} regenerateLoading={updateLoading}/>
+                )
+
+            }
+
 
         </div>
     );

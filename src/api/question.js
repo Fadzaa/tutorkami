@@ -19,6 +19,16 @@ export const questionAPI = {
             })
         }
     },
+
+    updateQuestion: async (id) => {
+        try {
+            return await api.put(`question/${id}`);
+        } catch (error) {
+            return makeResponseFailed({
+                message: error,
+            })
+        }
+    },
     getQuestionID: async (id) => {
         try {
             const res = await api.get("question/" + id);

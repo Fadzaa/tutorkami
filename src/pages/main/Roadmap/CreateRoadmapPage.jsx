@@ -122,14 +122,6 @@ export function CreateRoadmapPage() {
         }
     }
 
-    const optionProficiencyUser = [
-        "Zero Knowledge",
-        "Basic Understanding",
-        "Intermediate Knowledge",
-        "Expert Knowledge",
-        "Let Me Explain Myself"
-    ]
-
     const explanationGoals = {
         "Learn Basics": {
             "header": t('explanation_basic_goals'),
@@ -181,14 +173,6 @@ export function CreateRoadmapPage() {
         }
     }
 
-    const optionGoals = [
-        "Learn Basics",
-        "Master a Subject",
-        "Exam Preparation",
-        "Project-Based Learning",
-        "General Knowledge",
-    ]
-
     const explanationTimeline = {
         "No Timeline": {
             "header": t('explanation_no_timeline'),
@@ -228,12 +212,29 @@ export function CreateRoadmapPage() {
     }
 
     const optionTimeline = [
-        "No Timeline",
-        "1 - 3 months",
-        "3 - 6 months",
-        "6 - 12 months",
-        "12+ months",
-    ]
+        { value: "No Timeline", label: "No Timeline" },
+        { value: "1 - 3 months", label: "1 - 3 months" },
+        { value: "3 - 6 months", label: "3 - 6 months" },
+        { value: "6 - 12 months", label: "6 - 12 months" },
+        { value: "12+ months", label: "12+ months" }
+    ];
+
+    const optionGoals = [
+        { value: "Learn Basics", label: "Learn Basics" },
+        { value: "Master a Subject", label: "Master a Subject" },
+        { value: "Exam Preparation", label: "Exam Preparation" },
+        { value: "Project-Based Learning", label: "Project-Based Learning" },
+        { value: "General Knowledge", label: "General Knowledge" }
+    ];
+
+    const optionProficiencyUser = [
+        { value: "Zero Knowledge", label: "Zero Knowledge" },
+        { value: "Basic Understanding", label: "Basic Understanding" },
+        { value: "Intermediate Knowledge", label: "Intermediate Knowledge" },
+        { value: "Expert Knowledge", label: "Expert Knowledge" },
+        { value: "Let Me Explain Myself", label: "Let Me Explain Myself" }
+    ];
+
 
     return (<div className="h-[90vh] overflow-hidden flex">
             <RoadmapSidebar/>
@@ -303,9 +304,10 @@ export function CreateRoadmapPage() {
                                         field={field}
                                         label={t("create_proficiency_head")}
                                         description={t("create_proficiency_desc")}
-                                        placeholder={optionProficiencyUser[0]}
+                                        placeholder={optionProficiencyUser[0].label}
                                         explanation={explanationProficiencyUser}
                                         options={optionProficiencyUser}
+                                        value={optionProficiencyUser[0].value}
                                     />
 
                                 )}
@@ -320,9 +322,10 @@ export function CreateRoadmapPage() {
                                         field={field}
                                         label={t("create_goals_head")}
                                         description={t("create_goals_desc")}
-                                        placeholder={optionGoals[0]}
+                                        placeholder={optionGoals[0].label}
                                         explanation={explanationGoals}
                                         options={optionGoals}
+                                        value={optionGoals[0].value}
                                     />
 
                                 )}
@@ -335,9 +338,10 @@ export function CreateRoadmapPage() {
                                         field={field}
                                         label={t("create_timeline_head")}
                                         description={t("create_timeline_desc")}
-                                        placeholder={optionTimeline[0]}
+                                        placeholder={optionTimeline[0].label}
                                         explanation={explanationTimeline}
                                         options={optionTimeline}
+                                        value={optionTimeline[0].value}
                                     />
 
                                 )}

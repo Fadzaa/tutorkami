@@ -1,16 +1,31 @@
 import {FormControl, FormDescription, FormItem, FormLabel, FormMessage} from "@/components/ui/form.jsx";
 import {Input} from "@/components/ui/input.jsx";
-import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select.jsx";
-import {useEffect} from "react";
+import { useEffect, useState } from 'react';
 
-export function CommonSelectItem({field, label, description, placeholder, options, explanation}) {
-    field.value = field.value || placeholder;
+export function CommonSelectItem({
+                                     field,
+                                     label,
+                                     description,
+                                     placeholder,
+                                     options,
+                                     explanation,
+                                     value
+                                 }) {
+
+    const [selectedValue, setSelectedValue] = useState(field.value || placeholder);
 
     useEffect(() => {
-        field.onChange(placeholder)
+        value === "Let Me Explain Myself" ? field.onChange() : field.onChange(value)
     }, []);
-    return (
 
+    const handleSelect = (item) => {
+        field.value = item.value;
+        setSelectedValue(item.value);
+
+        console.log(field)
+    };
+
+    return (
         <div className="flex">
             <div className="bg-primary w-[1px] h-auto me-3"></div>
             <FormItem className="w-full">
@@ -19,44 +34,37 @@ export function CommonSelectItem({field, label, description, placeholder, option
                 <div className="flex gap-3 pt-2">
                     {options.map((item, i) => (
                         <div
-                            onClick={() => field.onChange(item)}
+                            key={i}
+                            onClick={() => handleSelect(item)}
                             className={
-                            `${field.value === item ? 'bg-primary text-white' : 'text-primary'} cursor-pointer w-fit px-4 py-1 border-[1px] border-primary text-primary text-xs font-medium rounded-full hover:bg-primary hover:text-white fade-in-70 transition`
-                            }>{item}
+                                `${selectedValue === item.value ? 'bg-primary text-white' : 'text-primary'} cursor-pointer w-fit px-4 py-1 border-[1px] border-primary text-xs font-medium rounded-full hover:bg-primary hover:text-white fade-in-70 transition`
+                            }
+                        >
+                            {item.label}
                         </div>
                     ))}
                 </div>
-                {
-                    field.value === "Let Me Explain Myself" && (
 
-                        <div className="pt-4">
-                            <FormControl>
-                                <Input placeholder={placeholder} {...field} />
-                            </FormControl>
-                        </div>
-                    )
+                {selectedValue === "Let Me Explain Myself" && (
+                    <div className="pt-4">
+                        <FormControl>
+                            <Input placeholder="Please explain..." {...field} />
+                        </FormControl>
+                    </div>
+                )}
 
-                }
+                {explanation && selectedValue && (
+                    <div>
+                        <p>{selectedValue}: {explanation[selectedValue]?.header}</p>
+                        {explanation[selectedValue]?.descriptions?.map((item, i) => (
+                            <p key={i} className="text-xs">{item}</p>
+                        ))}
+                    </div>
+                )}
 
-                {
-                    explanation && (
-                        <div>
-                            <p>{field.value}: {explanation[field.value]["header"]}</p>
-                            {
-                                explanation[field.value]["descriptions"].map((item, i) => (
-                                    <p className="text-xs">{item}</p>
-                                ))
-                            }
-
-                        </div>
-                    )
-                }
-
-                <div></div>
-
-                <FormMessage/>
+                <FormMessage />
             </FormItem>
         </div>
-    )
+    );
 }
 

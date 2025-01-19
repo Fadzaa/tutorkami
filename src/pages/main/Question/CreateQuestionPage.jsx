@@ -107,28 +107,28 @@ export function CreateQuestionPage() {
                 t('explanation_zero_knowledge_desc2')
             ]
         },
-        "Basic Understanding": {
+        "High School": {
             "header": t('explanation_basic_understanding'),
             "descriptions": [
                 t('explanation_basic_understanding_desc1'),
                 t('explanation_basic_understanding_desc2')
             ]
         },
-        "Intermediate Knowledge": {
+        "College Student": {
             "header": t('explanation_intermediate_knowledge'),
             "descriptions": [
                 t('explanation_intermediate_knowledge_desc1'),
                 t('explanation_intermediate_knowledge_desc2')
             ]
         },
-        "Expert Knowledge": {
+        "Undergraduate": {
             "header": t('explanation_expert_knowledge'),
             "descriptions": [
                 t('explanation_expert_knowledge_desc1'),
                 t('explanation_expert_knowledge_desc2')
             ]
         },
-        "Let Me Explain Myself": {
+        "Professional": {
             "header": t('explanation_explain_myself'),
             "descriptions": [
                 t('explanation_explain_myself_desc1'),
@@ -138,18 +138,45 @@ export function CreateQuestionPage() {
     }
 
     const optionAudience = [
-        "General",
-        "High School",
-        "College",
-        "Undergraduate",
-        "Professional",
+        {
+            "value": "General",
+            "label": "General"
+        },
+        {
+            "value": "High School",
+            "label": "High School"
+        },
+        {
+            "value": "College Student",
+            "label": "College"
+        },
+        {
+            "value": "Undergraduate",
+            "label": "Undergraduate"
+        },
+        {
+            "value": "Professional",
+            "label": "Professional"
+        }
     ]
 
     const optionTotalQuestion = [
-        "5",
-        "10",
-        "15",
-        "30"
+        {
+            "value": "5",
+            "label": "5"
+        },
+        {
+            "value": "10",
+            "label": "10"
+        },
+        {
+            "value": "15",
+            "label": "15"
+        },
+        {
+            "value": "30",
+            "label": "30"
+        }
     ]
 
     const explanationQuestionType = {
@@ -188,10 +215,23 @@ export function CreateQuestionPage() {
     }
 
     const optionQuestionType = [
-        "Multiple Choice",
-        "True/False",
-        "Fill-in-the-Blank",
-        "Short Answer"
+        {
+            "value": "Multiple Choice",
+            "label": "Multiple Choice"
+        },
+        {
+            "value": "True/False",
+            "label": "True/False"
+        },
+        {
+            "value": "Fill-in-the-Blank",
+            "label": "Fill-in-the-Blank"
+        },
+
+        {
+            "value": "Short Answer",
+            "label": "Short Answer"
+        }
     ]
 
     const explanationDifficulty = {
@@ -233,24 +273,61 @@ export function CreateQuestionPage() {
     }
 
     const optionDifficulty = [
-        "Mixed",
-        "Progressive",
-        "Beginner",
-        "Intermediate",
-        "Expert",
+        {
+            "value": "Mixed",
+            "label": "Mixed"
+        },
+        {
+            "value": "Progressive",
+            "label": "Progressive"
+        },
+        {
+            "value": "Beginner",
+            "label": "Beginner"
+        },
+        {
+            "value": "Intermediate",
+            "label": "Intermediate"
+        },
+        {
+            "value": "Expert",
+            "label": "Expert"
+        }
     ]
 
     const optionTimeLimit = [
-        "0",
-        "15",
-        "30",
-        "45",
-        "Custom"
+        {
+            "value": "0",
+            "label": "No Time Limit"
+        },
+        {
+            "value": "5",
+            "label": "5 Minutes"
+        },
+        {
+            "value": "10",
+            "label": "10 Minutes"
+        },
+        {
+            "value": "15",
+            "label": "15 Minutes"
+        },
+        {
+            "value": "30",
+            "label": "30 Minutes"
+        }
     ]
 
     const optionIncludes = [
-        "Yes",
-        "No"
+        {
+            "value": "Yes",
+            "label": "Yes"
+        },
+        {
+            "value": "No",
+            "label": "No"
+        },
+
     ]
 
     return (
@@ -327,9 +404,10 @@ export function CreateQuestionPage() {
                                         field={field}
                                         label={t("create_audience_head")}
                                         description={t("create_audience_desc")}
-                                        placeholder={optionAudience[0]}
+                                        placeholder={optionAudience[0].label}
                                         explanation={explanationAudience}
                                         options={optionAudience}
+                                        value={optionAudience[0].value}
                                     />
 
                                 )}
@@ -344,9 +422,10 @@ export function CreateQuestionPage() {
                                         field={field}
                                         label={t("create_total_question_head")}
                                         description={t("create_total_question_desc")}
-                                        placeholder={optionTotalQuestion[0]}
+                                        placeholder={optionTotalQuestion[0].label}
                                         explanation={null}
                                         options={optionTotalQuestion}
+                                        value={optionTotalQuestion[0].value}
                                     />
 
                                 )}
@@ -359,9 +438,10 @@ export function CreateQuestionPage() {
                                         field={field}
                                         label={t("create_question_type_head")}
                                         description={t("create_question_type_desc")}
-                                        placeholder={optionQuestionType[0]}
+                                        placeholder={optionQuestionType[0].label}
                                         explanation={explanationQuestionType}
                                         options={optionQuestionType}
+                                        value={optionQuestionType[0].value}
                                     />
 
                                 )}
@@ -374,9 +454,10 @@ export function CreateQuestionPage() {
                                         field={field}
                                         label={t("create_difficulty_head")}
                                         description={t("create_difficulty_desc")}
-                                        placeholder={optionDifficulty[0]}
+                                        placeholder={optionDifficulty[0].label}
                                         explanation={explanationDifficulty}
                                         options={optionDifficulty}
+                                        value={optionDifficulty[0].value}
                                     />
 
                                 )}
@@ -391,9 +472,10 @@ export function CreateQuestionPage() {
                                         field={field}
                                         label={t("create_timelimit_head")}
                                         description={t("create_timelimit_desc")}
-                                        placeholder={optionTimeLimit[0]}
+                                        placeholder={optionTimeLimit[0].label}
                                         explanation={null}
                                         options={optionTimeLimit}
+                                        value={optionTimeLimit[0].value}
                                     />
 
                                 )}
@@ -406,9 +488,10 @@ export function CreateQuestionPage() {
                                         field={field}
                                         label={t("create_inclanswers_head")}
                                         description={t("create_inclanswers_desc")}
-                                        placeholder={optionIncludes[0]}
+                                        placeholder={optionIncludes[0].label}
                                         explanation={null}
                                         options={optionIncludes}
+                                        value={optionIncludes[0].value}
                                     />
 
                                 )}
@@ -421,9 +504,10 @@ export function CreateQuestionPage() {
                                         field={field}
                                         label={t("create_inclexplanation_head")}
                                         description={t("create_inclexplanation_desc")}
-                                        placeholder={optionIncludes[0]}
+                                        placeholder={optionIncludes[0].label}
                                         explanation={null}
                                         options={optionIncludes}
+                                        value={optionIncludes[0].value}
                                     />
 
                                 )}

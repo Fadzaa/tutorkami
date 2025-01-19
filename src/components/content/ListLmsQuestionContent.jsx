@@ -121,7 +121,7 @@ export function ListLmsQuestionContent({data,lms}) {
                                                     <p className={cn(
                                                         "overflow-hidden ",
                                                         answerchoose ? "text-white" : "text-primary"
-                                                    )}> {arr[i] + item}</p>
+                                                    )}> { item}</p>
                                                 </Button>
 
                                             )
@@ -166,7 +166,7 @@ export function ListLmsQuestionContent({data,lms}) {
                                             )}>
                                         <p className={cn(
                                             questions.find(question => question.answer === item && question.id === itemParent.id) ? "text-white group-hover:text-primary" : "text-primary  group-hover:text-white"
-                                        )}> {arr[i] + item}</p>
+                                        )}> { item}</p>
                                     </Button>
 
                                 ))

@@ -86,13 +86,13 @@ export function ListSidebarCard({
                     {type === "LMS" && (
                         <>
 
-                            {/*<ProgressCircle*/}
-                            {/*    width={"w-6 lg:w-8"}*/}
-                            {/*    height={"h-6 lg:h-8"}*/}
-                            {/*    progress={totalSolve}*/}
-                            {/*    textProgress={`${totalSolve}`}*/}
-                            {/*    text={"text-[5px] lg:text-[6px]"}*/}
-                            {/*/>*/}
+                            <ProgressCircle
+                                width={"w-6 lg:w-8"}
+                                height={"h-6 lg:h-8"}
+                                progress={totalSolve / length * 100}
+                                textProgress={`${totalSolve} /  ${length}`}
+                                text={"text-[5px] lg:text-[6px]"}
+                            />
                         </>
 
                     )}

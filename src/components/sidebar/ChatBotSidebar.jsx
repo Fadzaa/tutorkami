@@ -30,6 +30,35 @@ export function ChatBotSidebar({id, type}) {
     const messagesEndRef = useRef(null);
 
     const typeContent = {
+        "LmsQuiz": {
+            key: "getLmsQuizID",
+            api: () => lmsAPI.getLmsId(id),
+            content : (data) => {
+                const question = data?.lms?.subject_lms_quiz?.lms_quiz?.map((item, index) => {
+                    return `Question : ${index + 1} `+
+                        `title : ${item.title} ` +
+                        `type question : ${item.type} `+
+                        `choices question : ${item.choices} ` +
+                        `answer question : ${item.answer} `+
+                        `explanation question : ${item.explanation} `;
+                })
+
+                return question.join("   ")
+            },
+            topic : (data) => {
+                return data.subjectList.topic
+            },
+            topicId : (data) => data?.lms?.subject_lms_quiz?.id,
+        },
+        "Capstone": {
+            key: "getLmsCapstoneID",
+            api: () => lmsAPI.getLmsId(id),
+            content : (data) => data?.lms?.lms_capstone?.content,
+            topic : (data) => {
+                return data.subjectList.topic
+            },
+            topicId : (data) => data?.lms?.lms_capstone?.id,
+        },
         "Material": {
             key: "getMaterialID",
             api: () => materialAPI.getMaterialID(id),

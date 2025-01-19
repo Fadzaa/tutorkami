@@ -4,6 +4,7 @@ import {useEffect, useState} from "react";
 import {useQuery} from "@tanstack/react-query";
 import {lmsAPI} from "@/api/lms.js";
 import {ListLmsCapstoneContent} from "@/components/content/ListLmsCapstoneContent.jsx";
+import {ChatBotSidebar} from "@/components/sidebar/ChatBotSidebar.jsx";
 
 export function DetailLmsCapstonePage() {
     const {id} = useParams();
@@ -25,6 +26,7 @@ export function DetailLmsCapstonePage() {
 
     useEffect(() => {
         if (data !== undefined) {
+            console.log(data)
             setTotal(0);
             setCompleted(0);
             data?.lms.topic.map((item) => {
@@ -39,9 +41,7 @@ export function DetailLmsCapstonePage() {
         <div className="h-[90vh] overflow-hidden flex">
             <LMSSidebarDetail id={id} handle={handleChange} subTopicId={0} completed={completed} data={data?.lms} isLoading={isLoading} total={total}/>
             <ListLmsCapstoneContent data={data?.lms}/>
-            {/*{*/}
-            {/*    dataPick && <ChatBotSidebar id={0} type={"Lms"} dataExist={dataPick}/>*/}
-            {/*}*/}
+             <ChatBotSidebar id={id} type={"Capstone"}/>
         </div>
 
 

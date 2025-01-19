@@ -62,24 +62,24 @@ export function ListSidebarCard({
                     <div className={'flex justify-between'}>
                         <p className="text-xl lg:text-sm font-medium ">{subject}</p>
 
-                        {/*<DeleteDropdown/>*/}
+                        <DeleteDropdown/>
                     </div>
 
                     <h1 className="text-base lg:text-xl font-semibold">{topic}</h1>
                 </section>
 
                 <section className={cn("flex justify-between items-center",)}>
-                    {/*<p className="font-light lg:text-[10px]">{isSolved ? "Solved" : desc}</p>*/}
-                    <p className="font-light lg:text-[10px]">{desc}</p>
+                    <p className="font-light lg:text-sm">{desc}</p>
+                    <p className="font-bold lg:text-">{type === "Question" ? "Solved" : ""}</p>
 
                     {/*<p>{date}</p>*/}
                     {type === "Roadmap" && (
                         <ProgressCircle
-                            width={"w-6 lg:w-8"}
-                            height={"h-6 lg:h-8"}
+                            width={"w-6 lg:w-11"}
+                            height={"h-6 lg:h-11"}
                             progress={totalSolve / length * 100}
-                            textProgress={`${totalSolve} /  ${length}`}
-                            text={"text-[5px] lg:text-[6px]"}
+                            textProgress={`${totalSolve === length ? "Done" : `${totalSolve} /  ${length}`}`}
+                            text={"text-[5px] lg:text-[8px]"}
                         />
                     )}
 
@@ -97,12 +97,6 @@ export function ListSidebarCard({
 
                     )}
 
-
-                    {type === "Question" && (
-                        <p>{questionType}</p>
-                    )
-
-                    }
                 </section>
 
 

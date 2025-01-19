@@ -196,6 +196,11 @@
   "explanation_short_answer_desc2": "Allows learners to express understanding in their own words.",
   "explanation_short_answer_desc3": "Ideal for exploring nuanced concepts and detailed reasoning.",
 
+  "explanation_mixed_question": "Combines various formats for a comprehensive assessment.",
+  "explanation_mixed_question_desc1": "Integrates multiple-choice, fill-in-the-blank, true/false, and short-answer questions into one set.\n",
+  "explanation_mixed_question_desc2": "Provides a diverse evaluation method, catering to different learning styles.",
+  "explanation_mixed_question_desc3": "Ideal for broadening understanding and testing knowledge from multiple angles.",
+
   "explanation_beginner_difficulty": "Designed for foundational learning and early-stage exploration.",
   "explanation_beginner_difficulty_desc1": "Includes straightforward questions with basic concepts.",
   "explanation_beginner_difficulty_desc2": "Perfect for users new to a subject or building confidence in their knowledge.",

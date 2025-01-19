@@ -172,6 +172,14 @@ export function CreateQuestionPage() {
                 t('explanation_short_answer_desc2'),
                 t('explanation_short_answer_desc3')
             ]
+        },
+        "Mixed": {
+            "header": t('explanation_mixed_question'),
+            "descriptions": [
+                t('explanation_mixed_question_desc1'),
+                t('explanation_mixed_question_desc2'),
+                t('explanation_mixed_question_desc3')
+            ]
         }
     }
 
@@ -226,10 +234,13 @@ export function CreateQuestionPage() {
             "value": "Fill-in-the-Blank",
             "label": "Fill-in-the-Blank"
         },
-
         {
             "value": "Short Answer",
             "label": "Short Answer"
+        },
+        {
+            "value": "Mixed",
+            "label": "Mixed"
         }
     ]
 

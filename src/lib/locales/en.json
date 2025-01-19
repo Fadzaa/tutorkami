@@ -64,5 +64,189 @@
   "initial_head_roadmap": "Build Your Learning Roadmap!",
   "initial_desc_roadmap": "Get started by creating a personalized roadmap. Choose your topics, set your pace, and let's chart your path to success!",
   "initial_head_lms": "Let’s Dive Into Learning!",
-  "initial_desc_lms": "Set up your learning preferences, and we'll help you generate courses and manage your progress. Ready to start your learning journey?"
+  "initial_desc_lms": "Set up your learning preferences, and we'll help you generate courses and manage your progress. Ready to start your learning journey?",
+
+  "create_subject_head": "What subject do you want to focus on?",
+  "create_subject_desc": "This will help us categorize and organize your study materials for easier filtering and access later.",
+
+  "create_topic_head": "What topic do you want to learn?",
+  "create_topic_desc": "We’ll tailor the roadmap content specifically for this topic to ensure it matches your learning objectives.",
+
+  "create_proficiency_head": "How well do you know this topic?",
+  "create_proficiency_desc": "We need to understand you current situation to make sure you fit the learning path efficiently.",
+
+  "create_goals_head": "What do you want to achieve?",
+  "create_goals_desc": "We will try to match your goals to build the perfect roadmap for you.",
+
+  "create_total_question_head": "How many questions do you want to include?",
+  "create_total_question_desc": "Specify the total number of questions you want in your list. We will generate the exact amount based on your preference.",
+
+  "create_question_type_head": "What type of questions do you prefer?",
+  "create_question_type_desc": "Choose the question format that best suits your study style, such as multiple-choice, true/false, or short-answer questions.",
+
+  "create_difficulty_head": "How do you want to set the difficulty level?",
+  "create_difficulty_desc": "Define how the difficulty of the questions should be structured to match your learning goals. Adjust the challenge level to suit your preferences and learning style.",
+
+  "create_timeline_head": "What is your preferred timeline for this study roadmap?",
+  "create_timeline_desc": "Set a timeline to customize the pacing of your study roadmap align with your schedule and learning goals.",
+
+  "create_audience_head": "Who is the intended audience for these questions?",
+  "create_audience_desc": "Define the target audience to tailor the content appropriately",
+
+  "create_timelimit_head": "Time Limit",
+  "create_timelimit_desc": " Decide whether to include a time constraint for answering the questions. A time limit can add a sense of urgency or simulate real test conditions.",
+
+  "create_inclanswers_head": "Include Answers",
+  "create_inclanswers_desc": "Tick this option to display correct answers after each question.",
+
+  "create_inclexplanation_head": "Include Explanations",
+  "create_inclexplanation_desc": "Enable this option to provide detailed explanations alongside the answers for better understanding.",
+
+  "create_format_material_head": "How should the material be presented?",
+  "create_format_material_desc": "Choose your preferred format, such as text, slides, or a Q&A style, for a customized learning experience.",
+
+  "create_detail_material_head": "How detailed should the content be?",
+  "create_detail_material_desc": "Decide between detailed explanations for in-depth learning or concise summaries for quick understanding.",
+
+  "create_lms_review_head": "How do you want to test your understanding?",
+  "create_lms_review_desc": "Choose between submitting a capstone project to demonstrate your skills or taking a quiz to reinforce your knowledge.",
+
+  "explanation_zero_knowledge": "I am starting from scratch.",
+  "explanation_zero_knowledge_desc1": "The content will include fundamental concepts and introductory materials.",
+  "explanation_zero_knowledge_desc2": "Assumes no prior exposure to the topic, providing a beginner-friendly approach.",
+
+  "explanation_basic_understanding": "I know a little about this topic.",
+  "explanation_basic_understanding_desc1": "Focuses on expanding your foundational knowledge.",
+  "explanation_basic_understanding_desc2": "Builds upon basic concepts to introduce intermediate ideas.",
+
+  "explanation_intermediate_knowledge": "I understand this topic fairly well.",
+  "explanation_intermediate_knowledge_desc1": "Provides advanced concepts and detailed examples to deepen understanding.",
+  "explanation_intermediate_knowledge_desc2": "Assumes familiarity with basic and some intermediate aspects of the topic.",
+
+  "explanation_expert_knowledge": "I am highly familiar with this topic.",
+  "explanation_expert_knowledge_desc1": "Offers in-depth analysis and advanced insights for mastery.",
+  "explanation_expert_knowledge_desc2": "Focuses on complex theories, real-world applications, and challenging material.",
+
+  "explanation_explain_myself": "I want to clarify my current knowledge.",
+  "explanation_explain_myself_desc1": "Allows you to provide detailed input about your familiarity with the topic.",
+  "explanation_explain_myself_desc2": "Ensures the material is precisely tailored to your specific needs.",
+
+  "explanation_basic_goals": "Designed to introduce fundamental concepts and terminology.",
+  "explanation_basic_goals_desc1": "Focuses on foundational knowledge to help you get started.",
+  "explanation_basic_goals_desc2": "Provides an overview of essential topics for understanding the subject.",
+  "explanation_basic_goals_desc3": "Ideal for beginners or those exploring a new area of interest.",
+
+  "explanation_subject_goals": "Aims for in-depth understanding and expertise.",
+  "explanation_subject_goals_desc1": "Includes detailed study materials and advanced concepts.",
+  "explanation_subject_goals_desc2": "Covers all aspects of the subject to achieve mastery.",
+  "explanation_subject_goals_desc3": "Best suited for users looking to specialize or gain professional-level skills.",
+
+  "explanation_exam_goals": "Tailored for achieving success in specific tests.",
+  "explanation_exam_goals_desc1": "Includes practice questions, mock exams, and time management strategies.",
+  "explanation_exam_goals_desc2": "Focuses on frequently tested topics and exam patterns.",
+  "explanation_exam_goals_desc3": "Perfect for students or professionals preparing for certifications or academic tests.",
+
+  "explanation_project_goals": "Encourages applying knowledge through practical tasks.",
+  "explanation_project_goals_desc1": "Includes step-by-step guides for building real-world projects.",
+  "explanation_project_goals_desc2": "Helps reinforce theoretical understanding by solving practical problems.",
+  "explanation_project_goals_desc3": "Ideal for learners who want hands-on experience and a portfolio.",
+
+  "explanation_general_goals": "Focused on broad and diverse learning.",
+  "explanation_general_goals_desc1": "Provides an overview of multiple topics without delving too deeply.",
+  "explanation_general_goals_desc2": "Encourages exploration and curiosity for lifelong learning.",
+  "explanation_general_goals_desc3": "Great for users who want to stay informed or learn for leisure.",
+
+  "explanation_no_timeline": "Flexible pacing without deadlines.",
+  "explanation_no_timeline_desc1": "Allows you to learn at your own speed without pressure.",
+  "explanation_no_timeline_desc2": "Perfect for users with unpredictable schedules or casual learners.",
+
+  "explanation_onethree_timeline": "A short-term intensive learning plan.",
+  "explanation_onethree_timeline_desc1": "Focused and fast-paced to achieve goals quickly.",
+  "explanation_onethree_timeline_desc2": "Ideal for learners with limited time or urgent deadlines.",
+
+  "explanation_threesix_timeline": "Balanced learning with moderate pacing.",
+  "explanation_threesix_timeline_desc1": "Provides sufficient time to delve into topics and practice.",
+  "explanation_threesix_timeline_desc2": "Suitable for building steady progress while balancing other commitments.",
+
+  "explanation_sixtwelve_timeline": "Long-term comprehensive study.",
+  "explanation_sixtwelve_timeline_desc1": "Covers in-depth material and includes regular assessments.",
+  "explanation_sixtwelve_timeline_desc2": "Best for learners with substantial goals or aiming for mastery.",
+
+  "explanation_twelvemore_timeline": "Extended learning for detailed exploration.",
+  "explanation_twelvemore_timeline_desc1": "Allows for a thorough understanding with no rush.",
+  "explanation_twelvemore_timeline_desc2": "Ideal for complex subjects, advanced learners, or those preparing for significant milestones.",
+
+  "explanation_mcq": "A versatile format ideal for broad knowledge assessment.",
+  "explanation_mcq_desc1": "Provides several options, with one correct answers to choose from.",
+  "explanation_mcq_desc2": "Great for testing knowledge across a range of topics efficiently.",
+  "explanation_mcq_desc3": "Useful for learners who prefer structured choices and defined answers.",
+
+  "explanation_fill_blank": "Tests the ability to recall specific information.",
+  "explanation_fill_blank_desc1": "Requires users to supply the missing word, phrase, or number.",
+  "explanation_fill_blank_desc2": "Helps improve memory retention and detail recognition.",
+  "explanation_fill_blank_desc3": "Suitable for reinforcing key facts and concepts.",
+
+  "explanation_truefalse": "Focused on evaluating understanding of factual statements.",
+  "explanation_truefalse_desc1": "Quick to answer and review, making it ideal for fast-paced quizzes.",
+  "explanation_truefalse_desc2": "Encourages critical thinking and clarity on fundamental truths.",
+  "explanation_truefalse_desc3": "Best for learners wanting to confirm foundational knowledge.",
+
+  "explanation_short_answer": "Tests deeper comprehension and articulation of ideas.",
+  "explanation_short_answer_desc1": "Requires concise written responses to open-ended questions.",
+  "explanation_short_answer_desc2": "Allows learners to express understanding in their own words.",
+  "explanation_short_answer_desc3": "Ideal for exploring nuanced concepts and detailed reasoning.",
+
+  "explanation_beginner_difficulty": "Designed for foundational learning and early-stage exploration.",
+  "explanation_beginner_difficulty_desc1": "Includes straightforward questions with basic concepts.",
+  "explanation_beginner_difficulty_desc2": "Perfect for users new to a subject or building confidence in their knowledge.",
+
+  "explanation_intermediate_difficulty": "Targets learners with some prior understanding.",
+  "explanation_intermediate_difficulty_desc1": "Features questions that require application of knowledge and reasoning.",
+  "explanation_intermediate_difficulty_desc2": "Best for users looking to deepen their subject mastery.",
+
+  "explanation_expert_difficulty": "Crafted for advanced learners seeking challenges.",
+  "explanation_expert_difficulty_desc1": "Focuses on intricate topics and critical thinking.",
+  "explanation_expert_difficulty_desc2": "Suitable for users aiming for specialization or professional-level expertise.",
+
+  "explanation_mixed_difficulty": "Combines beginner, intermediate, and expert-level questions for variety.",
+  "explanation_mixed_difficulty_desc1": "Offers a broad assessment across different difficulty levels.",
+  "explanation_mixed_difficulty_desc2": "Great for users seeking a comprehensive and diverse question set.",
+
+  "explanation_progressive_difficulty": "Gradually increases difficulty from easy to challenging.",
+  "explanation_progressive_difficulty_desc1": "Starts with foundational questions and advances to complex topics.",
+  "explanation_progressive_difficulty_desc2": "Ideal for learners aiming to build confidence and skills systematically.",
+
+  "explanation_mixed_format": "A combination of formats for variety.",
+  "explanation_mixed_format_desc1": "Includes text, bullet points, and Q&A for a diverse learning experience.",
+  "explanation_mixed_format_desc2": "Balances readability and depth across formats.",
+
+  "explanation_list_format": "Concise points for clarity.",
+  "explanation_list_format_desc1": "Organizes key information into easy-to-read bullet points.",
+  "explanation_list_format_desc2": "Ideal for quick reference and note-taking.",
+
+  "explanation_paragraph_format": "Detailed explanations in text format.",
+  "explanation_paragraph_format_desc1": "Presents information in cohesive, flowing paragraphs.",
+  "explanation_paragraph_format_desc2": "Suitable for comprehensive reading and deep understanding.",
+
+  "explanation_custom_format": " Personalized to your preferences.",
+  "explanation_custom_format_desc1": "Allows you to specify your preferred format or combination of formats.",
+  "explanation_custom_format_desc2": "Ensures the content presentation aligns with your unique learning style.",
+
+  "explanation_content_detailed": "Comprehensive and thorough explanations.",
+  "explanation_content_detailed_desc1": "Provides in-depth exploration of topics with examples and detailed context.",
+  "explanation_content_detailed_desc2": "Suitable for learners aiming for mastery or tackling complex subjects.",
+
+  "explanation_content_concise": "Short and to the point.",
+  "explanation_content_concise_desc1": "Focuses on the core ideas without unnecessary elaboration.",
+  "explanation_content_concise_desc2": "Perfect for quick study sessions or refreshing knowledge.",
+
+  "explanation_quiz_review": "Strengthen theoretical knowledge and exam readiness",
+  "explanation_quiz_review_desc1": "Covers all materials from the LMS for comprehensive assessment.",
+  "explanation_quiz_review_desc2": "Includes a time limit to simulate real exam conditions.",
+  "explanation_quiz_review_desc3": "Contains approximately 40 questions to evaluate understanding and retention.",
+
+  "explanation_capstone_review": "Develop practical skills through hands-on application",
+  "explanation_capstone_review_desc1": "Requires applying the theories and skills learned to create a meaningful project.",
+  "explanation_capstone_review_desc2": "Provides step-by-step instructions to guide you through the process.",
+  "explanation_capstone_review_desc3": "Focuses on practical implementation to deepen your understanding and real-world problem-solving skills."
 }

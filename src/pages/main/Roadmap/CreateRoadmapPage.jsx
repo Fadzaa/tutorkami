@@ -26,6 +26,10 @@ import {useTranslation} from "react-i18next";
 import {CommonFormItem} from "@/components/form/CommonFormItem.jsx";
 import {CommonSelectItem} from "@/components/form/CommonSelectItem.jsx";
 import {useState} from "react";
+import AsyncCreatableSelect from "react-select/async-creatable";
+import debounce from "lodash.debounce";
+import {suggestionAPI} from "@/api/suggestion.js";
+import {CommonSuggestionItem} from "@/components/form/CommonSuggestionItem.jsx";
 
 const FormSchema = z.object({
     subject: z
@@ -49,7 +53,6 @@ export function CreateRoadmapPage() {
     const form = useForm({
         resolver: zodResolver(FormSchema), mode: "all",
     })
-
 
     const navigate = useNavigate()
 
@@ -83,6 +86,14 @@ export function CreateRoadmapPage() {
     const onSubmit = (data) => {
         mutate({...data, language: langHandler.get() === "id" ? "Indonesian" : "English"})
     }
+
+    const handleChange = (field, value) => field.onChange(value?.value)
+
+    const promiseOptions = (inputValue, callback) => {
+        suggestionAPI.getUniversalSuggestion(inputValue, callback)
+    }
+
+    const loadSuggestions = debounce(promiseOptions, 1000)
 
     const explanationProficiencyUser = {
         "Zero Knowledge": {
@@ -274,28 +285,23 @@ export function CreateRoadmapPage() {
                                     />
                                 )}
                             />
+
                             <FormField
                                 control={form.control}
                                 name="topic"
+
                                 render={({field}) => (
-                                    <CommonFormItem
+                                    <CommonSuggestionItem
                                         field={field}
                                         label={t("create_topic_head")}
                                         description={t("create_topic_desc")}
                                         placeholder={"Add topic you want to focus on"}
-                                        suggestion={
-                                            [
-                                                "Math",
-                                                "Biology",
-                                                "English",
-                                                "History",
-                                                "Programming"
-                                            ]
-                                        }
+                                        handleChange={(value) => handleChange(field, value)}
+                                        loadSuggestions={loadSuggestions}
                                     />
-
                                 )}
                             />
+
                             <FormField
                                 control={form.control}
                                 name="proficiency_level"

@@ -86,20 +86,18 @@ const GenerateMaterialModal = ({subject, topic}) => {
     }
 
     const optionFormat = [
-        "Mixed",
-        "Bullet List",
-        "Paragraph",
-        "Custom"
-    ]
+        { value: "Mixed", label: "Mixed" },
+        { value: "List", label: "Bullet List" },
+        { value: "Paragraph", label: "Paragraph" },
+        { value: "Short Description", label: "Short Description" },
+        { value: "Custom", label: "Custom" }
+    ];
+
 
     const optionDetailed = [
-        "Detailed",
-        "Concise",
-
-    ]
-
-
-
+        { value: "Detailed", label: "Detailed" },
+        { value: "Concise", label: "Concise" }
+    ];
 
     return (
         <Form {...form}>
@@ -125,9 +123,10 @@ const GenerateMaterialModal = ({subject, topic}) => {
                                         field={field}
                                         label={t("create_format_material_head")}
                                         description={t("create_format_material_desc")}
-                                        placeholder={optionFormat[0]}
+                                        placeholder={optionFormat[0].label}
                                         explanation={null}
                                         options={optionFormat}
+                                        value={optionFormat[0].value}
                                     />
 
                                 )}
@@ -140,9 +139,10 @@ const GenerateMaterialModal = ({subject, topic}) => {
                                         field={field}
                                         label={t("create_detail_material_head")}
                                         description={t("create_detail_material_desc")}
-                                        placeholder={optionDetailed[0]}
+                                        placeholder={optionDetailed[0].label}
                                         explanation={null}
                                         options={optionDetailed}
+                                        value={optionDetailed[0].value}
                                     />
 
                                 )}

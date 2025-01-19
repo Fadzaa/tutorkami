@@ -36,7 +36,6 @@ export function ListMaterialContent({id}) {
         refetchOnWindowFocus: false,
     });
 
-    console.log(data)
 
     const {mutate, isPending,} = useMutation({
         mutationKey: ["updateMaterial"],
@@ -206,7 +205,7 @@ export function ListMaterialContent({id}) {
                                 <Loading/> : "Regenerate"}</Button>
                         </div>
                         <Suspense>
-                            <GenerateQuizModal subject={data?.subject_list.subject} topic={data?.subject_list.topic}/>
+                            <GenerateQuizModal subject={data?.data.subject_list.subject} topic={data?.data.subject_list.topic}/>
                             <MaterialModal regenerate={regenerate} regenerateLoading={regenerateLoading}/>
                         </Suspense>
                     </>

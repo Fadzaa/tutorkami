@@ -29,6 +29,7 @@ import {useEffect, useState} from "react";
 import {CommonFormItem} from "@/components/form/CommonFormItem.jsx";
 import {CommonSelectItem} from "@/components/form/CommonSelectItem.jsx";
 import {useTranslation} from "react-i18next";
+import {CommonSuggestionItem} from "@/components/form/CommonSuggestionItem.jsx";
 
 const FormSchema = z.object({
     subject: z
@@ -63,12 +64,6 @@ export function CreateQuestionPage() {
     const {toast} = useToast()
     const navigate = useNavigate()
 
-    const promiseOptions = (inputValue, callback) => {
-        suggestionAPI.getUniversalSuggestion(inputValue, callback)
-    }
-
-    const loadSuggestions = debounce(promiseOptions, 1000)
-
     const {mutate, isPending,} = useMutation({
         mutationKey: ["postQuestion"],
         mutationFn: async (body) => await questionAPI.postQuestion(body),
@@ -98,6 +93,14 @@ export function CreateQuestionPage() {
             language: langHandler.get() === "id" ? "Indonesian" : "English",
         })
     }
+
+    const handleChange = (field, value) => field.onChange(value?.value)
+
+    const promiseOptions = (inputValue, callback) => {
+        suggestionAPI.getUniversalSuggestion(inputValue, callback)
+    }
+
+    const loadSuggestions = debounce(promiseOptions, 1000)
 
     const explanationAudience = {
         "General": {
@@ -136,6 +139,99 @@ export function CreateQuestionPage() {
             ]
         }
     }
+
+    const explanationQuestionType = {
+        "Multiple Choice": {
+            "header": t('explanation_mcq'),
+            "descriptions": [
+                t('explanation_mcq_desc1'),
+                t('explanation_mcq_desc2'),
+                t('explanation_mcq_desc3')
+            ]
+        },
+        "Fill-in-the-Blank": {
+            "header": t('explanation_fill_blank'),
+            "descriptions": [
+                t('explanation_fill_blank_desc1'),
+                t('explanation_fill_blank_desc2'),
+                t('explanation_fill_blank_desc3')
+            ]
+        },
+        "True/False": {
+            "header": t('explanation_truefalse'),
+            "descriptions": [
+                t('explanation_truefalse_desc1'),
+                t('explanation_truefalse_desc2'),
+                t('explanation_truefalse_desc3')
+            ]
+        },
+        "Short Answer": {
+            "header": t('explanation_short_answer'),
+            "descriptions": [
+                t('explanation_short_answer_desc1'),
+                t('explanation_short_answer_desc2'),
+                t('explanation_short_answer_desc3')
+            ]
+        }
+    }
+
+    const explanationDifficulty = {
+        "Mixed": {
+            "header": t('explanation_mixed_difficulty'),
+            "descriptions": [
+                t('explanation_mixed_difficulty_desc1'),
+                t('explanation_mixed_difficulty_desc2')
+            ]
+        },
+        "Progressive": {
+            "header": t('explanation_progressive_difficulty'),
+            "descriptions": [
+                t('explanation_progressive_difficulty_desc1'),
+                t('explanation_progressive_difficulty_desc2')
+            ]
+        },
+        "Beginner": {
+            "header": t('explanation_beginner_difficulty'),
+            "descriptions": [
+                t('explanation_beginner_difficulty_desc1'),
+                t('explanation_beginner_difficulty_desc2')
+            ]
+        },
+        "Intermediate": {
+            "header": t('explanation_intermediate_difficulty'),
+            "descriptions": [
+                t('explanation_intermediate_difficulty_desc1'),
+                t('explanation_intermediate_difficulty_desc2')
+            ]
+        },
+        "Expert": {
+            "header": t('explanation_expert_difficulty'),
+            "descriptions": [
+                t('explanation_expert_difficulty_desc1'),
+                t('explanation_expert_difficulty_desc2')
+            ]
+        }
+    }
+
+    const optionQuestionType = [
+        {
+            "value": "Multiple Choice",
+            "label": "Multiple Choice"
+        },
+        {
+            "value": "True/False",
+            "label": "True/False"
+        },
+        {
+            "value": "Fill-in-the-Blank",
+            "label": "Fill-in-the-Blank"
+        },
+
+        {
+            "value": "Short Answer",
+            "label": "Short Answer"
+        }
+    ]
 
     const optionAudience = [
         {
@@ -178,99 +274,6 @@ export function CreateQuestionPage() {
             "label": "30"
         }
     ]
-
-    const explanationQuestionType = {
-        "Multiple Choice": {
-            "header": t('explanation_mcq'),
-            "descriptions": [
-                t('explanation_mcq_desc1'),
-                t('explanation_mcq_desc2'),
-                t('explanation_mcq_desc3')
-            ]
-        },
-        "Fill-in-the-Blank": {
-            "header": t('explanation_fill_blank'),
-            "descriptions": [
-                t('explanation_fill_blank_desc1'),
-                t('explanation_fill_blank_desc2'),
-                t('explanation_fill_blank_desc3')
-            ]
-        },
-        "True/False": {
-            "header": t('explanation_truefalse'),
-            "descriptions": [
-                t('explanation_truefalse_desc1'),
-                t('explanation_truefalse_desc2'),
-                t('explanation_truefalse_desc3')
-            ]
-        },
-        "Short Answer": {
-            "header": t('explanation_short_answer'),
-            "descriptions": [
-                t('explanation_short_answer_desc1'),
-                t('explanation_short_answer_desc2'),
-                t('explanation_short_answer_desc3')
-            ]
-        }
-    }
-
-    const optionQuestionType = [
-        {
-            "value": "Multiple Choice",
-            "label": "Multiple Choice"
-        },
-        {
-            "value": "True/False",
-            "label": "True/False"
-        },
-        {
-            "value": "Fill-in-the-Blank",
-            "label": "Fill-in-the-Blank"
-        },
-
-        {
-            "value": "Short Answer",
-            "label": "Short Answer"
-        }
-    ]
-
-    const explanationDifficulty = {
-        "Mixed": {
-            "header": t('explanation_mixed_difficulty'),
-            "descriptions": [
-                t('explanation_mixed_difficulty_desc1'),
-                t('explanation_mixed_difficulty_desc2')
-            ]
-        },
-        "Progressive": {
-            "header": t('explanation_progressive_difficulty'),
-            "descriptions": [
-                t('explanation_progressive_difficulty_desc1'),
-                t('explanation_progressive_difficulty_desc2')
-            ]
-        },
-        "Beginner": {
-            "header": t('explanation_beginner_difficulty'),
-            "descriptions": [
-                t('explanation_beginner_difficulty_desc1'),
-                t('explanation_beginner_difficulty_desc2')
-            ]
-        },
-        "Intermediate": {
-            "header": t('explanation_intermediate_difficulty'),
-            "descriptions": [
-                t('explanation_intermediate_difficulty_desc1'),
-                t('explanation_intermediate_difficulty_desc2')
-            ]
-        },
-        "Expert": {
-            "header": t('explanation_expert_difficulty'),
-            "descriptions": [
-                t('explanation_expert_difficulty_desc1'),
-                t('explanation_expert_difficulty_desc2')
-            ]
-        }
-    }
 
     const optionDifficulty = [
         {
@@ -377,25 +380,19 @@ export function CreateQuestionPage() {
                             <FormField
                                 control={form.control}
                                 name="topic"
+
                                 render={({field}) => (
-                                    <CommonFormItem
+                                    <CommonSuggestionItem
                                         field={field}
                                         label={t("create_topic_head")}
                                         description={t("create_topic_desc")}
                                         placeholder={"Add topic you want to focus on"}
-                                        suggestion={
-                                            [
-                                                "Math",
-                                                "Biology",
-                                                "English",
-                                                "History",
-                                                "Programming"
-                                            ]
-                                        }
+                                        handleChange={(value) => handleChange(field, value)}
+                                        loadSuggestions={loadSuggestions}
                                     />
-
                                 )}
                             />
+
                             <FormField
                                 control={form.control}
                                 name="target_audience"

@@ -46,7 +46,8 @@ export function ListLmsCapstoneContent({data}) {
                                 plugins={[
                                     "autoresize"
                                 ]}
-                                init={{toolbar: false, menubar: false,
+                                init={{
+                                    toolbar: false, menubar: false,
                                     resize: false,
                                     readonly: true,
                                     statusbar : false,

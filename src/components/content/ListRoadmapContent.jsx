@@ -3,7 +3,6 @@ import {Suspense, useEffect, useState} from "react";
 import {useMutation, useQuery} from "@tanstack/react-query";
 import {SheetContent, SheetDescription, SheetHeader, Sheet, SheetTitle, SheetTrigger} from "@/components/ui/sheet.jsx";
 import {HeaderContent} from "@/components/ui/header-content.jsx";
-import {FooterContent} from "@/components/ui/footer-content.jsx";
 import check from "/public/check.svg";
 import add from "/public/add.svg";
 import checked from "/public/checked.svg";
@@ -159,12 +158,6 @@ export function ListRoadmapContent({id}) {
         regenerate({
             ...dataRegeneration,
         })
-
-
-        console.log(dataRegeneration)
-
-
-
     }
 
     return (

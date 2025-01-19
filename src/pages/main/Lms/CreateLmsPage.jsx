@@ -19,6 +19,9 @@ import {useTranslation} from "react-i18next";
 import {useState} from "react";
 import {CommonFormItem} from "@/components/form/CommonFormItem.jsx";
 import {CommonSelectItem} from "@/components/form/CommonSelectItem.jsx";
+import {CommonSuggestionItem} from "@/components/form/CommonSuggestionItem.jsx";
+import {suggestionAPI} from "@/api/suggestion.js";
+import debounce from "lodash.debounce";
 
 
 const FormSchema = z.object({
@@ -60,6 +63,14 @@ export function CreateLmsPage() {
         }, () => navigate("/tools/generative-lms/"))
     };
 
+    const handleChange = (field, value) => field.onChange(value?.value)
+
+    const promiseOptions = (inputValue, callback) => {
+        suggestionAPI.getUniversalSuggestion(inputValue, callback)
+    }
+
+    const loadSuggestions = debounce(promiseOptions, 1000)
+
     const explanationFinalReview = {
         "Practical-Quiz": {
             header: t('explanation_quiz_review'),
@@ -95,7 +106,7 @@ export function CreateLmsPage() {
 
 
     return (
-        <div className="h-[90vh] overflow-auto flex">
+        <div className="h-[90vh] overflow-hidden flex">
             <LMSSidebar/>
 
             <ContentDistance className={"relative flex-1"}>
@@ -132,23 +143,16 @@ export function CreateLmsPage() {
                         <FormField
                             control={form.control}
                             name="topic"
+
                             render={({field}) => (
-                                <CommonFormItem
+                                <CommonSuggestionItem
                                     field={field}
                                     label={t("create_topic_head")}
                                     description={t("create_topic_desc")}
                                     placeholder={"Add topic you want to focus on"}
-                                    suggestion={
-                                        [
-                                            "Math",
-                                            "Biology",
-                                            "English",
-                                            "History",
-                                            "Programming"
-                                        ]
-                                    }
+                                    handleChange={(value) => handleChange(field, value)}
+                                    loadSuggestions={loadSuggestions}
                                 />
-
                             )}
                         />
                         <FormField

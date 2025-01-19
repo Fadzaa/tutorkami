@@ -25,6 +25,7 @@ import {CommonFormItem} from "@/components/form/CommonFormItem.jsx";
 import {CommonSelectItem} from "@/components/form/CommonSelectItem.jsx";
 import {useTranslation} from "react-i18next";
 import {useState} from "react";
+import {CommonSuggestionItem} from "@/components/form/CommonSuggestionItem.jsx";
 
 const FormSchema = z.object({
     subject: z
@@ -52,11 +53,6 @@ export function CreateMaterialPage() {
         resolver: zodResolver(FormSchema), mode: "all",
     })
 
-    const promiseOptions = (inputValue, callback) => {
-        suggestionAPI.getUniversalSuggestion(inputValue, callback)
-    }
-
-    const loadSuggestions = debounce(promiseOptions, 1000)
 
     const {mutate, isPending,} = useMutation({
         mutationFn: async (body) => await materialAPI.postMaterial(body),
@@ -88,6 +84,12 @@ export function CreateMaterialPage() {
 
     const handleChange = (field, value) => field.onChange(value?.value)
 
+    const promiseOptions = (inputValue, callback) => {
+        suggestionAPI.getUniversalSuggestion(inputValue, callback)
+    }
+
+    const loadSuggestions = debounce(promiseOptions, 1000)
+
     const explanationFormat = {
         "Mixed": {
             header: t('explanation_mixed_format'),
@@ -118,7 +120,6 @@ export function CreateMaterialPage() {
             ]
         }
     };
-
 
     const explanationDetailed = {
         Detailed: {
@@ -244,23 +245,16 @@ export function CreateMaterialPage() {
                             <FormField
                                 control={form.control}
                                 name="topic"
+
                                 render={({field}) => (
-                                    <CommonFormItem
+                                    <CommonSuggestionItem
                                         field={field}
                                         label={t("create_topic_head")}
                                         description={t("create_topic_desc")}
                                         placeholder={"Add topic you want to focus on"}
-                                        suggestion={
-                                            [
-                                                "Math",
-                                                "Biology",
-                                                "English",
-                                                "History",
-                                                "Programming"
-                                            ]
-                                        }
+                                        handleChange={(value) => handleChange(field, value)}
+                                        loadSuggestions={loadSuggestions}
                                     />
-
                                 )}
                             />
                             <FormField

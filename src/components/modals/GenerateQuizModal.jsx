@@ -50,7 +50,7 @@ const GenerateQuizModal = ({subject, topic}) => {
 
     const navigate = useNavigate();
 
-    const [step, setStep] = useState(STEPS.SECOND);
+    const [step, setStep] = useState(STEPS.FIRST);
 
     const form = useForm({
         resolver: zodResolver(FormSchema), mode: "all",
@@ -99,50 +99,125 @@ const GenerateQuizModal = ({subject, topic}) => {
         )
     }
 
+    const optionQuestionType = [
+        {
+            "value": "Multiple Choice",
+            "label": "Multiple Choice"
+        },
+        {
+            "value": "True/False",
+            "label": "True/False"
+        },
+        {
+            "value": "Fill-in-the-Blank",
+            "label": "Fill-in-the-Blank"
+        },
+
+        {
+            "value": "Short Answer",
+            "label": "Short Answer"
+        }
+    ]
 
     const optionAudience = [
-        "General",
-        "High School",
-        "College",
-        "Undergraduate",
-        "Professional",
+        {
+            "value": "General",
+            "label": "General"
+        },
+        {
+            "value": "High School",
+            "label": "High School"
+        },
+        {
+            "value": "College Student",
+            "label": "College"
+        },
+        {
+            "value": "Undergraduate",
+            "label": "Undergraduate"
+        },
+        {
+            "value": "Professional",
+            "label": "Professional"
+        }
     ]
 
     const optionTotalQuestion = [
-        "5",
-        "10",
-        "15",
-        "30"
-    ]
-
-    const optionQuestionType = [
-        "Multiple Choice",
-        "True/False",
-        "Fill-in-the-Blank",
-        "Short Answer"
+        {
+            "value": "5",
+            "label": "5"
+        },
+        {
+            "value": "10",
+            "label": "10"
+        },
+        {
+            "value": "15",
+            "label": "15"
+        },
+        {
+            "value": "30",
+            "label": "30"
+        }
     ]
 
     const optionDifficulty = [
-        "Mixed",
-        "Progressive",
-        "Beginner",
-        "Intermediate",
-        "Expert",
+        {
+            "value": "Mixed",
+            "label": "Mixed"
+        },
+        {
+            "value": "Progressive",
+            "label": "Progressive"
+        },
+        {
+            "value": "Beginner",
+            "label": "Beginner"
+        },
+        {
+            "value": "Intermediate",
+            "label": "Intermediate"
+        },
+        {
+            "value": "Expert",
+            "label": "Expert"
+        }
     ]
 
     const optionTimeLimit = [
-        "0",
-        "15",
-        "30",
-        "45",
-        "Custom"
+        {
+            "value": "0",
+            "label": "No Time Limit"
+        },
+        {
+            "value": "5",
+            "label": "5 Minutes"
+        },
+        {
+            "value": "10",
+            "label": "10 Minutes"
+        },
+        {
+            "value": "15",
+            "label": "15 Minutes"
+        },
+        {
+            "value": "30",
+            "label": "30 Minutes"
+        }
     ]
 
     const optionIncludes = [
-        "Yes",
-        "No"
-    ]
+        {
+            "value": "Yes",
+            "label": "Yes"
+        },
+        {
+            "value": "No",
+            "label": "No"
+        },
 
+    ]
 
 
     return (
@@ -170,9 +245,10 @@ const GenerateQuizModal = ({subject, topic}) => {
                                             field={field}
                                             label={t("create_audience_head")}
                                             description={t("create_audience_desc")}
-                                            placeholder={optionAudience[0]}
+                                            placeholder={optionAudience[0].label}
                                             explanation={null}
                                             options={optionAudience}
+                                            value={optionAudience[0].value}
                                         />
 
                                     )}
@@ -186,9 +262,10 @@ const GenerateQuizModal = ({subject, topic}) => {
                                             field={field}
                                             label={t("create_total_question_head")}
                                             description={t("create_total_question_desc")}
-                                            placeholder={optionTotalQuestion[0]}
+                                            placeholder={optionTotalQuestion[0].label}
                                             explanation={null}
                                             options={optionTotalQuestion}
+                                            value={optionTotalQuestion[0].value}
                                         />
 
                                     )}
@@ -201,9 +278,11 @@ const GenerateQuizModal = ({subject, topic}) => {
                                             field={field}
                                             label={t("create_question_type_head")}
                                             description={t("create_question_type_desc")}
-                                            placeholder={optionQuestionType[0]}
+                                            placeholder={optionQuestionType[0].label}
                                             explanation={null}
                                             options={optionQuestionType}
+                                            value={optionQuestionType[0].value}
+
                                         />
 
                                     )}
@@ -216,9 +295,10 @@ const GenerateQuizModal = ({subject, topic}) => {
                                             field={field}
                                             label={t("create_difficulty_head")}
                                             description={t("create_difficulty_desc")}
-                                            placeholder={optionDifficulty[0]}
+                                            placeholder={optionDifficulty[0].label}
                                             explanation={null}
                                             options={optionDifficulty}
+                                            value={optionDifficulty[0].value}
                                         />
 
                                     )}

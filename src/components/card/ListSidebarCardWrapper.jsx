@@ -17,16 +17,74 @@ export function ListSidebarCardWrapper ({ item, type, userTimeZone }) {
         }
     }
 
-    return (
-        <ListSidebarCard
-            title={item.subject}
-            key={item.id}
-            id={item.id}
-            date={formatInTimeZone(new Date(item.date), userTimeZone, "yyyy-MM-dd")}
-            type={item.type}
-            desc={desc().toString()}
-            isSolved={item.is_solved || item.solved}
-            subId={type === "lms" ? item.subject_detail_lms.lms.topic[0]?.sub_topic[0]?.id : undefined}
-        />
-    );
-};
+
+    if (type === "lms") {
+        return (
+            <ListSidebarCard
+                key={item.id}
+                subject={item.subject}
+                topic={item.topic}
+                id={item.id}
+                date={format(item.date, "Y-M-dd")}
+                type={item.type}
+                subId={item.subject_detail_lms.lms.topic[0].sub_topic[0].id}
+                desc={`${item.subject_detail_lms.difficulty} • ${item.subject_detail_lms.activity_type}`}
+                totalSolve={item.subject_detail_lms.lms.topic.map((item) => item.sub_topic.filter((sub) => sub.solved === true).length)}
+                length={item.subject_detail_lms.lms.topic.map((item) => item.sub_topic.length)}
+            />
+        );
+    }
+
+    if (type === "study") {
+        return (
+            <ListSidebarCard
+                key={item}
+                title={item.subject}
+                topic={item.topic}
+                subject={item.subject}
+                id={item.id}
+                date={format(item.date, "Y-M-dd")}
+                type={item.type}
+                desc={`${item.output_format} • ${item.proficiency_level} • ${item.style_customization} • `}
+            />
+        );
+    }
+
+    if (type === "roadmap") {
+        return (
+            <ListSidebarCard
+                key={item}
+                id={item.id}
+                title={item.topic}
+                topic={item.topic}
+                type={item.type}
+                subject={item.subject}
+                isSolved={item.is_solved}
+                date={format(item.date, "Y-M-dd")}
+                desc={`${item.subject_detail_roadmap.user_proficiency_level} • ${item.subject_detail_roadmap.proficiency_level} • ${item.subject_detail_roadmap.timeline}`}
+                totalSolve={item.subject_detail_roadmap.roadmap.filter((item) => item.solved === 1).length}
+                length={item.subject_detail_roadmap.roadmap.length}
+            />
+        );
+    }
+
+    if (type === "question") {
+        return (
+            <ListSidebarCard
+                key={item}
+                id={item.id}
+                title={item.subject}
+                type={item.type}
+                isSolved={item.is_solved}
+                date={format(item.date, "Y-M-dd")}
+                desc={`${item.total} Questions • ${item.question_difficulty}`}
+                subject={item.subject}
+                topic={item.topic}
+                questionType={item.questions[0]?.type || ""}
+            />
+        );
+    }
+
+
+}
+

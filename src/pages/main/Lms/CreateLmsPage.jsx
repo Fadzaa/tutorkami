@@ -102,125 +102,92 @@ export function CreateLmsPage() {
 
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-                        <div className={`${step === 1 ? "flex flex-col gap-8" : "hidden"}`}>
-                            <FormField
-                                control={form.control}
-                                name="subject"
-                                render={({field}) => (
-                                    <CommonFormItem
-                                        field={field}
-                                        label={t("create_subject_head")}
-                                        description={t("create_subject_desc")}
-                                        placeholder={"Add subject you want to focus on"}
-                                        suggestion={
-                                            [
-                                                "Math",
-                                                "Biology",
-                                                "English",
-                                                "History",
-                                                "Programming"
-                                            ]
-                                        }
-                                    />
-                                )}
-                            />
-                            <FormField
-                                control={form.control}
-                                name="topic"
-                                render={({field}) => (
-                                    <CommonFormItem
-                                        field={field}
-                                        label={t("create_topic_head")}
-                                        description={t("create_topic_desc")}
-                                        placeholder={"Add topic you want to focus on"}
-                                        suggestion={
-                                            [
-                                                "Math",
-                                                "Biology",
-                                                "English",
-                                                "History",
-                                                "Programming"
-                                            ]
-                                        }
-                                    />
+                        <FormField
+                            control={form.control}
+                            name="subject"
+                            render={({field}) => (
+                                <CommonFormItem
+                                    field={field}
+                                    label={t("create_subject_head")}
+                                    description={t("create_subject_desc")}
+                                    placeholder={"Add subject you want to focus on"}
+                                    suggestion={
+                                        [
+                                            "Math",
+                                            "Biology",
+                                            "English",
+                                            "History",
+                                            "Programming"
+                                        ]
+                                    }
+                                />
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="topic"
+                            render={({field}) => (
+                                <CommonFormItem
+                                    field={field}
+                                    label={t("create_topic_head")}
+                                    description={t("create_topic_desc")}
+                                    placeholder={"Add topic you want to focus on"}
+                                    suggestion={
+                                        [
+                                            "Math",
+                                            "Biology",
+                                            "English",
+                                            "History",
+                                            "Programming"
+                                        ]
+                                    }
+                                />
 
-                                )}
-                            />
-                            <FormField
-                                control={form.control}
-                                name="activity_type"
-                                render={({field}) => (
-                                    <CommonSelectItem
-                                        field={field}
-                                        label={t("create_audience_head")}
-                                        description={t("create_audience_desc")}
-                                        placeholder={optionFinalReview[0]}
-                                        explanation={explanationFinalReview}
-                                        options={optionFinalReview}
-                                    />
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="activity_type"
+                            render={({field}) => (
+                                <CommonSelectItem
+                                    field={field}
+                                    label={t("create_audience_head")}
+                                    description={t("create_audience_desc")}
+                                    placeholder={optionFinalReview[0]}
+                                    explanation={explanationFinalReview}
+                                    options={optionFinalReview}
+                                />
 
-                                )}
-                            />
-                            <FormField
-                                control={form.control}
-                                name="long_loading"
-                                render={({field}) => (<FormItem>
-                                    <FormLabel>Do you prefer long loading for generate all content ?</FormLabel>
-                                    <Select onValueChange={(value) => field.onChange(value === "true")}
-                                            defaultValue={field.value !== null ? field.value : ""}>
-                                        <FormControl>
-                                            <SelectTrigger>
-                                                <SelectValue placeholder="Long Loading (2 Minutes)"/>
-                                            </SelectTrigger>
-                                        </FormControl>
-                                        <SelectContent>
-                                            <SelectItem value="true">Yes</SelectItem>
-                                            <SelectItem value="false">No</SelectItem>
-                                        </SelectContent>
-                                    </Select>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="long_loading"
+                            render={({field}) => (<FormItem>
+                                <FormLabel>Do you prefer long loading for generate all content ?</FormLabel>
+                                <Select onValueChange={(value) => field.onChange(value === "true")}
+                                        defaultValue={field.value !== null ? field.value : ""}>
+                                    <FormControl>
+                                        <SelectTrigger>
+                                            <SelectValue placeholder="Long Loading (2 Minutes)"/>
+                                        </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                        <SelectItem value="true">Yes</SelectItem>
+                                        <SelectItem value="false">No</SelectItem>
+                                    </SelectContent>
+                                </Select>
 
-                                    <FormMessage/>
-                                </FormItem>)}
-                            />
-                        </div>
+                                <FormMessage/>
+                            </FormItem>)}
+                        />
 
 
+                        <Button className="w-full" type="submit">
+                            Generate LMS
+                        </Button>
 
 
-
-                        {
-                            step === 1 ?
-                                (
-                                    <Button onClick={() => setStep(step + 1)} className="w-full">
-                                        Next Step
-                                    </Button>
-                                )
-                                :
-                                (
-                                    <div className="flex gap-5">
-                                        {
-                                            step === 2 &&
-                                            <Button
-                                                onClick={() => setStep(step - 1)}
-                                                className="w-full">
-                                                Previous Step
-                                            </Button>
-                                        }
-                                        <Button className="w-full" type="submit">
-                                            Generate Roadmap
-                                        </Button>
-
-                                    </div>
-                                )
-                        }
-
-                        {/*<Button type="submit">*/}
-
-                        {/*    {*/}
-                        {/*        loading.isLoadingGlobal ?<Loading/>:"Submit"*/}
-                        {/*    }*/}
-
-                        {/*</Button>*/}
                     </form>
                 </Form>
 

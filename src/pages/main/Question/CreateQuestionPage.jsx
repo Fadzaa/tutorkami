@@ -480,7 +480,7 @@ export function CreateQuestionPage() {
                                         field={field}
                                         label={t("create_timelimit_head")}
                                         description={t("create_timelimit_desc")}
-                                        placeholder={optionTimeLimit[0].label}
+                                        placeholder={optionTimeLimit[0].value}
                                         explanation={null}
                                         options={optionTimeLimit}
                                         value={optionTimeLimit[0].value}

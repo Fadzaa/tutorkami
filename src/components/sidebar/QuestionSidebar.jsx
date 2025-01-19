@@ -1,13 +1,10 @@
-import {ListSidebarCard} from "@/components/card/ListSidebarCard.jsx";
 import {Button} from "@/components/ui/button.jsx";
 import {useNavigate} from "react-router-dom";
 import {useQuery} from "@tanstack/react-query";
-import {format} from "date-fns";
 import {Sidebar, SidebarProvider, SidebarTrigger} from "@/components/ui/sidebar.jsx";
 import {questionAPI} from "@/api/question.js";
 import {FallbackEmptyContent} from "@/components/fallback/FallbackEmptyContent.jsx";
-import {ListSkeleton} from "@/components/skeleton/ListSkeleton.jsx";
-import {ListQuestionCardDetail} from "@/components/card/ListQuestionFilterCard.jsx";
+import { ListSidebarCardDetail} from "@/components/card/ListSidebarCardDetail.jsx";
 
 export function QuestionSidebar() {
     const navigate = useNavigate()
@@ -19,7 +16,6 @@ export function QuestionSidebar() {
 
     })
 
-    console.log(data)
 
     const handleToCreate = () => navigate("/tools/generative-question/create")
     return (
@@ -35,30 +31,9 @@ export function QuestionSidebar() {
 
                         <SidebarTrigger />
                     </div>
-                    <div className="cs px-5 h-[73%]  my-5">
-                        {
-                            isLoading ? <ListSkeleton/> : data?.data.data.map((item) => (
-                                <ListSidebarCard
-                                    key={item}
-                                    id={item.id}
-                                    title={item.subject}
-                                    type={item.type}
-                                    isSolved={item.is_solved}
-                                    date={format(item.date, "Y-M-dd")}
-                                    desc={`${item.total} Questions • ${item.question_difficulty}`}
-                                    subject={item.subject}
-                                    topic={item.topic}
-                                    questionType={item.questions[0]?.type || ""}
-
-                                />
-                            ))
-                        }
-
-                        {
-                            data?.data.data.length === 0 ? <FallbackEmptyContent type={"question"}/> : <></>
-                        }
-
-                    </div>
+                    {
+                        data?.data.data.length === 0 ? <FallbackEmptyContent type={"question"}/> : <ListSidebarCardDetail data={data?.data} isLoading={isLoading} type={"question"}/>
+                    }
 
 
                     <Button className={'mx-5'} onClick={handleToCreate}>Add New Questions</Button>

@@ -33,15 +33,17 @@ export function ChatBotSidebar({id, type}) {
         "Material": {
             key: "getMaterialID",
             api: () => materialAPI.getMaterialID(id),
-            content : (data) => data.data.material.content,
-            topic : (data) => data.data.title,
+            content : (data) => data?.data?.data,
+            topic : (data) => {
+                return data.data.subject_list.topic
+            },
             topicId : (data) => data.data.material.id,
         },
         "Question": {
             key: "getQuestionID",
             api: () => questionAPI.getQuestionID(id),
             content : (data) => {
-                const question = data.data.question_detail.question.map((item, index) => {
+                const question = data.data.question_detail.questions.map((item, index) => {
                     return `Question : ${index + 1} `+
                         `title : ${item.title} ` +
                         `type question : ${item.type} `+
@@ -49,10 +51,9 @@ export function ChatBotSidebar({id, type}) {
                         `answer question : ${item.answer} `+
                         `explanation question : ${item.explanation} `;
                 })
-
                 return question.join("   ")
             },
-            topic : (data) => data.data.question_detail.title,
+            topic : (data) => data?.data?.question_detail?.topic,
             topicId : (data) => data.data.question_detail.id,
         },
         "Roadmap": {
@@ -76,7 +77,7 @@ export function ChatBotSidebar({id, type}) {
 
                 return roadmap.join("   ")
             },
-            topic : (data) => data.data.title,
+            topic : (data) => data.data.subject,
             topicId : (data) => data.data.id,
         },
         "Lms": {
@@ -103,6 +104,9 @@ export function ChatBotSidebar({id, type}) {
     } = useQuery({
         queryKey: ["getQuestionSuggestion"],
         queryFn: async () => {
+            if (suggestionData !== undefined) {
+                return suggestionData;
+            }
             return await suggestionAPI.getQuestionSuggestion({
                 sub_topic : content(data)
             })
@@ -161,8 +165,8 @@ export function ChatBotSidebar({id, type}) {
             try {await chatbotAPI.postChatbot({
                     prompt,
                     type,
-                    content: content(data),
-                    topic: topic(data)
+                topic: topic(data),
+                content: content(data),
                 }, topicId(data)).then((res) => {
                 const newSystemMessage = {
                     content: res.data.content,
@@ -183,7 +187,11 @@ export function ChatBotSidebar({id, type}) {
 
     useEffect(() => {
         if (enable && id) {
-            refetch();
+            if (!isFetching) {
+                if (data === undefined) {
+                    refetch();
+                }
+            }
         } else if (id) {
             setEnable(true);
         }
@@ -193,13 +201,21 @@ export function ChatBotSidebar({id, type}) {
         }
 
         if (!chatbotData) {
-            refetchSuggestion();
+            if (!isFetchingSuggestion) {
+                if (!suggestionData !== undefined){
+                    refetchSuggestion();
+                }
+            }
             setIsChatbot(true);
         } else {
             if (chatbotData.length !== 0) {
                 setIsChatbot(false);
             } else {
-                refetchSuggestion();
+                if (!isFetchingSuggestion) {
+                    if (!suggestionData !== undefined){
+                        refetchSuggestion();
+                    }
+                }
                 setIsChatbot(true);
             }
         }
@@ -223,7 +239,7 @@ export function ChatBotSidebar({id, type}) {
                     </div>
                     {
                         isChatbot ?
-                        isSuggestionLoading || isFetching|| isFetchingSuggestion || isFetchingChatbot ? (
+                        isSuggestionLoading || isFetchingSuggestion || isFetchingChatbot ? (
                             <Loading/>
                         ) : (
                             <div className={`flex flex-col h-2/3 justify-center items-center`}>
@@ -241,7 +257,7 @@ export function ChatBotSidebar({id, type}) {
                             </div>
                         )
                             :
-                            isSuggestionLoading || isFetching || (!isChatbot ? isFetchingSuggestion : false) || isFetchingChatbot ? <></> : (
+                            isSuggestionLoading || isFetching || (!isChatbot ? isFetchingSuggestion : false) || isFetchingChatbot ? <Loading/> : (
                                 <div ref={messagesEndRef}
                                      className={`w-full flex flex-col gap-4 overflow-scroll px-4 pb-12`}
                                      style={{height: "80%"}}

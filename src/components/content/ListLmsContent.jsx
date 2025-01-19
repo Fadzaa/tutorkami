@@ -9,7 +9,6 @@ import {marked} from "marked";
 import {InitialContent} from "@/components/content/InitialContent.jsx";
 import {HeaderContent2} from "@/components/ui/header-content-2.jsx";
 import {FooterContent2} from "@/components/ui/footer-content-2.jsx";
-import {ModalPicker} from "@/components/ui/modal-picker.jsx";
 import {Editor} from "@tinymce/tinymce-react";
 
 export function ListLmsContent({id,handle, regenerate, handleCompled, setDataPick}) {
@@ -71,7 +70,6 @@ export function ListLmsContent({id,handle, regenerate, handleCompled, setDataPic
     return (
         <div className="flex flex-col h-full relative flex-1 overflow-hidden">
 
-            <ModalPicker text={"Pick a length for generate content"} open={open} setOpen={setOpen} handleRegenerate={handleRegenerate} setValue={setLength} value1={"Concise"} value2={"Detailed"}/>
             <div className={cn(
                 "flex-1 pb-5 cs overflow-y-auto",
                 isLoading || isFetching ? "flex items-center" : ""
@@ -115,7 +113,7 @@ export function ListLmsContent({id,handle, regenerate, handleCompled, setDataPic
 
 
             {(isLoading || isFetching) || data?.result != null && (
-                <FooterContent2 handle={setOpen} solved={handleSolved}/>
+                <FooterContent2 solved={handleSolved}/>
             )}
 
 

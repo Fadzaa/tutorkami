@@ -1,12 +1,10 @@
-import {ListSidebarCard} from "@/components/card/ListSidebarCard.jsx";
 import {Button} from "@/components/ui/button.jsx";
 import {useNavigate} from "react-router-dom";
 import {useQuery} from "@tanstack/react-query";
-import {format} from "date-fns";
 import {Sidebar, SidebarProvider, SidebarTrigger} from "@/components/ui/sidebar.jsx";
 import {materialAPI} from "@/api/material.js";
 import {FallbackEmptyContent} from "@/components/fallback/FallbackEmptyContent.jsx";
-import {ListSkeleton} from "@/components/skeleton/ListSkeleton.jsx";
+import {ListSidebarCardDetail} from "@/components/card/ListSidebarCardDetail.jsx";
 
 export function MaterialSidebar() {
     const navigate = useNavigate()
@@ -20,7 +18,6 @@ export function MaterialSidebar() {
 
     })
 
-    console.log(data)
 
     const handleToCreate = () => {
         navigate("/tools/generative-material/create")
@@ -33,33 +30,14 @@ export function MaterialSidebar() {
 
                     <div className={'flex items-end justify-between mr-4'}>
 
-                        <h1 className="px-5 mt-5 font-medium text-xl">List Materials</h1>
+                        <h1 className="px-5 mt-5 font-medium text-xl" >List Materials</h1>
 
 
                         <SidebarTrigger />
                     </div>
-                    <div className="cs px-5 h-[73%]  my-5">
-                        {
-                            isLoading ? <ListSkeleton/> : data.data.data.map((item) => (
-                                <ListSidebarCard
-                                    key={item}
-                                    title={item.subject}
-                                    topic={item.topic}
-                                    subject={item.subject}
-                                    id={item.id}
-                                    date={format(item.date, "Y-M-dd")}
-                                    type={item.type}
-                                    desc={`${item.output_format} • ${item.proficiency_level} • ${item.style_customization} • `}
-                                />
-                            ))
-                        }
-
-                        {
-                            data?.data.data.length === 0 ? <FallbackEmptyContent type={"study"}/> : <></>
-                        }
-
-                    </div>
-
+                    {
+                        data?.data.data.length === 0 ? <FallbackEmptyContent type={"study"}/> : <ListSidebarCardDetail data={data?.data} isLoading={isLoading} type={"study"}/>
+                    }
 
                     <Button className={'mx-5'} onClick={handleToCreate}>Add New Materials</Button>
 

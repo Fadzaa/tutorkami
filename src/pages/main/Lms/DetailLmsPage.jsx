@@ -77,7 +77,7 @@ export function DetailLmsPage() {
             <LMSSidebarDetail id={id} handle={handleChange} subTopicId={subId} completed={completed} data={data?.lms} isLoading={isLoading} total={total}/>
             <ListLmsContent setDataPick={setDataPick} id={subId} handle={handleRegenerate} handleCompled={handleComplete} regenerate={regenerate}/>
             {
-                dataPick && <ChatBotSidebar id={subId} type={"Lms"} dataExist={dataPick}/>
+                dataPick && <ChatBotSidebar id={subId} type={"Lms"}/>
             }
         </div>
 

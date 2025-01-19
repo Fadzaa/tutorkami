@@ -119,12 +119,6 @@ export function CreateMaterialPage() {
         }
     };
 
-    const optionFormat = [
-        "Mixed",
-        "Bullet List",
-        "Paragraph",
-        "Custom"
-    ]
 
     const explanationDetailed = {
         Detailed: {
@@ -142,12 +136,6 @@ export function CreateMaterialPage() {
             ]
         }
     };
-
-    const optionDetailed = [
-        "Detailed",
-        "Concise",
-
-    ]
 
     const explanationProficiencyUser = {
         "Zero Knowledge": {
@@ -187,13 +175,29 @@ export function CreateMaterialPage() {
         }
     }
 
+    const optionFormat = [
+        { value: "Mixed", label: "Mixed" },
+        { value: "List", label: "Bullet List" },
+        { value: "Paragraph", label: "Paragraph" },
+        { value: "Short Description", label: "Short Description" },
+        { value: "Custom", label: "Custom" }
+    ];
+
     const optionProficiencyUser = [
-        "Zero Knowledge",
-        "Basic Understanding",
-        "Intermediate Knowledge",
-        "Expert Knowledge",
-        "Let Me Explain Myself"
-    ]
+        { value: "Zero Knowledge", label: "Zero Knowledge" },
+        { value: "Basic Understanding", label: "Basic Understanding" },
+        { value: "Intermediate Knowledge", label: "Intermediate Knowledge" },
+        { value: "Expert Knowledge", label: "Expert Knowledge" },
+        { value: "Let Me Explain Myself", label: "Let Me Explain Myself" }
+    ];
+
+    const optionDetailed = [
+        { value: "Detailed", label: "Detailed" },
+        { value: "Concise", label: "Concise" }
+    ];
+
+
+
 
 
     return (<div className="h-[90vh] overflow-hidden cs flex">
@@ -267,9 +271,10 @@ export function CreateMaterialPage() {
                                         field={field}
                                         label={t("create_proficiency_head")}
                                         description={t("create_proficiency_desc")}
-                                        placeholder={optionProficiencyUser[0]}
+                                        placeholder={optionProficiencyUser[0].label}
                                         explanation={explanationProficiencyUser}
                                         options={optionProficiencyUser}
+                                        value={optionProficiencyUser[0].value}
                                     />
 
                                 )}
@@ -284,9 +289,10 @@ export function CreateMaterialPage() {
                                         field={field}
                                         label={t("create_format_material_head")}
                                         description={t("create_format_material_desc")}
-                                        placeholder={optionFormat[0]}
+                                        placeholder={optionFormat[0].label}
                                         explanation={explanationFormat}
                                         options={optionFormat}
+                                        value={optionFormat[0].value}
                                     />
 
                                 )}
@@ -299,9 +305,10 @@ export function CreateMaterialPage() {
                                         field={field}
                                         label={t("create_detail_material_head")}
                                         description={t("create_detail_material_desc")}
-                                        placeholder={optionDetailed[0]}
+                                        placeholder={optionDetailed[0].label}
                                         explanation={explanationDetailed}
                                         options={optionDetailed}
+                                        value ={optionDetailed[0].value}
                                     />
 
                                 )}

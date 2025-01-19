@@ -81,8 +81,14 @@ export function CreateLmsPage() {
 
 
     const optionFinalReview = [
-        "Practical-Quiz",
-        "Capstone-Project"
+        {
+            "value": "Practical-Quiz",
+            "label": "Practical-Quiz"
+        },
+        {
+            "value": "Capstone-Project",
+            "label": "Capstone-Project"
+        },
     ]
 
 
@@ -153,9 +159,10 @@ export function CreateLmsPage() {
                                     field={field}
                                     label={t("create_audience_head")}
                                     description={t("create_audience_desc")}
-                                    placeholder={optionFinalReview[0]}
+                                    placeholder={optionFinalReview[0].label}
                                     explanation={explanationFinalReview}
                                     options={optionFinalReview}
+                                    value={optionFinalReview[0].value}
                                 />
 
                             )}

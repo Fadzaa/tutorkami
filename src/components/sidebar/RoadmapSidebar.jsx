@@ -52,7 +52,7 @@ export function RoadmapSidebar() {
                                     type={item.type}
                                     isSolved={item.is_solved}
                                     date={format(item.date, "Y-M-dd")}
-                                    desc={`${item.subject} • ${item.subject_detail_roadmap.depth_of_topics} • ${item.subject_detail_roadmap.style_customization	} • ${item.subject_detail_roadmap.timeline}`}
+                                    desc={`${item.subject} • ${item.subject_detail_roadmap.proficiency_level} • ${item.subject_detail_roadmap.timeline}`}
                                 />
                             ))
                         }

@@ -25,6 +25,7 @@ import {StorageQuestionPage} from "@/pages/main/Storage/StorageQuestionPage.jsx"
 import {StorageMaterialPage} from "@/pages/main/Storage/StorageMaterialPage.jsx";
 import {StorageLmsPage} from "@/pages/main/Storage/StorageLmsPage.jsx";
 import {StoragePage} from "@/pages/main/Storage/StoragePage.jsx";
+import {DetailLmsQuizPage} from "@/pages/main/Lms/DetailLmsQuizPage.jsx";
 
 export const routers = createBrowserRouter([
     {
@@ -53,6 +54,10 @@ export const routers = createBrowserRouter([
             {
                 path: 'generative-lms/detail/:id/:subId',
                 element: <DetailLmsPage/>,
+            },
+            {
+                path: 'generative-lms/detail/:id/quiz',
+                element: <DetailLmsQuizPage/>,
             },
             {
                 path: 'generative-roadmap',

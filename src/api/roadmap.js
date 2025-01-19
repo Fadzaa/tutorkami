@@ -19,6 +19,15 @@ export const roadmapAPI = {
             })
         }
     },
+    updateRoadmap: async (body,id) => {
+        try {
+            return await api.put("roadmap/" + id, body);
+        } catch (error) {
+            return makeResponseFailed({
+                message: error,
+            })
+        }
+    },
     getRoadmapID: async (id) => {
         try {
             const res = await api.get("roadmap/" + id );

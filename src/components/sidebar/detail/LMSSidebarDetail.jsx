@@ -12,8 +12,12 @@ import {ListContentCard} from "@/components/card/ListContentCard.jsx";
 import {ProgressBar} from "@/components/ui/progress-bar.jsx";
 import {useEffect, useState} from "react";
 import {ListSkeleton} from "@/components/skeleton/ListSkeleton.jsx";
+import {ChevronUp} from "lucide-react";
+import * as React from "react";
+import {useNavigate} from "react-router-dom";
 
-export function LMSSidebarDetail({data, handle, subTopicId, isLoading, completed,total }) {
+export function LMSSidebarDetail({data, id, handle, subTopicId, isLoading, completed,total }) {
+    const navigate = useNavigate();
     return (
         <SidebarProvider className="hidden lg:block">
             <div className={'fixed w-full'}>
@@ -37,6 +41,15 @@ export function LMSSidebarDetail({data, handle, subTopicId, isLoading, completed
                                     handle={handle}
                                 />
                             ))
+                        }
+                        {
+                            data?.subject_lms_quiz.lms_quiz !== null && (
+                                <div className={`flex justify-between hover:bg-accent cursor-pointer rounded-sm py-1 px-1`}
+                                     onClick={() => navigate(`/tools/generative-lms/detail/${id}/quiz`)}
+                                >
+                                    <p className={`text-base font-semibold`}>Quiz</p>
+                                </div>
+                            )
                         }
                     </div>
 

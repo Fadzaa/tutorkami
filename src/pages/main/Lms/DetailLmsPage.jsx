@@ -35,7 +35,7 @@ export function DetailLmsPage() {
             setCompleted(prevState => prevState - 1)
         } else {
             setCompleted(prevState => prevState + 1)
-            const index = data.topic.map((item, index, array) => {
+            const index = data.lms.topic.map((item, index, array) => {
                 if (item.id === topicId){
                     const indexs = item.sub_topic.map((i, index, array) => {
                         if (i.id === subTopicId) {
@@ -56,7 +56,7 @@ export function DetailLmsPage() {
                 }
             }).filter((item) => item !== 0)
             if (index[0] !== undefined) {
-                navigate(`/tools/generative-lms/detail/${id}/${data.topic[index[0]].sub_topic[0].id}`)
+                navigate(`/tools/generative-lms/detail/${id}/${data.lms.topic[index[0]].sub_topic[0].id}`)
             }
         }
     };
@@ -65,7 +65,7 @@ export function DetailLmsPage() {
         if (data !== undefined) {
             setTotal(0);
             setCompleted(0);
-            data.topic.map((item) => {
+            data.lms.topic.map((item) => {
                 setTotal(prevState => prevState + item.sub_topic.length )
                 setCompleted(prevState => prevState + item.sub_topic.filter(
                     (sub) => sub.solved === true
@@ -75,7 +75,7 @@ export function DetailLmsPage() {
     },[data])
     return (
         <div className="h-[90vh] overflow-hidden flex">
-            <LMSSidebarDetail id={id} handle={handleChange} subTopicId={subId} completed={completed} data={data} isLoading={isLoading} total={total}/>
+            <LMSSidebarDetail id={id} handle={handleChange} subTopicId={subId} completed={completed} data={data?.lms} isLoading={isLoading} total={total}/>
             <ListLmsContent setDataPick={setDataPick} id={subId} handle={handleRegenerate} handleCompled={handleComplete} regenerate={regenerate}/>
             {
                 dataPick && <ChatBotSidebar id={subId} type={"Lms"} dataExist={dataPick}/>

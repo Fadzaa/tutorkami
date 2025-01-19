@@ -50,7 +50,7 @@ export function LMSSidebar() {
                                     date={format(item.date, "Y-M-dd")}
                                     type={item.type}
                                     subId={item.subject_detail_lms.lms.topic[0].sub_topic[0].id}
-                                    desc={`${item.subject_detail_lms.difficulty} • ${item.subject_detail_lms.proficiency_level} • ${item.subject_detail_lms.length}`}
+                                    desc={`${item.subject_detail_lms.difficulty} • ${item.subject_detail_lms.activity_type}`}
                                 />
                             )))
                         }

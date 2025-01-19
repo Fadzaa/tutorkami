@@ -39,6 +39,7 @@ export function ListRoadmapContent({id}) {
     const [hoverCompleted, setHoverCompleted] = useState(false);
     const [hoverId, setHoverId] = useState(0);
     const queryClient = useQueryClient();
+
     const roadmapsModal = useRoadmapsModal();
     const roadmapsUpdateModal = useRoadmapsUpdateModal();
     const roadmapRegenerateModal = useRoadmapRegenerateModal();
